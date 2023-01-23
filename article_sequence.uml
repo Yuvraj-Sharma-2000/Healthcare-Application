@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>DATABASE</ID>
+  <OriginalElement>1a26eee6-c38f-445b-a32d-c4c3029fc79b.TABLE:mental_health_care_database.article_sequence</OriginalElement>
+  <nodes>
+    <node x="-754.0" y="1018.0">1a26eee6-c38f-445b-a32d-c4c3029fc79b.TABLE:mental_health_care_database.question_sequence</node>
+    <node x="-754.0" y="1148.0">1a26eee6-c38f-445b-a32d-c4c3029fc79b.TABLE:mental_health_care_database.user_sequence</node>
+    <node x="-199.0" y="1018.0">1a26eee6-c38f-445b-a32d-c4c3029fc79b.TABLE:mental_health_care_database.report_sequence</node>
+    <node x="-754.0" y="671.0">1a26eee6-c38f-445b-a32d-c4c3029fc79b.TABLE:mental_health_care_database.chat_master</node>
+    <node x="326.0" y="1018.0">1a26eee6-c38f-445b-a32d-c4c3029fc79b.TABLE:mental_health_care_database.chat_sequence</node>
+    <node x="176.0" y="-159.0">1a26eee6-c38f-445b-a32d-c4c3029fc79b.TABLE:mental_health_care_database.question_bank</node>
+    <node x="-466.0" y="1018.0">1a26eee6-c38f-445b-a32d-c4c3029fc79b.TABLE:mental_health_care_database.doctor_sequence</node>
+    <node x="-384.0" y="-33.0">1a26eee6-c38f-445b-a32d-c4c3029fc79b.TABLE:mental_health_care_database.user_master</node>
+    <node x="-453.0" y="725.5">1a26eee6-c38f-445b-a32d-c4c3029fc79b.TABLE:mental_health_care_database.assigned_doctors</node>
+    <node x="64.0" y="1018.0">1a26eee6-c38f-445b-a32d-c4c3029fc79b.TABLE:mental_health_care_database.article_sequence</node>
+    <node x="-202.0" y="599.0">1a26eee6-c38f-445b-a32d-c4c3029fc79b.TABLE:mental_health_care_database.report_master</node>
+    <node x="483.0" y="-159.0">1a26eee6-c38f-445b-a32d-c4c3029fc79b.TABLE:mental_health_care_database.articles</node>
+    <node x="-718.0" y="-159.0">1a26eee6-c38f-445b-a32d-c4c3029fc79b.TABLE:mental_health_care_database.doctor_master</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="1a26eee6-c38f-445b-a32d-c4c3029fc79b.TABLE:mental_health_care_database.chat_master" target="1a26eee6-c38f-445b-a32d-c4c3029fc79b.TABLE:mental_health_care_database.user_master" relationship="REFERENCES">
+      <point x="70.25" y="-115.0" />
+      <point x="-543.25" y="569.0" />
+      <point x="-355.625" y="569.0" />
+      <point x="-355.625" y="559.0" />
+      <point x="-308.75" y="559.0" />
+      <point x="-75.25" y="223.0" />
+    </edge>
+    <edge source="1a26eee6-c38f-445b-a32d-c4c3029fc79b.TABLE:mental_health_care_database.chat_master" target="1a26eee6-c38f-445b-a32d-c4c3029fc79b.TABLE:mental_health_care_database.doctor_master" relationship="REFERENCES">
+      <point x="-70.25" y="-115.0" />
+      <point x="-683.75" y="579.0" />
+      <point x="-561.0" y="579.0" />
+      <point x="0.0" y="349.0" />
+    </edge>
+    <edge source="1a26eee6-c38f-445b-a32d-c4c3029fc79b.TABLE:mental_health_care_database.assigned_doctors" target="1a26eee6-c38f-445b-a32d-c4c3029fc79b.TABLE:mental_health_care_database.user_master" relationship="REFERENCES">
+      <point x="57.75" y="-60.5" />
+      <point x="-279.75" y="569.0" />
+      <point x="-355.625" y="569.0" />
+      <point x="-355.625" y="559.0" />
+      <point x="-308.75" y="559.0" />
+      <point x="-75.25" y="223.0" />
+    </edge>
+    <edge source="1a26eee6-c38f-445b-a32d-c4c3029fc79b.TABLE:mental_health_care_database.report_master" target="1a26eee6-c38f-445b-a32d-c4c3029fc79b.TABLE:mental_health_care_database.user_master" relationship="REFERENCES">
+      <point x="0.0" y="-187.0" />
+      <point x="-35.5" y="579.0" />
+      <point x="-158.25" y="579.0" />
+      <point x="75.25" y="223.0" />
+    </edge>
+    <edge source="1a26eee6-c38f-445b-a32d-c4c3029fc79b.TABLE:mental_health_care_database.assigned_doctors" target="1a26eee6-c38f-445b-a32d-c4c3029fc79b.TABLE:mental_health_care_database.doctor_master" relationship="REFERENCES">
+      <point x="-57.75" y="-60.5" />
+      <point x="-395.25" y="579.0" />
+      <point x="-561.0" y="579.0" />
+      <point x="0.0" y="349.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic" zoom="0.5516997167138811" showDependencies="false" x="420.58087291399227" y="547.0" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Columns</Category>
+    <Category>Comments</Category>
+    <Category>Key columns</Category>
+    <Category>Virtual foreign keys</Category>
+  </Categories>
+</Diagram>
+
