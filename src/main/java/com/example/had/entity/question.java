@@ -21,7 +21,8 @@ public class question {
             generator = "question_sequence"
     )
     @Column(
-            name = "question_id"
+            name = "question_id",
+            length = 12
     )
     private String id;
 

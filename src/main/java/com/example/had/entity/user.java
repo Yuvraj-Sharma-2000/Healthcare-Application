@@ -30,7 +30,8 @@ public class user {
             generator = "user_sequence"
     )
     @Column(
-            name = "user_id"
+            name = "user_id",
+            length = 12
     )
     private String id;
 
@@ -83,7 +84,7 @@ public class user {
     @Column(
             name = "contact",
             nullable = false,
-            length = 10
+            length = 13
     )
     private String contact;
 

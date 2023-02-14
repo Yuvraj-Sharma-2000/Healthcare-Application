@@ -38,7 +38,8 @@ public class doctor {
             generator = "doctor_sequence"
     )
     @Column(
-            name = "doctor_id"
+            name = "doctor_id",
+            length = 12
     )
     private String id;
 
@@ -120,7 +121,7 @@ public class doctor {
     @Column(
             name = "contact",
             nullable = false,
-            length = 10
+            length = 13
     )
     private String contact;
 
@@ -194,6 +195,7 @@ public class doctor {
             orphanRemoval = true
     )
     private List<chat> chatList = new ArrayList<>();
+
 
     public doctor() {
     }

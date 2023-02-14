@@ -20,7 +20,8 @@ public class chat {
             generator = "chat_sequence"
     )
     @Column(
-            name = "chat_id"
+            name = "chat_id",
+            length = 12
     )
     private String id;
 

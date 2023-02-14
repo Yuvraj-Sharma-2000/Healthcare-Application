@@ -20,7 +20,8 @@ public class report {
             generator = "report_sequence"
     )
     @Column(
-            name = "report_id"
+            name = "report_id",
+            length = 12
     )
     private String id;
 

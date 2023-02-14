@@ -20,7 +20,8 @@ public class articles {
             generator = "article_sequence"
     )
     @Column(
-            name = "article_id"
+            name = "article_id",
+            length = 12
     )
     private String id;
 
