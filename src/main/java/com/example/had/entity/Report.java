@@ -1,29 +1,25 @@
 package com.example.had.entity;
 
-import jakarta.persistence.*;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Type;
 
-import static jakarta.persistence.GenerationType.UUID;
+import javax.persistence.*;
+import java.util.UUID;
 
 @Entity(name = "Report")
 @Table(
         name = "report_master"
 )
-public class report {
+public class Report {
     @Id
-    @SequenceGenerator(
-            name = "report_sequence",
-            sequenceName = "report_sequence",
-            allocationSize = 1
-    )
-    @GeneratedValue(
-            strategy = UUID,
-            generator = "report_sequence"
-    )
+    @GeneratedValue(generator = "uuid4")
+    @GenericGenerator(name = "UUID", strategy = "uuid4")
+    @Type(type = "org.hibernate.type.UUIDCharType")
     @Column(
             name = "report_id",
             length = 12
     )
-    private String id;
+    private UUID id;
 
 
     @Column(
@@ -78,12 +74,12 @@ public class report {
             name = "user_id",
             referencedColumnName = "user_id"
     )
-    private user user;
+    private User user;
 
-    public report() {
+    public Report() {
     }
 
-    public report(String id,
+    public Report(
                   int weekNumber,
                   int sessionNumber,
                   float percentageObtained,
@@ -91,7 +87,6 @@ public class report {
                   String lastSessionCompleted,
                   int sessionCompleted,
                   int weekCompleted) {
-        this.id = id;
         this.weekNumber = weekNumber;
         this.sessionNumber = sessionNumber;
         this.percentageObtained = percentageObtained;
@@ -101,31 +96,11 @@ public class report {
         this.weekCompleted = weekCompleted;
     }
 
-    public report(String id,
-                  int weekNumber,
-                  int sessionNumber,
-                  float percentageObtained,
-                  String lastSessionStamp,
-                  String lastSessionCompleted,
-                  int sessionCompleted,
-                  int weekCompleted,
-                  com.example.had.entity.user user) {
-        this.id = id;
-        this.weekNumber = weekNumber;
-        this.sessionNumber = sessionNumber;
-        this.percentageObtained = percentageObtained;
-        this.lastSessionStamp = lastSessionStamp;
-        this.lastSessionCompleted = lastSessionCompleted;
-        this.sessionCompleted = sessionCompleted;
-        this.weekCompleted = weekCompleted;
-        this.user = user;
-    }
-
-    public String getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
@@ -185,11 +160,11 @@ public class report {
         this.weekCompleted = weekCompleted;
     }
 
-    public com.example.had.entity.user getUser() {
+    public User getUser() {
         return user;
     }
 
-    public void setUser(com.example.had.entity.user user) {
+    public void setUser(User user) {
         this.user = user;
     }
 

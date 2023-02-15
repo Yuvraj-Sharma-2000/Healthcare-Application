@@ -1,12 +1,14 @@
 package com.example.had.entity;
 
-import jakarta.persistence.*;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Type;
+
+import javax.persistence.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
-import static jakarta.persistence.GenerationType.SEQUENCE;
-import static jakarta.persistence.GenerationType.UUID;
 
 @Entity(name = "Doctor")
 @Table(
@@ -26,31 +28,18 @@ import static jakarta.persistence.GenerationType.UUID;
                 )
         }
 )
-public class doctor {
+public class Doctor {
     @Id
-    @SequenceGenerator(
-            name = "doctor_sequence",
-            sequenceName = "doctor_sequence",
-            allocationSize = 1
-    )
-    @GeneratedValue(
-            strategy = UUID,
-            generator = "doctor_sequence"
-    )
-    @Column(
-            name = "doctor_id",
-            length = 12
-    )
-    private String id;
-
-
+    @GeneratedValue(generator = "uuid4")
+    @GenericGenerator(name = "UUID", strategy = "uuid4")
+    @Type(type = "org.hibernate.type.UUIDCharType")
+    @Column(columnDefinition = "CHAR(36)", name = "doctor_id")
+    private UUID id;
     @Column(
             name = "email",
             nullable = false
     )
     private String email;
-
-
     @Column(
             name = "fname",
             nullable = false,
@@ -166,8 +155,6 @@ public class doctor {
             nullable = false
     )
     private String registrationStamp;
-
-
     @ManyToMany(
             cascade = CascadeType.ALL
     )
@@ -186,7 +173,7 @@ public class doctor {
                     )
             )
     )
-    private List<user> userList = new ArrayList<>();
+    private List<User> userList = new ArrayList<>();
 
 
     @OneToMany(
@@ -194,13 +181,13 @@ public class doctor {
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
-    private List<chat> chatList = new ArrayList<>();
+    private List<Chat> chatList = new ArrayList<>();
 
 
-    public doctor() {
+    public Doctor() {
     }
 
-    public doctor(String email,
+    public Doctor(String email,
                   String firstName,
                   String lastName,
                   String middleName,
@@ -236,51 +223,12 @@ public class doctor {
         this.registrationStamp = registrationStamp;
     }
 
-    public doctor(String email,
-                  String firstName,
-                  String lastName,
-                  String middleName,
-                  String gender,
-                  int age,
-                  String degree,
-                  String specialisation,
-                  int experience,
-                  String address,
-                  String contact,
-                  String imageUrl,
-                  int rating,
-                  int patientLimit,
-                  int patientCount,
-                  String registrationNumber,
-                  String registrationStamp,
-                  List<user> userList,
-                  List<chat> chatList) {
-        this.email = email;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.middleName = middleName;
-        this.gender = gender;
-        this.age = age;
-        this.degree = degree;
-        this.specialisation = specialisation;
-        this.experience = experience;
-        this.address = address;
-        this.contact = contact;
-        this.imageUrl = imageUrl;
-        this.rating = rating;
-        this.patientLimit = patientLimit;
-        this.patientCount = patientCount;
-        this.registrationNumber = registrationNumber;
-        this.registrationStamp = registrationStamp;
-        this.userList = userList;
-        this.chatList = chatList;
-    }
 
-    public String getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
@@ -420,20 +368,45 @@ public class doctor {
         this.registrationStamp = registrationStamp;
     }
 
-    public List<user> getUserList() {
+    public List<User> getUserList() {
         return userList;
     }
 
-    public void setUserList(List<user> userList) {
+    public void setUserList(List<User> userList) {
         this.userList = userList;
     }
 
-    public List<chat> getChatList() {
+    public List<Chat> getChatList() {
         return chatList;
     }
 
-    public void setChatList(List<chat> chatList) {
+    public void setChatList(List<Chat> chatList) {
         this.chatList = chatList;
+    }
+
+    public void addChat(Chat chat){
+        if (!this.chatList.contains(chat)){
+            this.chatList.add(chat);     // add to chats if not present already
+            chat.setDoctor(this);        // keep both ways sync
+        }
+    }
+    public void removeChat(Chat chat){
+        if(this.chatList.contains(chat)){
+            this.chatList.remove(chat);
+            chat.setDoctor(null);       // removed chat will have no doctor associated
+        }
+    }
+    public void addUser(User user){
+        if(!this.userList.contains(user)){
+            this.userList.add(user);
+            user.setDoctor(this);
+        }
+    }
+    public void removeUser(User user){
+        if(this.userList.contains(user)){
+            this.userList.remove(user);
+            user.setDoctor(null);
+        }
     }
 
     @Override

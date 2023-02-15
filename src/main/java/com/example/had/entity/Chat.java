@@ -1,31 +1,23 @@
 package com.example.had.entity;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Type;
 
-import jakarta.persistence.*;
-
-import static jakarta.persistence.GenerationType.UUID;
+import javax.persistence.*;
+import java.util.UUID;
 
 @Entity(name = "Chat")
 @Table(
         name = "chat_master"
 )
-public class chat {
+public class Chat {
     @Id
-    @SequenceGenerator(
-            name = "chat_sequence",
-            sequenceName = "chat_sequence",
-            allocationSize = 1
-    )
-    @GeneratedValue(
-            strategy = UUID,
-            generator = "chat_sequence"
-    )
+    @GeneratedValue(generator = "uuid4")
+    @GenericGenerator(name = "UUID", strategy = "uuid4")
+    @Type(type = "org.hibernate.type.UUIDCharType")
     @Column(
-            name = "chat_id",
-            length = 12
+            name = "chat_id"
     )
-    private String id;
-
-
+    private UUID id;
     @Column(
             name = "chat_message",
             updatable = false
@@ -48,7 +40,7 @@ public class chat {
                     name = "doctor_chat_fk"
             )
     )
-    private doctor doctor;
+    private Doctor doctor;
 
 
     @ManyToOne
@@ -60,16 +52,16 @@ public class chat {
                     name = "user_chat_fk"
             )
     )
-    private user user;
+    private User user;
 
-    public chat() {
+    public Chat() {
     }
 
-    public String getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
@@ -89,32 +81,25 @@ public class chat {
         this.chatSentStamp = chatSentStamp;
     }
 
-    public com.example.had.entity.doctor getDoctor() {
+    public Doctor getDoctor() {
         return doctor;
     }
 
-    public void setDoctor(com.example.had.entity.doctor doctor) {
+    public void setDoctor(Doctor doctor) {
         this.doctor = doctor;
     }
 
-    public com.example.had.entity.user getUser() {
+    public User getUser() {
         return user;
     }
 
-    public void setUser(com.example.had.entity.user user) {
+    public void setUser(User user) {
         this.user = user;
     }
 
-    public chat(String chatMessage, String chatSentStamp) {
+    public Chat(String chatMessage, String chatSentStamp) {
         this.chatMessage = chatMessage;
         this.chatSentStamp = chatSentStamp;
-    }
-
-    public chat(String chatMessage, String chatSentStamp, doctor doctor, user user) {
-        this.chatMessage = chatMessage;
-        this.chatSentStamp = chatSentStamp;
-        this.doctor = doctor;
-        this.user = user;
     }
 
     @Override

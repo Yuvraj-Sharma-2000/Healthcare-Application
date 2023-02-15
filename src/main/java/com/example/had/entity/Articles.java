@@ -1,29 +1,37 @@
 package com.example.had.entity;
 
-import jakarta.persistence.*;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Type;
 
-import static jakarta.persistence.GenerationType.UUID;
+import javax.persistence.*;
+import java.util.UUID;
 
 @Entity(name = "articles")
 @Table(
         name = "articles"
 )
-public class articles {
+public class Articles {
+//    @Id
+//    @SequenceGenerator(
+//            name = "article_sequence",
+//            sequenceName = "article_sequence",
+//            allocationSize = 1
+//    )
+//    @GeneratedValue(
+//            strategy = GenerationType.AUTO,
+//            generator = "article_sequence"
+//    )
+//    @Column(
+//            name = "article_id",
+//            length = 12
+//    )
+//private Long id;
     @Id
-    @SequenceGenerator(
-            name = "article_sequence",
-            sequenceName = "article_sequence",
-            allocationSize = 1
-    )
-    @GeneratedValue(
-            strategy = UUID,
-            generator = "article_sequence"
-    )
-    @Column(
-            name = "article_id",
-            length = 12
-    )
-    private String id;
+    @GeneratedValue(generator = "uuid4")
+    @GenericGenerator(name = "UUID", strategy = "uuid4")
+    @Type(type = "org.hibernate.type.UUIDCharType")
+    @Column(columnDefinition = "CHAR(36)")
+    private UUID id;
 
 
     @Column(
@@ -60,10 +68,10 @@ public class articles {
     )
     private String articleData;
 
-    public articles() {
+    public Articles() {
     }
 
-    public articles(String articleType, String articleWeek, String articleSession, String articleLink, String articleData) {
+    public Articles(String articleType, String articleWeek, String articleSession, String articleLink, String articleData) {
         this.articleType = articleType;
         this.articleWeek = articleWeek;
         this.articleSession = articleSession;
@@ -71,11 +79,11 @@ public class articles {
         this.articleData = articleData;
     }
 
-    public String getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 

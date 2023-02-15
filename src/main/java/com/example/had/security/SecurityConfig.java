@@ -1,9 +1,10 @@
 package com.example.had.security;
 
-import com.example.spring_security.auth.ApplicationUserService;
-import com.example.spring_security.jwt.JwtConfig;
-import com.example.spring_security.jwt.JwtTokenVerifier;
-import com.example.spring_security.jwt.JwtUsernameAndPasswordAuthenticationFilter;
+
+import com.example.had.auth.ApplicationUserService;
+import com.example.had.jwt.JwtConfig;
+import com.example.had.jwt.JwtTokenVerifier;
+import com.example.had.jwt.JwtUsernameAndPasswordAuthenticationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,7 +19,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.crypto.SecretKey;
 
-import static com.example.spring_security.security.UserRole.STUDENT;
+import static com.example.had.security.UserRole.ADMIN;
+
 
 @Configuration
 @EnableWebSecurity
@@ -44,14 +46,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.
+                cors().and().
                 csrf().disable().
                 sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).
                 and().
                 addFilter(new JwtUsernameAndPasswordAuthenticationFilter(authenticationManager(), jwtConfig, secretKey)).
                 addFilterAfter(new JwtTokenVerifier(jwtConfig, secretKey), JwtUsernameAndPasswordAuthenticationFilter.class).
                 authorizeRequests().
-                antMatchers("/","index","/css/*","/js/*").permitAll().
-                antMatchers("/api/students/*").hasRole(STUDENT.name()).   // Role based auth
+//                antMatchers("/api/getDoctors").hasRole(ADMIN.name()).
                 anyRequest().
                 authenticated();
     }

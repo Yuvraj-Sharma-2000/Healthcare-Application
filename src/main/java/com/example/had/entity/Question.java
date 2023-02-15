@@ -1,30 +1,25 @@
 package com.example.had.entity;
 
 
-import jakarta.persistence.*;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Type;
 
-import static jakarta.persistence.GenerationType.UUID;
+import javax.persistence.*;
+import java.util.UUID;
 
 @Entity(name = "QuestionBank")
 @Table(
         name = "question_bank"
 )
-public class question {
+public class Question {
     @Id
-    @SequenceGenerator(
-            name = "question_sequence",
-            sequenceName = "question_sequence",
-            allocationSize = 1
-    )
-    @GeneratedValue(
-            strategy = UUID,
-            generator = "question_sequence"
-    )
+    @GeneratedValue(generator = "uuid4")
+    @GenericGenerator(name = "UUID", strategy = "uuid4")
+    @Type(type = "org.hibernate.type.UUIDCharType")
     @Column(
             name = "question_id",
             length = 12
-    )
-    private String id;
+    )    private UUID id;
 
 
     @Column(
@@ -121,10 +116,10 @@ public class question {
     )
     private int sessionNumber;
 
-    public question() {
+    public Question() {
     }
 
-    public question(String question,
+    public Question(String question,
                     String questionType,
                     String option1,
                     String option2,
@@ -152,11 +147,11 @@ public class question {
         this.sessionNumber = sessionNumber;
     }
 
-    public String getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 

@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static com.example.spring_security.security.UserRole.*;
+import static com.example.had.security.UserRole.*;
 
 @Repository("fake")
 public class FakeApplicationUserService implements ApplicationUserDao{
@@ -27,7 +27,7 @@ public class FakeApplicationUserService implements ApplicationUserDao{
     private List<ApplicationUser> getApplicationUsers(){
         List<ApplicationUser> applicationUsers = new ArrayList<>();
                 applicationUsers.add(new ApplicationUser(
-                        STUDENT.getGrantedAuthorities(),
+                        ADMIN.getGrantedAuthorities(),
                         passwordEncoder.encode("password"),
                         "annasmith",
                         true,
@@ -36,7 +36,7 @@ public class FakeApplicationUserService implements ApplicationUserDao{
                         true
                 ));
                 applicationUsers.add(new ApplicationUser(
-                        ADMIN.getGrantedAuthorities(),
+                        DOCTOR.getGrantedAuthorities(),
                         passwordEncoder.encode("password"),
                         "lynda",
                         true,
@@ -45,7 +45,7 @@ public class FakeApplicationUserService implements ApplicationUserDao{
                         true
                 ));
                 applicationUsers.add(new ApplicationUser(
-                        ADMINTRAINEE.getGrantedAuthorities(),
+                        USER.getGrantedAuthorities(),
                         passwordEncoder.encode("password"),
                         "tom",
                         true,

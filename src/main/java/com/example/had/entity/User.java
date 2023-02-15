@@ -1,13 +1,15 @@
 package com.example.had.entity;
 
 
-import jakarta.persistence.*;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Type;
+
+import javax.persistence.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-
-import static jakarta.persistence.GenerationType.UUID;
+import java.util.UUID;
 
 @Entity(name = "User")
 @Table(
@@ -18,24 +20,15 @@ import static jakarta.persistence.GenerationType.UUID;
                 columnNames = "email"
         )
 )
-public class user {
+public class User {
     @Id
-    @SequenceGenerator(
-            name = "user_sequence",
-            sequenceName = "user_sequence",
-            allocationSize = 1
-    )
-    @GeneratedValue(
-            strategy = UUID,
-            generator = "user_sequence"
-    )
+    @GeneratedValue(generator = "uuid4")
+    @GenericGenerator(name = "UUID", strategy = "uuid4")
+    @Type(type = "org.hibernate.type.UUIDCharType")
     @Column(
-            name = "user_id",
-            length = 12
+            name = "user_id"
     )
-    private String id;
-
-
+    private UUID id;
     @Column(
             name = "email",
             nullable = false
@@ -108,33 +101,45 @@ public class user {
             name = "depression_severity"
     )
     private float depressionSeverity;
-
-
-    @ManyToMany(
-            mappedBy = "userList"
-    )
-    private List<doctor> doctorList = new ArrayList<>();
-
-
+    @ManyToOne
+    private Doctor doctor;
     @OneToMany(
             mappedBy = "user",
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
-    private List<chat> chatList = new ArrayList<>();
+    private List<Chat> chatList = new ArrayList<>();
 
 
     @OneToOne(
             mappedBy = "user",
             orphanRemoval = true
     )
-    private report report;
-
-    public user() {
+    private Report report;
+    public void addReport(Report report){
+        this.setReport(report);
+        report.setUser(this);
+    }
+    public void removeReport(Report report){
+        this.setReport(null);
+        report.setUser(null);
+    }
+    public void addChat(Chat chat){
+        if(!this.chatList.contains(chat)){
+            chatList.add(chat);
+            chat.setUser(this);
+        }
+    }
+    public void removeChat(Chat chat){
+        if (this.chatList.contains(chat)){
+            this.chatList.remove(chat);
+            chat.setUser(null);
+        }
+    }
+    public User() {
     }
 
-    public user(String id,
-                String email,
+    public User(String email,
                 String firstName,
                 String lastName,
                 String middleName,
@@ -144,7 +149,6 @@ public class user {
                 String address,
                 String registrationStamp,
                 float depressionSeverity) {
-        this.id = id;
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -157,41 +161,12 @@ public class user {
         this.depressionSeverity = depressionSeverity;
     }
 
-    public user(String id,
-                String email,
-                String firstName,
-                String lastName,
-                String middleName,
-                String gender,
-                LocalDate dob,
-                String contact,
-                String address,
-                String registrationStamp,
-                float depressionSeverity,
-                List<doctor> doctorList,
-                List<chat> chatList,
-                com.example.had.entity.report report) {
-        this.id = id;
-        this.email = email;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.middleName = middleName;
-        this.gender = gender;
-        this.dob = dob;
-        this.contact = contact;
-        this.address = address;
-        this.registrationStamp = registrationStamp;
-        this.depressionSeverity = depressionSeverity;
-        this.doctorList = doctorList;
-        this.chatList = chatList;
-        this.report = report;
-    }
 
-    public String getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
@@ -275,27 +250,27 @@ public class user {
         this.depressionSeverity = depressionSeverity;
     }
 
-    public List<doctor> getDoctorList() {
-        return doctorList;
+    public Doctor getDoctor() {
+        return doctor;
     }
 
-    public void setDoctorList(List<doctor> doctorList) {
-        this.doctorList = doctorList;
+    public void setDoctor(Doctor doctor) {
+        this.doctor = doctor;
     }
 
-    public List<chat> getChatList() {
+    public List<Chat> getChatList() {
         return chatList;
     }
 
-    public void setChatList(List<chat> chatList) {
+    public void setChatList(List<Chat> chatList) {
         this.chatList = chatList;
     }
 
-    public com.example.had.entity.report getReport() {
+    public Report getReport() {
         return report;
     }
 
-    public void setReport(com.example.had.entity.report report) {
+    public void setReport(Report report) {
         this.report = report;
     }
 
@@ -313,7 +288,7 @@ public class user {
                 ", address='" + address + '\'' +
                 ", registrationStamp='" + registrationStamp + '\'' +
                 ", depressionSeverity=" + depressionSeverity +
-                ", doctorList=" + doctorList +
+                ", doctorList=" + doctor +
                 ", chatList=" + chatList +
                 ", report=" + report +
                 '}';
