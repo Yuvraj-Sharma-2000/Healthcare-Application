@@ -16,11 +16,11 @@ import com.example.had.request.answersBody;
 import java.util.List;
 import java.util.UUID;
 
-import static com.example.had.contoller.TemplateController.logger;
 
 @Controller
 @RequestMapping("/user")
 @PreAuthorize("hasRole('ROLE_USER')")
+@CrossOrigin(origins = "*")
 public class UserController {
     private final UserService userService;
     private final AnswerService answerService;
@@ -65,10 +65,5 @@ public class UserController {
         if (updated)
             return ResponseEntity.ok("profile updated successfully");
         return ResponseEntity.notFound().build();
-    }
-    @PostMapping("/login-timestamp")
-    public ResponseEntity<?> getLogin(@RequestBody loginRequestBody loginRequestBody) {
-        logger.info("Inside custom login ");
-        return loginService.getUserByLogin(loginRequestBody.getUsername(), loginRequestBody.getPassword());
     }
 }

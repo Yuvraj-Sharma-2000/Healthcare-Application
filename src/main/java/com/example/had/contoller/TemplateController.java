@@ -18,8 +18,8 @@ import java.util.List;
 @Controller
 @RequestMapping("/")
 @PreAuthorize("permitAll()")
+@CrossOrigin(origins = "*")
 public class TemplateController {
-    public static final Logger logger = LogManager.getLogger(TemplateController.class);
     private final loginService loginService;
     private final doctorService doctorService;
 
@@ -37,5 +37,9 @@ public class TemplateController {
         if (allDoctors != null)
             return ResponseEntity.ok(allDoctors);
         return ResponseEntity.noContent().build();
+    }
+    @PostMapping("login-timestamp")
+    public ResponseEntity<?> getLogin(@RequestBody loginRequestBody loginRequestBody) {
+        return loginService.getUserByLogin(loginRequestBody.getUsername(), loginRequestBody.getPassword());
     }
 }

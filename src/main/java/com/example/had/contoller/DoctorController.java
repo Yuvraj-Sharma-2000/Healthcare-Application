@@ -15,6 +15,7 @@ import java.util.UUID;
 @Controller
 @RequestMapping("/doctor")
 @PreAuthorize("hasRole('ROLE_DOCTOR')")
+@CrossOrigin(origins = "*")
 public class DoctorController {
     private final doctorService doctorService;
 
