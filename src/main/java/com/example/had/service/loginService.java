@@ -17,7 +17,6 @@ import java.util.Objects;
 
 @Service
 public class loginService {
-    public static final Logger logger = LogManager.getLogger(loginService.class);
     private final authRepository authRepository;
     private final doctorRepository doctorRepository;
     private final userRepository userRepository;
@@ -43,7 +42,6 @@ public class loginService {
         }
 
         authRepository.updateLastLoginByUsername(timestamp.toString(), username);
-        logger.info("Timestamp updated i guess...");
 
         if (Objects.equals(role, "DOCTOR")){
             Doctor doctor = doctorRepository.findByEmailIgnoreCase(username);

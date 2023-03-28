@@ -18,7 +18,6 @@ import java.util.List;
 @Controller
 @RequestMapping("/")
 @PreAuthorize("permitAll()")
-@CrossOrigin(origins = "*")
 public class TemplateController {
     private final loginService loginService;
     private final doctorService doctorService;

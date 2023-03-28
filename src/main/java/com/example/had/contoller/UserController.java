@@ -20,7 +20,6 @@ import java.util.UUID;
 @Controller
 @RequestMapping("/user")
 @PreAuthorize("hasRole('ROLE_USER')")
-@CrossOrigin(origins = "*")
 public class UserController {
     private final UserService userService;
     private final AnswerService answerService;

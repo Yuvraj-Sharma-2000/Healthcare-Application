@@ -23,7 +23,7 @@ public class userRegisterService {
         this.userRepository = userRepository;
     }
 
-    public ResponseEntity registerUser(userRegisterRequest userRegisterRequest) {
+    public ResponseEntity<?> registerUser(userRegisterRequest userRegisterRequest) {
         try {
             Timestamp timestamp = new Timestamp(System.currentTimeMillis());
             authRepository.save(new Auth(userRegisterRequest.getEmail(),

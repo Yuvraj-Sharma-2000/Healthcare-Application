@@ -15,7 +15,6 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/register")
-@CrossOrigin(origins = "*")
 public class Register {
     private final doctorRegisterService doctorRegisterService;
     private final userRegisterService userRegisterService;
@@ -42,7 +41,7 @@ public class Register {
         return doctorRegisterService.authDoctor(doctorRegisterRequest);
     }
     @PostMapping("/user")
-    public ResponseEntity userRegister(@NotNull @RequestBody userRegisterRequest userRegisterRequest){
+    public ResponseEntity<?> userRegister(@NotNull @RequestBody userRegisterRequest userRegisterRequest){
         return userRegisterService.registerUser(userRegisterRequest);
     }
 }

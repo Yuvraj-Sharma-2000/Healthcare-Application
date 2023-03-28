@@ -42,6 +42,9 @@ public class doctorRegisterService {
                     doctorRegisterRequest.getPatientCount(),
                     doctorRegisterRequest.getRegistrationNumber(),
                     doctorRegisterRequest.getRegistrationStamp()));
+
+//            System.out.println(doctorRegisterRequest.getEmail() + " Requested for DOCTOR autorization");
+
             return ResponseEntity.ok("Awaiting Response from Admin");
         }catch (Exception e){
             System.out.println(e.getMessage());
@@ -60,6 +63,9 @@ public class doctorRegisterService {
                             timestamp.toString()
                     )
             );
+
+//            System.out.println(doctorRegisterRequest.getEmail() + " Registered Successfully");
+
             return ResponseEntity.ok("Registered Successfully");
         }catch (Exception e){
             System.out.println(e.getMessage());
@@ -71,6 +77,9 @@ public class doctorRegisterService {
         try{
             List<Doctor> byIsVerified = doctorRepository.findByIsVerified(false);
             System.out.println(byIsVerified);
+
+//            System.out.println();
+
             return ResponseEntity.ok(byIsVerified);
         }catch (Exception e){
             System.out.println("Not able to find");

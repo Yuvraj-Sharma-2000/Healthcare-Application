@@ -51,36 +51,6 @@ public class FakeApplicationUserDaoService implements ApplicationUserDao {
                         true
                 )
         );
-//        List<ApplicationUser> applicationUsers = Lists.newArrayList(
-//                new ApplicationUser(
-//                        "annasmith",
-//                        passwordEncoder.encode("password"),
-//                        DOCTOR.getGrantedAuthorities(),
-//                        true,
-//                        true,
-//                        true,
-//                        true
-//                ),
-//                new ApplicationUser(
-//                        "linda",
-//                        passwordEncoder.encode("password"),
-//                        ADMIN.getGrantedAuthorities(),
-//                        true,
-//                        true,
-//                        true,
-//                        true
-//                ),
-//                new ApplicationUser(
-//                        "tom",
-//                        passwordEncoder.encode("password"),
-//                        USER.getGrantedAuthorities(),
-//                        true,
-//                        true,
-//                        true,
-//                        true
-//                )
-//        );
-
         return applicationUsersList;
     }
 

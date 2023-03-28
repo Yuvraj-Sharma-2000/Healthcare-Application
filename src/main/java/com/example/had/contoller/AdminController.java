@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/admin")
-@CrossOrigin(origins = "*")
 public class AdminController {
     private final AdminService adminService;
 

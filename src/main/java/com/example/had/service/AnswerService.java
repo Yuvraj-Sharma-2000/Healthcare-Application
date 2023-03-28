@@ -23,7 +23,6 @@ public class AnswerService {
 
     public boolean addAnswer(answersBody answersBody, UUID patientId, int weekNumber, int sessionNumber) {
         try{
-
             User user = userRepository.findById(patientId).get();   // get the user
             Answers answers = answerRepository.save(
                     new Answers(
@@ -47,6 +46,7 @@ public class AnswerService {
             answerRepository.save(answers);
             userRepository.save(user);
 
+//            System.out.println(user.getFirstName() + " added answers");
             return true;
         }catch (Exception e){
             System.out.println(e.getMessage());
