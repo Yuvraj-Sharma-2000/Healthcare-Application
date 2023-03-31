@@ -1,6 +1,6 @@
 package com.example.had.request;
 
-public class userProfileUpdateRequest {
+public class UserProfileUpdateRequest {
     private String address;
     private String contact;
     private String password;

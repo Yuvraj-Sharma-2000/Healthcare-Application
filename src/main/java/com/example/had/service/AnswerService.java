@@ -2,55 +2,53 @@ package com.example.had.service;
 
 import com.example.had.entity.Answers;
 import com.example.had.entity.User;
-import com.example.had.repository.answerRepository;
-import com.example.had.repository.userRepository;
-import com.example.had.request.answersBody;
+import com.example.had.repository.AnswerRepository;
+import com.example.had.repository.QuestionRepository;
+import com.example.had.repository.UserRepository;
+import com.example.had.request.AnswersBody;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
 
 @Service
 public class AnswerService {
-    private final answerRepository answerRepository;
-    private final userRepository userRepository;
+    private final AnswerRepository answerRepository;
+    private final UserRepository userRepository;
+    private final QuestionRepository questionRepository;
 
-    public AnswerService(answerRepository answerRepository,userRepository userRepository) {
+    public AnswerService(AnswerRepository answerRepository,
+                         UserRepository userRepository,
+                         QuestionRepository questionRepository) {
         this.answerRepository = answerRepository;
         this.userRepository = userRepository;
+        this.questionRepository = questionRepository;
     }
-
-    public boolean addAnswer(answersBody answersBody, UUID patientId, int weekNumber, int sessionNumber) {
-        try{
-            User user = userRepository.findById(patientId).get();   // get the user
-            Answers answers = answerRepository.save(
-                    new Answers(
-                            answersBody.getOption1(),
-                            answersBody.getOption2(),
-                            answersBody.getOption3(),
-                            answersBody.getOption4(),
-                            answersBody.getValue1(),
-                            answersBody.getValue2(),
-                            answersBody.getValue3(),
-                            answersBody.getValue4(),
-                            weekNumber,
-                            sessionNumber,
-                            user
-                            )
+    @Transactional
+    public boolean addAnswer(AnswersBody answersBody) {
+        try {
+            Answers answers = new Answers(
+                    answersBody.getWeekNumber(),
+                    answersBody.getSessionNumber(),
+                    answersBody.getAnswer_value(),
+                    answersBody.getAnswer_options()
             );
-            List<Answers> answersList = user.getAnswers();          // get this user's answers
-            answersList.add(answers);                               // add this particular answer to answers list
-            user.setAnswers(answersList);                           // add the answer list to user
+            User user = userRepository.findById(answersBody.getPatientId()).get();
 
+            answers.setUser(user);
             answerRepository.save(answers);
+
+            List<Answers> answersList = user.getAnswers();
+            answersList.add(answers);
+            user.setAnswers(answersList);
+            user.setWeekDone(answersBody.getWeekNumber());
+            user.setSessionDone(answersBody.getSessionNumber());
             userRepository.save(user);
 
-//            System.out.println(user.getFirstName() + " added answers");
             return true;
         }catch (Exception e){
             System.out.println(e.getMessage());
-            return false;
         }
+        return false;
     }
 }

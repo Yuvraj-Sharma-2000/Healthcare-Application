@@ -7,9 +7,6 @@ import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.Range;
 
 import javax.persistence.*;
-
-import java.sql.Timestamp;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -41,30 +38,30 @@ public class User {
     @Column(
             name = "fname",
             nullable = false,
-            length = 15
+            length = 20
     )
     private String firstName;
 
 
     @Column(
             name = "lname",
-            nullable = false,
-            length = 15
+            nullable = true,
+            length = 20
     )
     private String lastName;
 
 
     @Column(
             name = "mname",
-            nullable = false,
-            length = 15
+            nullable = true,
+            length = 20
     )
     private String middleName;
 
 
     @Column(
             name = "gender",
-            nullable = false
+            nullable = true
     )
     private String gender;
 
@@ -72,30 +69,28 @@ public class User {
 
     @Column(
             name = "date_of_birth",
-            nullable = false
+            nullable = true
     )
-    private LocalDate dob;
+    private String dob;
 
 
     @Column(
             name = "contact",
-            nullable = false,
-            length = 13
+            nullable = true
     )
     private String contact;
 
 
     @Column(
             name = "address",
-            nullable = false,
-            length = 100
+            nullable = true
     )
     private String address;
 
 
     @Column(
             name = "registration_stamp",
-            nullable = false
+            nullable = true
     )
     private String registrationStamp;
 
@@ -105,21 +100,47 @@ public class User {
     )
     private float depressionSeverity;
 
-    public Boolean isActive() {
-        return isActive;
-    }
-
-    public void setActive(Boolean active) {
-        isActive = active;
-    }
-
     @Column(
             name = "is_active"
     )
     private Boolean isActive; // a user is active if last login was 5 days or less
 
+    @Column(name = "session_done")
+    private int sessionDone;
+
+    @Column(name = "week_done")
+    private int weekDone;
+
+    public int getSessionDone() {
+        return sessionDone;
+    }
+
+    public void setSessionDone(int sessionDone) {
+        this.sessionDone = sessionDone;
+    }
+
+    public int getWeekDone() {
+        return weekDone;
+    }
+
+    public void setWeekDone(int weekDone) {
+        this.weekDone = weekDone;
+    }
+
+    public Boolean getActive() {
+        return isActive;
+    }
+
+    public PersonalArticle getPersonalArticle() {
+        return personalArticle;
+    }
+
+    public void setPersonalArticle(PersonalArticle personalArticle) {
+        this.personalArticle = personalArticle;
+    }
+
     @ManyToOne
-    @JsonBackReference
+//    @JsonBackReference
     private Doctor doctor;
     @OneToMany(
             mappedBy = "user",
@@ -128,7 +149,6 @@ public class User {
     )
     @JsonManagedReference
     private List<Chat> chatList = new ArrayList<>();
-
 
     @OneToOne(
             mappedBy = "user",
@@ -195,12 +215,20 @@ public class User {
     public User() {
     }
 
+    public User(String email, String firstName) {
+        this.email = email;
+        this.firstName = firstName;
+        this.depressionSeverity = 1;
+        this.weekDone = -1;
+        this.sessionDone = -1;
+    }
+
     public User(String email,
                 String firstName,
                 String lastName,
                 String middleName,
                 String gender,
-                LocalDate dob,
+                String dob,
                 String contact,
                 String address,
                 String registrationStamp,
@@ -215,6 +243,8 @@ public class User {
         this.address = address;
         this.registrationStamp = registrationStamp;
         this.depressionSeverity = depressionSeverity;
+        this.weekDone = -1;
+        this.sessionDone = -1;
     }
 
 
@@ -249,6 +279,13 @@ public class User {
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
+    public Boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(Boolean active) {
+        isActive = active;
+    }
 
     public String getMiddleName() {
         return middleName;
@@ -266,11 +303,11 @@ public class User {
         this.gender = gender;
     }
 
-    public LocalDate getDob() {
+    public String getDob() {
         return dob;
     }
 
-    public void setDob(LocalDate dob) {
+    public void setDob(String dob) {
         this.dob = dob;
     }
 

@@ -1,26 +1,25 @@
 package com.example.had.contoller;
 
-import com.example.had.entity.Doctor;
-import com.example.had.request.userRegisterRequest;
-import com.example.had.service.doctorRegisterService;
-import com.example.had.request.doctorRegisterRequest;
-import com.example.had.service.userRegisterService;
+import com.example.had.request.DoctorRegisterRequest;
+import com.example.had.request.UserRegisterRequest;
+import com.example.had.service.DoctorRegisterService;
+import com.example.had.service.UserRegisterService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotNull;
-import java.util.List;
+import java.util.UUID;
 
 @Controller
 @RequestMapping("/register")
 public class Register {
-    private final doctorRegisterService doctorRegisterService;
-    private final userRegisterService userRegisterService;
+    private final DoctorRegisterService doctorRegisterService;
+    private final UserRegisterService userRegisterService;
 
-    public Register(doctorRegisterService doctorRegisterService,
-                    userRegisterService userRegisterService1) {
+    public Register(DoctorRegisterService doctorRegisterService,
+                    UserRegisterService userRegisterService1) {
         this.doctorRegisterService = doctorRegisterService;
         this.userRegisterService = userRegisterService1;
     }
@@ -31,17 +30,16 @@ public class Register {
     }
     @PostMapping("/doctor")
     @PreAuthorize("permitAll()")
-    public ResponseEntity doctorRegister(@NotNull @RequestBody doctorRegisterRequest doctorRegisterRequest){
+    public ResponseEntity doctorRegister(@NotNull @RequestBody DoctorRegisterRequest doctorRegisterRequest){
         return doctorRegisterService.registerDoctor(doctorRegisterRequest);
     }
-    @PostMapping("/verify")
+    @PostMapping("/verify/{doctorId}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity verifyDoctor(@NotNull @RequestBody doctorRegisterRequest doctorRegisterRequest){
-//      --------  TO BE FILLED BY FRONTEND -----------
-        return doctorRegisterService.authDoctor(doctorRegisterRequest);
+    public ResponseEntity verifyDoctor(@NotNull @PathVariable UUID doctorId){
+        return doctorRegisterService.authDoctor(doctorId);
     }
     @PostMapping("/user")
-    public ResponseEntity<?> userRegister(@NotNull @RequestBody userRegisterRequest userRegisterRequest){
+    public ResponseEntity<?> userRegister(@NotNull @RequestBody UserRegisterRequest userRegisterRequest){
         return userRegisterService.registerUser(userRegisterRequest);
     }
 }

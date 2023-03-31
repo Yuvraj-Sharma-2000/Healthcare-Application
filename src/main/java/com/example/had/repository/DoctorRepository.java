@@ -9,10 +9,13 @@ import org.springframework.lang.NonNull;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
-public interface doctorRepository extends JpaRepository<Doctor, UUID> {
+public interface DoctorRepository extends JpaRepository<Doctor, UUID> {
+    @Transactional
+    @Modifying
+    @Query("update Doctor d set d.isVerified = ?1 where d.id = ?2")
+    int updateIsVerifiedById(boolean isVerified, UUID id);
     @Query("select d from Doctor d where d.patientLimit > d.patientCount and d.isVerified = true ")
     List<Doctor> findByPatientLimitAndPatientCount();
     @Transactional

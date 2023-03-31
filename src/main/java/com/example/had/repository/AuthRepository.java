@@ -7,11 +7,9 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.Time;
-import java.sql.Timestamp;
 import java.util.UUID;
 @Repository("auth")
-public interface authRepository extends JpaRepository<Auth, UUID> {
+public interface AuthRepository extends JpaRepository<Auth, UUID> {
     @Query("select a from Auth a where a.username = ?1")
     Auth findByUsername(String username);
     @Transactional

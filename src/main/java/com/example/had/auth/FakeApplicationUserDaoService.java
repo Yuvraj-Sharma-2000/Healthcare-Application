@@ -1,7 +1,7 @@
 package com.example.had.auth;
 
 import com.example.had.entity.Auth;
-import com.example.had.repository.authRepository;
+import com.example.had.repository.AuthRepository;
 import com.example.had.security.ApplicationUserRole;
 import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,11 +17,11 @@ import java.util.Set;
 public class FakeApplicationUserDaoService implements ApplicationUserDao {
 
     private final PasswordEncoder passwordEncoder;
-    private final authRepository loginRepository;
+    private final AuthRepository loginRepository;
 
     @Autowired
     public FakeApplicationUserDaoService(PasswordEncoder passwordEncoder,
-                                         authRepository loginRepository) {
+                                         AuthRepository loginRepository) {
         this.passwordEncoder = passwordEncoder;
         this.loginRepository = loginRepository;
     }
@@ -53,5 +53,4 @@ public class FakeApplicationUserDaoService implements ApplicationUserDao {
         );
         return applicationUsersList;
     }
-
 }

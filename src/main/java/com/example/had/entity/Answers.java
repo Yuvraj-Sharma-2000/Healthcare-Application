@@ -1,9 +1,11 @@
 package com.example.had.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.UUID;
 
 @Entity(name = "Answers")
@@ -15,166 +17,42 @@ public class Answers {
     @Type(type = "org.hibernate.type.UUIDCharType")
     @Column(columnDefinition = "CHAR(36)", name = "answer_id")
     private UUID id;
-    @Column(
-            name = "option1",
-            nullable = false
-    )
-    private String option1;
-
-    @Column(
-            name = "option2",
-            nullable = false
-    )
-    private String option2;
-
-    @Column(
-            name = "option3",
-            nullable = false
-    )
-    private String option3;
-
-    @Column(
-            name = "option4",
-            nullable = false
-    )
-    private String option4;
-
-
-    @Column(
-            name = "value1",
-            nullable = false,
-            precision = 2
-    )
-    private float value1;
-
-
-    @Column(
-            name = "value2",
-            nullable = false,
-            precision = 2
-    )
-    private float value2;
-
-
-    @Column(
-            name = "value3",
-            nullable = false,
-            precision = 2
-    )
-    private float value3;
-
-
-    @Column(
-            name = "value4",
-            nullable = false,
-            precision = 2
-    )
-    private float value4;
-    @Column(
-            name = "week_number",
-            nullable = false
-    )
-    private int weekNumber;
-
-
-    @Column(
-            name = "session_number",
-            nullable = false
-    )
-    private int sessionNumber;
 
     @ManyToOne
+    @JsonBackReference
     @JoinColumn(
-            name = "user_id",
+            name = "patient_id",
             nullable = false,
             referencedColumnName = "user_id",
-            foreignKey = @ForeignKey(name = "user_answer_fk")
+            foreignKey = @ForeignKey(
+                    name = "user_answer_fk"
+            )
     )
     private User user;
 
-    public Answers(UUID id,
-                   String option1,
-                   String option2,
-                   String option3,
-                   String option4,
-                   float value1,
-                   float value2,
-                   float value3,
-                   float value4,
-                   int weekNumber,
-                   int sessionNumber,
-                   User user) {
-        this.id = id;
-        this.option1 = option1;
-        this.option2 = option2;
-        this.option3 = option3;
-        this.option4 = option4;
-        this.value1 = value1;
-        this.value2 = value2;
-        this.value3 = value3;
-        this.value4 = value4;
-        this.weekNumber = weekNumber;
-        this.sessionNumber = sessionNumber;
-        this.user = user;
-    }
+    @Column(name = "week_number")
+    private int weekNumber;
 
-    public Answers(String option1,
-                   String option2,
-                   String option3,
-                   String option4,
-                   float value1,
-                   float value2,
-                   float value3,
-                   float value4,
-                   int weekNumber,
-                   int sessionNumber,
-                   User user) {
+    @Column(name = "session_number")
+    private int sessionNumber;
 
-        this.option1 = option1;
-        this.option2 = option2;
-        this.option3 = option3;
-        this.option4 = option4;
-        this.value1 = value1;
-        this.value2 = value2;
-        this.value3 = value3;
-        this.value4 = value4;
-        this.weekNumber = weekNumber;
-        this.sessionNumber = sessionNumber;
-        this.user = user;
-    }
+    @ElementCollection
+    private List<Float> answer_value;
 
-    public User getUser() {
-        return user;
-    }
+    @ElementCollection
+    private List<String> answer_options;
 
-    public void setUser(User user) {
-        this.user = user;
-    }
     public Answers() {
     }
 
-    public Answers(UUID id,
-                   String option1,
-                   String option2,
-                   String option3,
-                   String option4,
-                   float value1,
-                   float value2,
-                   float value3,
-                   float value4,
-                   int weekNumber,
-                   int sessionNumber) {
-        this.id = id;
-        this.option1 = option1;
-        this.option2 = option2;
-        this.option3 = option3;
-        this.option4 = option4;
-        this.value1 = value1;
-        this.value2 = value2;
-        this.value3 = value3;
-        this.value4 = value4;
+    public Answers(int weekNumber,
+                   int sessionNumber,
+                   List<Float> answer_value,
+                   List<String> answer_options) {
         this.weekNumber = weekNumber;
         this.sessionNumber = sessionNumber;
+        this.answer_value = answer_value;
+        this.answer_options = answer_options;
     }
 
     public UUID getId() {
@@ -185,68 +63,12 @@ public class Answers {
         this.id = id;
     }
 
-    public String getOption1() {
-        return option1;
+    public User getUser() {
+        return user;
     }
 
-    public void setOption1(String option1) {
-        this.option1 = option1;
-    }
-
-    public String getOption2() {
-        return option2;
-    }
-
-    public void setOption2(String option2) {
-        this.option2 = option2;
-    }
-
-    public String getOption3() {
-        return option3;
-    }
-
-    public void setOption3(String option3) {
-        this.option3 = option3;
-    }
-
-    public String getOption4() {
-        return option4;
-    }
-
-    public void setOption4(String option4) {
-        this.option4 = option4;
-    }
-
-    public float getValue1() {
-        return value1;
-    }
-
-    public void setValue1(float value1) {
-        this.value1 = value1;
-    }
-
-    public float getValue2() {
-        return value2;
-    }
-
-    public void setValue2(float value2) {
-        this.value2 = value2;
-    }
-
-    public float getValue3() {
-        return value3;
-    }
-
-    public void setValue3(float value3) {
-        this.value3 = value3;
-    }
-
-    public float getValue4() {
-        return value4;
-    }
-
-    public void setValue4(float value4) {
-        this.value4 = value4;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public int getWeekNumber() {
@@ -265,20 +87,31 @@ public class Answers {
         this.sessionNumber = sessionNumber;
     }
 
+    public List<Float> getAnswer_value() {
+        return answer_value;
+    }
+
+    public void setAnswer_value(List<Float> answer_value) {
+        this.answer_value = answer_value;
+    }
+
+    public List<String> getAnswer_options() {
+        return answer_options;
+    }
+
+    public void setAnswer_options(List<String> answer_options) {
+        this.answer_options = answer_options;
+    }
+
     @Override
     public String toString() {
         return "Answers{" +
                 "id=" + id +
-                ", option1='" + option1 + '\'' +
-                ", option2='" + option2 + '\'' +
-                ", option3='" + option3 + '\'' +
-                ", option4='" + option4 + '\'' +
-                ", value1=" + value1 +
-                ", value2=" + value2 +
-                ", value3=" + value3 +
-                ", value4=" + value4 +
+                ", user=" + user +
                 ", weekNumber=" + weekNumber +
                 ", sessionNumber=" + sessionNumber +
+                ", answer_value=" + answer_value +
+                ", answer_options=" + answer_options +
                 '}';
     }
 }

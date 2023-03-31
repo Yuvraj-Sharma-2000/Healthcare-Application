@@ -4,7 +4,6 @@ import com.example.had.auth.ApplicationUserService;
 import com.example.had.jwt.JwtConfig;
 import com.example.had.jwt.JwtTokenVerifier;
 import com.example.had.jwt.JwtUsernameAndPasswordAuthenticationFilter;
-import com.example.had.service.loginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

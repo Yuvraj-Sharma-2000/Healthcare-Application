@@ -1,12 +1,11 @@
 package com.example.had.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -160,13 +159,9 @@ public class Doctor {
     @Column
     private boolean isVerified;
 
-    public boolean isVerified() {
-        return isVerified;
-    }
 
-    public void setVerified(boolean verified) {
-        isVerified = verified;
-    }
+    @ElementCollection
+    private List<String> languages;
 
     @ManyToMany(
             cascade = CascadeType.ALL
@@ -187,7 +182,9 @@ public class Doctor {
             )
     )
     @JsonManagedReference
+    @JsonIgnoreProperties("doctor")
     private List<User> userList = new ArrayList<>();
+
 
     @OneToMany(
             mappedBy = "doctor",
@@ -196,6 +193,14 @@ public class Doctor {
     )
     @JsonManagedReference
     private List<Chat> chatList = new ArrayList<>();
+
+
+    @OneToMany(
+            mappedBy = "doctor",
+            orphanRemoval = true,
+            cascade = {CascadeType.PERSIST, CascadeType.REMOVE}
+    )
+    private List<PersonalArticle> personalArticles = new ArrayList<>();
 
 
     public Doctor() {
@@ -254,6 +259,21 @@ public class Doctor {
     public void setEmail(String email) {
         this.email = email;
     }
+    public List<String> getLanguages() {
+        return languages;
+    }
+
+    public void setLanguages(List<String> languages) {
+        this.languages = languages;
+    }
+
+    public List<PersonalArticle> getPersonalArticles() {
+        return personalArticles;
+    }
+
+    public void setPersonalArticles(List<PersonalArticle> personalArticles) {
+        this.personalArticles = personalArticles;
+    }
 
     public String getFirstName() {
         return firstName;
@@ -261,6 +281,13 @@ public class Doctor {
 
     public void setFirstName(String firstName) {
         this.firstName = firstName;
+    }
+    public boolean isVerified() {
+        return isVerified;
+    }
+
+    public void setVerified(boolean verified) {
+        isVerified = verified;
     }
 
     public String getLastName() {

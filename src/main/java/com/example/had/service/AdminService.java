@@ -1,19 +1,19 @@
 package com.example.had.service;
 
 import com.example.had.entity.Question;
-import com.example.had.repository.questionRepository;
-import com.example.had.request.questionAddBody;
+import com.example.had.repository.QuestionRepository;
+import com.example.had.request.QuestionAddBody;
 import org.springframework.stereotype.Service;
 
 @Service
 public class AdminService {
-    private final questionRepository questionRepository;
+    private final QuestionRepository questionRepository;
 
-    public AdminService(questionRepository questionRepository) {
+    public AdminService(QuestionRepository questionRepository) {
         this.questionRepository = questionRepository;
     }
 
-    public boolean addQuestion(questionAddBody question) {
+    public boolean addQuestion(QuestionAddBody question) {
         try {
             questionRepository.save(
                     new Question(
@@ -27,7 +27,6 @@ public class AdminService {
                             question.getValue2(),
                             question.getValue3(),
                             question.getValue4(),
-                            question.getCorrectAnswer(),
                             question.getWeekNumber(),
                             question.getSessionNumber()
                     )

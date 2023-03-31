@@ -1,6 +1,6 @@
 package com.example.had.request;
 
-public class loginRequestBody {
+public class LoginRequestBody {
     private String username;
     private String password;
 

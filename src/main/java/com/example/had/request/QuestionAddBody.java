@@ -1,6 +1,6 @@
 package com.example.had.request;
 
-public class questionAddBody {
+public class QuestionAddBody {
     private String question;
     private String questionType;
     private String option1;

@@ -1,6 +1,6 @@
 package com.example.had.request;
 
-public class doctorProfileBody {
+public class DoctorProfileBody {
     private String address;
     private String imageUrl;
     private String contact;

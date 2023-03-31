@@ -4,12 +4,13 @@ import com.example.had.entity.Auth;
 import com.example.had.entity.Doctor;
 import com.example.had.entity.DoctorConnectionRequest;
 import com.example.had.entity.User;
-import com.example.had.repository.authRepository;
-import com.example.had.repository.doctorConnectionRequestRepository;
-import com.example.had.repository.doctorRepository;
-import com.example.had.repository.userRepository;
-import com.example.had.request.doctorProfileBody;
+import com.example.had.repository.AuthRepository;
+import com.example.had.repository.DoctorConnectionRequestRepository;
+import com.example.had.repository.DoctorRepository;
+import com.example.had.repository.UserRepository;
+import com.example.had.request.DoctorProfileBody;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
@@ -18,19 +19,23 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
-public class doctorService {
-    private final userRepository userRepository;
-    private final authRepository authRepository;
-    private final doctorRepository doctorRepository;
-    private final doctorConnectionRequestRepository requestRepository;
+public class DoctorService {
+    private final UserRepository userRepository;
+    private final AuthRepository authRepository;
+    private final DoctorRepository doctorRepository;
+    private final DoctorConnectionRequestRepository requestRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public doctorService(userRepository userRepository,
-                         authRepository authRepository, doctorRepository doctorRepository,
-                         doctorConnectionRequestRepository requestRepository) {
+    public DoctorService(UserRepository userRepository,
+                         AuthRepository authRepository,
+                         DoctorRepository doctorRepository,
+                         DoctorConnectionRequestRepository requestRepository,
+                         PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.authRepository = authRepository;
         this.doctorRepository = doctorRepository;
         this.requestRepository = requestRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public List<User> getRegisteredPatients(UUID doctorId) {
@@ -62,9 +67,6 @@ public class doctorService {
             List<User> userList = new ArrayList<>();
             for (DoctorConnectionRequest request: requests) {
                 User user = userRepository.findById(request.getUser().getId()).get();
-//                user.setDoctor(null);
-//                user.setChatList(null);
-//                user.setReport(null);
                 userList.add(user);
             }
             return userList;
@@ -127,7 +129,7 @@ public class doctorService {
         return null;
     }
 
-    public boolean updateProfile(UUID doctorId, doctorProfileBody doctorProfileBody) {
+    public boolean updateProfile(UUID doctorId, DoctorProfileBody doctorProfileBody) {
         try{
             doctorRepository.updateSpecialisationAndContactAndAddressAndImageUrlAndPatientLimitById(
                     doctorProfileBody.getSpecialization(),
@@ -159,5 +161,26 @@ public class doctorService {
             System.out.println(e.getMessage());
         }
         return null;
+    }
+
+    public void reject(UUID doctorId, UUID userId) {
+        try {
+            requestRepository.deleteByUserAndDoctor(
+                    userRepository.findById(userId).get(),
+                    doctorRepository.findById(doctorId).get()
+            );
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public boolean updatePassword(String username, String password) {
+        try {
+            authRepository.updatePasswordByUsername(passwordEncoder.encode(password),username);
+            return true;
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+        return false;
     }
 }

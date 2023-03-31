@@ -3,11 +3,9 @@ package com.example.had.service;
 import com.example.had.entity.Auth;
 import com.example.had.entity.Doctor;
 import com.example.had.entity.User;
-import com.example.had.repository.authRepository;
-import com.example.had.repository.doctorRepository;
-import com.example.had.repository.userRepository;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import com.example.had.repository.AuthRepository;
+import com.example.had.repository.DoctorRepository;
+import com.example.had.repository.UserRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -16,14 +14,15 @@ import java.sql.Timestamp;
 import java.util.Objects;
 
 @Service
-public class loginService {
-    private final authRepository authRepository;
-    private final doctorRepository doctorRepository;
-    private final userRepository userRepository;
+public class LoginService {
+    private final AuthRepository authRepository;
+    private final DoctorRepository doctorRepository;
+    private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    public loginService(authRepository authRepository,
-                        doctorRepository doctorRepository,
-                        userRepository userRepository, PasswordEncoder passwordEncoder) {
+    public LoginService(AuthRepository authRepository,
+                        DoctorRepository doctorRepository,
+                        UserRepository userRepository,
+                        PasswordEncoder passwordEncoder) {
         this.authRepository = authRepository;
         this.doctorRepository = doctorRepository;
         this.userRepository = userRepository;
@@ -36,10 +35,10 @@ public class loginService {
     public ResponseEntity<?> getUserByLogin(String username, String password) {
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         Auth byUsername = authRepository.findByUsername(username);
+
         String role = null;
-        if (isPasswordMatch(password, byUsername.getPassword())){
+        if (isPasswordMatch(password, byUsername.getPassword()))
             role = byUsername.getRole();
-        }
 
         authRepository.updateLastLoginByUsername(timestamp.toString(), username);
 
@@ -48,7 +47,9 @@ public class loginService {
             return ResponseEntity.ok(doctor);
         }
         if (Objects.equals(role, "USER")){
-            User user = userRepository.findByEmailIgnoreCase(password);
+            User user = userRepository.findByEmail(username);
+            user.getDoctor().setUserList(null);
+            user.getDoctor().setChatList(null);
             return ResponseEntity.ok(user);
         }
         if (Objects.equals(username, "lynda")

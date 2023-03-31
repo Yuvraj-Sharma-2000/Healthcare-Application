@@ -2,8 +2,8 @@ package com.example.had.contoller;
 
 import com.example.had.entity.Doctor;
 import com.example.had.entity.User;
-import com.example.had.request.doctorProfileBody;
-import com.example.had.service.doctorService;
+import com.example.had.request.DoctorProfileBody;
+import com.example.had.service.DoctorService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -16,34 +16,42 @@ import java.util.UUID;
 @RequestMapping("/doctor")
 @PreAuthorize("hasRole('ROLE_DOCTOR')")
 public class DoctorController {
-    private final doctorService doctorService;
+    private final DoctorService doctorService;
 
-    public DoctorController(doctorService doctorService) {
+    public DoctorController(DoctorService doctorService) {
         this.doctorService = doctorService;
     }
 
     @GetMapping("/dashboard/get-reg-patients/{doctorId}")
-    public ResponseEntity<List<User>> getRegisteredPatients(@PathVariable UUID doctorId){
+    public ResponseEntity<?> getRegisteredPatients(@PathVariable UUID doctorId){
         List<User> registeredPatients = doctorService.getRegisteredPatients(doctorId);
         if (registeredPatients!=null)
             return ResponseEntity.ok(registeredPatients);
         return ResponseEntity.noContent().build();
     }
     @GetMapping("/dashboard/requests/{doctorId}")
-    public ResponseEntity<List<User>> getRequests(@PathVariable UUID doctorId){
+    public ResponseEntity<?> getRequests(@PathVariable UUID doctorId){
         List<User> requests = doctorService.getRequests(doctorId);
         return ResponseEntity.ok(requests);
     }
-    @GetMapping("/dashboard/request-response/{doctorId}/{userId}")
-    public ResponseEntity<String> getOrder(
+    @GetMapping("/dashboard/request-accepted/{doctorId}/{userId}")
+    public ResponseEntity<?> acceptedRequest(
             @PathVariable UUID doctorId,
             @PathVariable UUID userId
     ) {
         doctorService.getResponse(doctorId, userId);
         return ResponseEntity.ok("Assigned patient successfully");
     }
+    @GetMapping("/dashboard/request-rejected/{doctorId}/{userId}")
+    public ResponseEntity<?> rejectedRequest(
+            @PathVariable UUID doctorId,
+            @PathVariable UUID userId
+    ) {
+        doctorService.reject(doctorId, userId);
+        return ResponseEntity.ok("Rejected request for connection");
+    }
     @GetMapping("/my-patients/get/{doctorId}/{patientId}")
-    public ResponseEntity<User> getPatient(@PathVariable UUID patientId,
+    public ResponseEntity<?> getPatient(@PathVariable UUID patientId,
                                            @PathVariable UUID doctorId){
         User patient = doctorService.getPatient(doctorId,patientId);
         if (patient==null)
@@ -51,7 +59,7 @@ public class DoctorController {
         return ResponseEntity.ok(patient);
     }
     @GetMapping("/get/profile/{doctorId}")
-    public ResponseEntity<Doctor> getProfile(@PathVariable UUID doctorId){
+    public ResponseEntity<?> getProfile(@PathVariable UUID doctorId){
         Doctor profile = doctorService.getProfile(doctorId);
         if (profile==null)
             return ResponseEntity.notFound().build();
@@ -59,23 +67,18 @@ public class DoctorController {
     }
     @PostMapping("/update/profile/{doctorId}")
     public ResponseEntity<?> updateProfile(@PathVariable UUID doctorId,
-                                           @RequestBody doctorProfileBody doctorProfileBody){
+                                           @RequestBody DoctorProfileBody doctorProfileBody){
         boolean profile = doctorService.updateProfile(doctorId, doctorProfileBody);
         if (profile)
             return ResponseEntity.ok("Updated Successfully");
         return ResponseEntity.unprocessableEntity().body("Not able to update");
     }
+    @PostMapping("/update/password/{username}/{password}")
+    public ResponseEntity<?> updatePassword(@PathVariable String password,
+                                            @PathVariable String username){
+        boolean updated = doctorService.updatePassword(username,password);
+        if (updated)
+            return ResponseEntity.ok("Password Updated");
+        return ResponseEntity.unprocessableEntity().body("Not able to find");
+    }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-

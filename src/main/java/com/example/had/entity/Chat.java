@@ -43,7 +43,6 @@ public class Chat {
     )
     private Doctor doctor;
 
-
     @ManyToOne
     @JoinColumn(
             name = "patient_id",

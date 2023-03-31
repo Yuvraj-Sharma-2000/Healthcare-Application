@@ -1,13 +1,8 @@
 package com.example.had.request;
 
-public class doctorRegisterRequest {
+public class DoctorRegisterRequest {
      String email;
      String password;
-
-     public String getPassword() {
-          return password;
-     }
-
      String firstName;
      String lastName;
      String middleName;
@@ -26,6 +21,9 @@ public class doctorRegisterRequest {
 
      public int getPatientLimit() {
           return PatientLimit;
+     }
+     public String getPassword() {
+          return password;
      }
 
      public int getPatientCount() {

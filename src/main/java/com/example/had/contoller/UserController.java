@@ -1,19 +1,18 @@
 package com.example.had.contoller;
 
-import com.example.had.entity.Question;
 import com.example.had.entity.User;
-import com.example.had.request.loginRequestBody;
-import com.example.had.request.userProfileUpdateRequest;
+import com.example.had.request.AnswersBody;
+import com.example.had.request.UserProfileUpdateRequest;
 import com.example.had.service.AnswerService;
 import com.example.had.service.UserService;
-import com.example.had.service.loginService;
+import com.example.had.service.LoginService;
+import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import com.example.had.request.answersBody;
 
-import java.util.List;
+import javax.validation.constraints.NotNull;
 import java.util.UUID;
 
 
@@ -23,29 +22,27 @@ import java.util.UUID;
 public class UserController {
     private final UserService userService;
     private final AnswerService answerService;
-    private final loginService loginService;
+    private final LoginService loginService;
 
 
-    public UserController(UserService userService, AnswerService answerService, loginService loginService) {
+    public UserController(UserService userService,
+                          AnswerService answerService,
+                          LoginService loginService) {
         this.userService = userService;
         this.answerService = answerService;
         this.loginService = loginService;
     }
-    @GetMapping("/get/session/{weekNumber}/{sessionNumber}")
-    public List<Question> getInitialQuestions(
+
+    @GetMapping("/get/session/{sessionNumber}/week/{weekNumber}")
+    public ResponseEntity<?> getInitialQuestions(
             @PathVariable int weekNumber,
             @PathVariable int sessionNumber
     ){
         return userService.getQuestions(weekNumber,sessionNumber);
     }
-    @PostMapping("/post/question-answers/{patientId}/{weekNumber}/{sessionNumber}")
-    public ResponseEntity<?> saveAnswers(
-            @RequestBody answersBody answersBody,
-            @PathVariable UUID patientId,
-            @PathVariable int weekNumber,
-            @PathVariable int sessionNumber
-    ){
-        boolean added = answerService.addAnswer(answersBody, patientId, weekNumber, sessionNumber);
+    @PostMapping("/post/question-answers")
+    public ResponseEntity<?> saveAnswers(@NotNull @RequestBody AnswersBody answersBody){
+        boolean added = answerService.addAnswer(answersBody);
         if (added)
             return ResponseEntity.ok("Answers registered successfully");
         return ResponseEntity.badRequest().body("Not able to register answers");
@@ -59,10 +56,17 @@ public class UserController {
     }
     @PostMapping("/update/profile/{patientId}")
     public ResponseEntity<?> updateProfile(@PathVariable UUID patientId,
-                                           @RequestBody userProfileUpdateRequest updateRequest){
+                                           @RequestBody UserProfileUpdateRequest updateRequest){
         boolean updated = userService.updateProfile(patientId,updateRequest);
         if (updated)
             return ResponseEntity.ok("profile updated successfully");
         return ResponseEntity.notFound().build();
+    }
+    @PostMapping("/request-doctor/{patienId}/{doctorId}")
+    public ResponseEntity<?> requestDcotor(@PathVariable UUID patienId, @PathVariable UUID doctorId){
+        boolean requested = userService.requestDoctor(patienId,doctorId);
+        if (requested)
+            return ResponseEntity.ok("Request Successful");
+        return ResponseEntity.unprocessableEntity().body("Not able to register");
     }
 }

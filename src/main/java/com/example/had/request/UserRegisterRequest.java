@@ -1,14 +1,12 @@
 package com.example.had.request;
 
-import java.time.LocalDate;
-
-public class userRegisterRequest {
+public class UserRegisterRequest {
     private String email;
     private String firstName;
     private String lastName;
     private String middleName;
     private String gender;
-    private LocalDate dob;
+    private String dob;
     private String contact;
     private String address;
     private String password;
@@ -33,7 +31,7 @@ public class userRegisterRequest {
         return gender;
     }
 
-    public LocalDate getDob() {
+    public String getDob() {
         return dob;
     }
 

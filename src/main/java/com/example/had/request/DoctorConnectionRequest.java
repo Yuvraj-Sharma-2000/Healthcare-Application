@@ -2,7 +2,7 @@ package com.example.had.request;
 
 import java.util.UUID;
 
-public class doctorConnectionRequest {
+public class DoctorConnectionRequest {
     private UUID doctorId;
     private UUID userId;
 
