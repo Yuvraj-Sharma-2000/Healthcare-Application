@@ -45,6 +45,8 @@ public class AnswerService {
             user.setSessionDone(answersBody.getSessionNumber());
             userRepository.save(user);
 
+            System.out.println("Answer added for week "+answersBody.getWeekNumber()+" session "+answersBody.getSessionNumber());
+
             return true;
         }catch (Exception e){
             System.out.println(e.getMessage());

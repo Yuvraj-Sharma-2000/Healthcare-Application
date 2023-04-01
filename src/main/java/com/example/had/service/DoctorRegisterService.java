@@ -10,6 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.UUID;
@@ -43,9 +44,9 @@ public class DoctorRegisterService {
                     doctorRegisterRequest.getPatientLimit(),
                     doctorRegisterRequest.getPatientCount(),
                     doctorRegisterRequest.getRegistrationNumber(),
-                    doctorRegisterRequest.getRegistrationStamp()));
+                    new Timestamp(System.currentTimeMillis()).toString()));
 
-//            System.out.println(doctorRegisterRequest.getEmail() + " Requested for DOCTOR autorization");
+            System.out.println(doctorRegisterRequest.getEmail() + " Requested for DOCTOR authorization");
 
             return ResponseEntity.ok("Awaiting Response from Admin");
         }catch (Exception e){
@@ -71,6 +72,8 @@ public class DoctorRegisterService {
                     )
             );
 
+            System.out.println(username + " Doctor verified");
+
             return ResponseEntity.ok("Registered Successfully");
         }catch (Exception e){
             System.out.println(e.getMessage());
@@ -80,8 +83,9 @@ public class DoctorRegisterService {
 
     public ResponseEntity getAllRequests() {
         try{
-            List<Doctor> byIsVerified = doctorRepository.findByIsVerified(false);
-            System.out.println(byIsVerified);
+            List<Doctor> byIsVerified = doctorRepository.findByIsVerifiedOrderByRegistrationStampDesc(false);
+
+            System.out.println("Send verified DOCTORS List");
 
             return ResponseEntity.ok(byIsVerified);
         }catch (Exception e){

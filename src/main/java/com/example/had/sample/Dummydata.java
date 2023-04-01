@@ -6,6 +6,7 @@ import com.github.javafaker.Faker;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
@@ -87,7 +88,7 @@ public class Dummydata {
                     faker.number().numberBetween(1, 5),
                     faker.number().numberBetween(15, 20),
                     faker.number().numberBetween(1, 15),
-                    faker.regexify("[A-Z]{2}[0-9]{2}[A-Z]{2}[0-9]{4}"),
+                    new Timestamp(System.currentTimeMillis()).toString(),
                     faker.date().birthday().toString()
             );
 

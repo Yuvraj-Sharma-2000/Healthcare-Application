@@ -7,9 +7,18 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Timestamp;
 import java.util.UUID;
 @Repository("auth")
 public interface AuthRepository extends JpaRepository<Auth, UUID> {
+    @Transactional
+    @Modifying
+    @Query("delete from Auth a where a.username = ?1")
+    int deleteByUsername(String username);
+    @Transactional
+    @Modifying
+    @Query("update Auth a set a.entryTime = ?1, a.exitTime = ?2 where a.username = ?3")
+    int updateEntryTimeAndExitTimeByUsername(Timestamp entryTime, Timestamp exitTime, String username);
     @Query("select a from Auth a where a.username = ?1")
     Auth findByUsername(String username);
     @Transactional

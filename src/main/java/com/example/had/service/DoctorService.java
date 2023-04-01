@@ -14,9 +14,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+
 
 @Service
 public class DoctorService {
@@ -47,13 +51,23 @@ public class DoctorService {
                 user.setDoctor(null);
                 user.setChatList(null);
                 Auth auth = authRepository.findFirstByUsername(user.getEmail());
-                if (Timestamp.valueOf(auth.getLastLogin()).compareTo(new Timestamp(System.currentTimeMillis())) > 5){
-                    user.setActive(false);
-                }
-                else {
-                    user.setActive(true);
-                }
+//--------------TIMESTAMP BREAK -----------------
+//                // Convert the string to a LocalDateTime object
+//                String dateStr = auth.getLastLogin();
+//                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("E MMM dd HH:mm:ss z yyyy");
+//                LocalDateTime date = LocalDateTime.parse(dateStr, formatter);
+//
+//                // Get the current system date as a LocalDateTime object
+//                LocalDateTime currentDate = LocalDateTime.now();
+//
+//                // Calculate the difference between the two dates in days
+//                long difference = ChronoUnit.DAYS.between(date, currentDate);
+//
+//                user.setActive(difference <= 5);
             }
+
+            System.out.println(doctor.getEmail()+" registered patients send");
+
             return userList;
         }catch (Exception e){
             System.out.println(e.getMessage());
@@ -69,6 +83,9 @@ public class DoctorService {
                 User user = userRepository.findById(request.getUser().getId()).get();
                 userList.add(user);
             }
+
+            System.out.println(doctorRepository.getOne(doctorId).getEmail()+" requested patients send");
+
             return userList;
         }catch (Exception e){
             System.out.println(e.getMessage());
@@ -95,6 +112,8 @@ public class DoctorService {
             doctorRepository.save(doctor);                      // persist in database
             userRepository.save(user);
 
+            System.out.println(doctor.getEmail() + " accepted "+user.getEmail());
+
             return ResponseEntity.ok("Request confirmed");
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
@@ -112,8 +131,14 @@ public class DoctorService {
                 user.setId(null);
                 user.setRegistrationStamp(null);
                 user.setAddress(null);
+
+                System.out.println(" details of USER "+user.getEmail()+" send to DOCTOR "+ doctorRepository.getOne(doctorId).getEmail());
+
                 return user;
             }
+
+            System.out.println(doctorRepository.getOne(doctorId).getEmail()+" not connected to "+ user.getEmail());
+
         }catch (Exception e){
             System.out.println(e.getMessage());
         }
@@ -122,7 +147,11 @@ public class DoctorService {
 
     public Doctor getProfile(UUID doctorId) {
         try{
-            return doctorRepository.findById(doctorId).get();
+            Doctor doctor = doctorRepository.findById(doctorId).get();
+
+            System.out.println("Send profile of DOCTOR "+doctor.getEmail());
+
+            return doctor;
         }catch (Exception e){
             System.out.println(e.getMessage());
         }
@@ -139,6 +168,9 @@ public class DoctorService {
                     doctorProfileBody.getPatientLimit(),
                     doctorId
             );
+
+            System.out.println("updated profile of DOCTOR "+doctorRepository.getOne(doctorId).getEmail());
+
             return true;
         }catch (Exception e){
             System.out.println(e.getMessage());
@@ -152,10 +184,12 @@ public class DoctorService {
             for (Doctor doctor : doctorList) {
                 doctor.setUserList(null);
                 doctor.setPatientLimit(0);
-                doctor.setId(null);
                 doctor.setPatientCount(0);
                 doctor.setChatList(null);
             }
+
+            System.out.println("Send DOCTORS list");
+
             return doctorList;
         }catch (Exception e){
             System.out.println(e.getMessage());
@@ -165,10 +199,13 @@ public class DoctorService {
 
     public void reject(UUID doctorId, UUID userId) {
         try {
-            requestRepository.deleteByUserAndDoctor(
-                    userRepository.findById(userId).get(),
-                    doctorRepository.findById(doctorId).get()
-            );
+            User user = userRepository.findById(userId).get();
+            Doctor doctor = doctorRepository.findById(doctorId).get();
+
+            requestRepository.deleteByUserAndDoctor(user,doctor);
+
+            System.out.println("DOCTOR "+doctor.getEmail()+" rejected request of USER "+user.getEmail());
+
         }catch (Exception e){
             System.out.println(e.getMessage());
         }
@@ -177,6 +214,9 @@ public class DoctorService {
     public boolean updatePassword(String username, String password) {
         try {
             authRepository.updatePasswordByUsername(passwordEncoder.encode(password),username);
+
+            System.out.println("DOCTOR "+username+" update password");
+
             return true;
         }catch (Exception e){
             System.out.println(e.getMessage());

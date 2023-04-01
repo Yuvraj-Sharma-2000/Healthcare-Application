@@ -12,6 +12,8 @@ import java.util.List;
 import java.util.UUID;
 
 public interface DoctorRepository extends JpaRepository<Doctor, UUID> {
+    @Query("select d from Doctor d where d.isVerified = ?1 order by d.registrationStamp DESC")
+    List<Doctor> findByIsVerifiedOrderByRegistrationStampDesc(boolean isVerified);
     @Transactional
     @Modifying
     @Query("update Doctor d set d.isVerified = ?1 where d.id = ?2")

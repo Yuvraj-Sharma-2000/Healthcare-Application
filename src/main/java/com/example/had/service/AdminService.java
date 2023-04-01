@@ -31,7 +31,9 @@ public class AdminService {
                             question.getSessionNumber()
                     )
             );
-//            System.out.println("Admin Saved Questions");
+
+            System.out.println("Admin Saved Questions");
+
             return true;
         }catch (Exception e){
             System.out.println(e.getMessage());

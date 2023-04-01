@@ -4,6 +4,9 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
+import java.sql.Time;
+import java.sql.Timestamp;
+import java.util.List;
 import java.util.UUID;
 
 @Entity(name = "Auth")
@@ -40,6 +43,13 @@ public class Auth {
     )
     private String lastLogin;
 
+    @ElementCollection
+    private List<Timestamp> entryTime;
+
+    @ElementCollection
+    private List<Timestamp> exitTime;
+
+
     public Auth() {
     }
 
@@ -62,6 +72,21 @@ public class Auth {
         return id;
     }
 
+    public List<Timestamp> getEntryTime() {
+        return entryTime;
+    }
+
+    public void setEntryTime(List<Timestamp> entryTime) {
+        this.entryTime = entryTime;
+    }
+
+    public List<Timestamp> getExitTime() {
+        return exitTime;
+    }
+
+    public void setExitTime(List<Timestamp> exitTime) {
+        this.exitTime = exitTime;
+    }
     public void setId(UUID id) {
         this.id = id;
     }

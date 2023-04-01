@@ -36,10 +36,6 @@ public class UserRegisterService {
                     timestamp.toString()
                     ));
 
-//            userRepository.save(
-//                    new User(userRegisterRequest.getEmail(), userRegisterRequest.getFirstName())
-//            );
-
             userRepository.save(new User(
                     userRegisterRequest.getEmail(),
                     userRegisterRequest.getFirstName(),
@@ -52,6 +48,9 @@ public class UserRegisterService {
                     new Date().toString(),
                     1
             ));
+
+            System.out.println("USER "+userRegisterRequest.getEmail()+" registered");
+
             return ResponseEntity.ok("Registered Successfully");
         }catch (Exception e){
             System.out.println(e.getMessage());

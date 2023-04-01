@@ -7,7 +7,11 @@ import javax.persistence.*;
 import java.util.UUID;
 
 @Entity(name = "DoctorConnectionRequest")
-@Table(name = "doctor_connection_request")
+@Table(name = "doctor_connection_request",
+        uniqueConstraints = {
+            @UniqueConstraint(columnNames = {"user_id", "doctor_id"}, name = "unique_connection_requests")
+        }
+    )
 public class DoctorConnectionRequest {
     @Id
     @GeneratedValue(generator = "uuid4")

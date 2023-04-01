@@ -3,6 +3,7 @@ package com.example.had.contoller;
 import com.example.had.entity.User;
 import com.example.had.request.AnswersBody;
 import com.example.had.request.UserProfileUpdateRequest;
+import com.example.had.request.updateUserTimestampBody;
 import com.example.had.service.AnswerService;
 import com.example.had.service.UserService;
 import com.example.had.service.LoginService;
@@ -68,5 +69,12 @@ public class UserController {
         if (requested)
             return ResponseEntity.ok("Request Successful");
         return ResponseEntity.unprocessableEntity().body("Not able to register");
+    }
+    @PostMapping("/update-timestamp")
+    public ResponseEntity<?> updateTime(@NotNull @RequestBody updateUserTimestampBody userTimestampBody){
+        boolean updated = userService.updateTime(userTimestampBody);
+        if (updated)
+            return ResponseEntity.ok("Activity Accounted");
+        return ResponseEntity.unprocessableEntity().body("You dont want to see this");
     }
 }

@@ -15,7 +15,6 @@ public class DoctorRegisterRequest {
      String contact;
      String imageUrl;
      String registrationNumber;
-     String registrationStamp;
      int PatientLimit;
      int PatientCount;
 
@@ -82,7 +81,4 @@ public class DoctorRegisterRequest {
           return registrationNumber;
      }
 
-     public String getRegistrationStamp() {
-          return registrationStamp;
-     }
 }
