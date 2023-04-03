@@ -451,6 +451,24 @@ public class Doctor {
         }
     }
 
+    public void addPersonalArticle(PersonalArticle personalArticle)
+    {
+        if(!this.personalArticles.contains(personalArticle))
+        {
+            this.personalArticles.add(personalArticle);
+            personalArticle.setDoctor(this);
+        }
+    }
+
+    public void removePersonalArticle(PersonalArticle personalArticle)
+    {
+        if(this.personalArticles.contains(personalArticle))
+        {
+            this.personalArticles.remove(personalArticle);
+            personalArticle.setDoctor(null);
+        }
+    }
+
     @Override
     public String toString() {
         return "doctor{" +

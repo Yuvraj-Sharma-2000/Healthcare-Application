@@ -98,6 +98,7 @@ public class User {
     @Column(
             name = "depression_severity"
     )
+    @Range(min = 1, max = 100)
     private float depressionSeverity;
 
     @Column(
@@ -171,6 +172,12 @@ public class User {
     public void setAnswers(List<Answers> answers) {
         this.answers = answers;
     }
+
+    @OneToOne(
+            mappedBy = "user",
+            orphanRemoval = true
+    )
+    private PersonalArticle personalArticle;
 
     public void addReport(Report report){
         this.setReport(report);
