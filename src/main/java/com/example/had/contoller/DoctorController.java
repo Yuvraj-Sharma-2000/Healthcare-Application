@@ -3,12 +3,15 @@ package com.example.had.contoller;
 import com.example.had.entity.Doctor;
 import com.example.had.entity.User;
 import com.example.had.request.DoctorProfileBody;
+import com.example.had.request.PersonalizedArticle;
 import com.example.had.service.DoctorService;
+import com.example.had.service.PersonalizedArticleService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.UUID;
 
@@ -17,9 +20,11 @@ import java.util.UUID;
 @PreAuthorize("hasRole('ROLE_DOCTOR')")
 public class DoctorController {
     private final DoctorService doctorService;
+    private final PersonalizedArticleService personalizedArticleService;
 
-    public DoctorController(DoctorService doctorService) {
+    public DoctorController(DoctorService doctorService, PersonalizedArticleService personalizedArticleService) {
         this.doctorService = doctorService;
+        this.personalizedArticleService = personalizedArticleService;
     }
 
     @GetMapping("/dashboard/get-reg-patients/{doctorId}")
@@ -80,5 +85,19 @@ public class DoctorController {
         if (updated)
             return ResponseEntity.ok("Password Updated");
         return ResponseEntity.unprocessableEntity().body("Not able to find");
+    }
+    @PostMapping("add/self-article")
+    public ResponseEntity<?> addPersonalized(@NotNull @RequestBody List<PersonalizedArticle> personalizedArticles){
+        boolean added = personalizedArticleService.add(personalizedArticles);
+        if (added)
+            return ResponseEntity.ok("Personalized data added");
+        return ResponseEntity.unprocessableEntity().body("Not able to add or process entity");
+    }
+    @PostMapping("delete/self-article/{doctorId}/{patientId}")
+    public ResponseEntity<?> deletePersonalized(@PathVariable UUID doctorId,@PathVariable UUID patientId){
+        boolean deleted = personalizedArticleService.delete(doctorId,patientId);
+        if (deleted)
+            return ResponseEntity.ok("Self article deleted");
+        return ResponseEntity.unprocessableEntity().body("not able to delete");
     }
 }

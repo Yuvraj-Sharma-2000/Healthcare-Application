@@ -1,19 +1,21 @@
 package com.example.had.contoller;
 
+import com.example.had.entity.PersonalArticle;
 import com.example.had.entity.User;
 import com.example.had.request.AnswersBody;
 import com.example.had.request.UserProfileUpdateRequest;
 import com.example.had.request.updateUserTimestampBody;
 import com.example.had.service.AnswerService;
+import com.example.had.service.PersonalizedArticleService;
 import com.example.had.service.UserService;
 import com.example.had.service.LoginService;
-import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotNull;
+import java.util.List;
 import java.util.UUID;
 
 
@@ -24,14 +26,16 @@ public class UserController {
     private final UserService userService;
     private final AnswerService answerService;
     private final LoginService loginService;
+    private final PersonalizedArticleService personalizedArticleService;
 
 
     public UserController(UserService userService,
                           AnswerService answerService,
-                          LoginService loginService) {
+                          LoginService loginService, PersonalizedArticleService personalizedArticleService) {
         this.userService = userService;
         this.answerService = answerService;
         this.loginService = loginService;
+        this.personalizedArticleService = personalizedArticleService;
     }
 
     @GetMapping("/get/session/{sessionNumber}/week/{weekNumber}")
@@ -76,5 +80,12 @@ public class UserController {
         if (updated)
             return ResponseEntity.ok("Activity Accounted");
         return ResponseEntity.unprocessableEntity().body("You dont want to see this");
+    }
+    @GetMapping("/get/self-article/{patientId}")
+    public ResponseEntity<?> getPersonalized(@PathVariable UUID patientId){
+        List<PersonalArticle> byUser = personalizedArticleService.getByUser(patientId);
+        if (byUser != null)
+            return ResponseEntity.ok(byUser);
+        return ResponseEntity.noContent().build();
     }
 }
