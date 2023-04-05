@@ -47,10 +47,12 @@ public class DoctorService {
             Doctor doctor = doctorRepository.findById(doctorId).get();
             List<User> userList = doctor.getUserList();
             for (User user: userList){
+
                 user.setReport(null);
                 user.setDoctor(null);
                 user.setChatList(null);
                 Auth auth = authRepository.findFirstByUsername(user.getEmail());
+
 //--------------TIMESTAMP BREAK -----------------
 //                // Convert the string to a LocalDateTime object
 //                String dateStr = auth.getLastLogin();

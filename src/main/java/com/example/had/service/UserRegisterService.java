@@ -36,7 +36,7 @@ public class UserRegisterService {
                     timestamp.toString()
                     ));
 
-            userRepository.save(new User(
+            User user = new User(
                     userRegisterRequest.getEmail(),
                     userRegisterRequest.getFirstName(),
                     userRegisterRequest.getLastName(),
@@ -47,7 +47,12 @@ public class UserRegisterService {
                     userRegisterRequest.getAddress(),
                     new Date().toString(),
                     1
-            ));
+            );
+            user.setDoctor(null);
+            user.setAnswers(null);
+            user.setChatList(null);
+
+            userRepository.save(user);
 
             System.out.println("USER "+userRegisterRequest.getEmail()+" registered");
 

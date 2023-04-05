@@ -81,11 +81,4 @@ public class UserController {
             return ResponseEntity.ok("Activity Accounted");
         return ResponseEntity.unprocessableEntity().body("You dont want to see this");
     }
-    @GetMapping("/get/self-article/{patientId}")
-    public ResponseEntity<?> getPersonalized(@PathVariable UUID patientId){
-        List<PersonalArticle> byUser = personalizedArticleService.getByUser(patientId);
-        if (byUser != null)
-            return ResponseEntity.ok(byUser);
-        return ResponseEntity.noContent().build();
-    }
 }

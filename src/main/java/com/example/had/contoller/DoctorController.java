@@ -93,9 +93,9 @@ public class DoctorController {
             return ResponseEntity.ok("Personalized data added");
         return ResponseEntity.unprocessableEntity().body("Not able to add or process entity");
     }
-    @PostMapping("delete/self-article/{doctorId}/{patientId}")
-    public ResponseEntity<?> deletePersonalized(@PathVariable UUID doctorId,@PathVariable UUID patientId){
-        boolean deleted = personalizedArticleService.delete(doctorId,patientId);
+    @PostMapping("delete/self-article/{articleId}")
+    public ResponseEntity<?> deletePersonalized(@PathVariable UUID articleId){
+        boolean deleted = personalizedArticleService.delete(articleId);
         if (deleted)
             return ResponseEntity.ok("Self article deleted");
         return ResponseEntity.unprocessableEntity().body("not able to delete");

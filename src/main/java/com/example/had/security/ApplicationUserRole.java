@@ -21,7 +21,9 @@ public enum ApplicationUserRole {
         CHAT_READ,
         CHAT_WRITE,
         REPORT_READ,
-        REPORT_WRITE
+        REPORT_WRITE,
+        PERSONALARTICLE_READ,
+        PERSONALARTICLE_WRITE
     )),
     USER(Sets.newHashSet(
         DOCTOR_READ,
@@ -30,7 +32,10 @@ public enum ApplicationUserRole {
         ARTICLE_READ,
         CHAT_READ,
         CHAT_WRITE,
-        REPORT_READ
+        REPORT_READ,
+        PERSONALARTICLE_READ,
+        PREDATA_READ,
+        SUBARTICLE_READ
     )),
     ADMIN(Sets.newHashSet(
         DOCTOR_READ,
@@ -38,7 +43,11 @@ public enum ApplicationUserRole {
         QUESTION_READ,
         QUESTION_WRITE,
         ARTICLE_READ,
-        ARTICLE_WRITE
+        ARTICLE_WRITE,
+        PREDATA_READ,
+        PREDATA_WRITE,
+        SUBARTICLE_READ,
+        SUBARTICLE_WRITE
     ));
     private final Set<ApplicationUserPermission> permissions;
 

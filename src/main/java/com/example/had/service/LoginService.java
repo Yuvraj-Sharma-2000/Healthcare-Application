@@ -34,41 +34,48 @@ public class LoginService {
     }
 
     public ResponseEntity<?> getUserByLogin(String username, String password) {
-        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-        Auth byUsername = authRepository.findByUsername(username);
+        try {
+            Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+            Auth byUsername = authRepository.findByUsername(username);
 
-        String role = null;
-        if (isPasswordMatch(password, byUsername.getPassword()))
-            role = byUsername.getRole();
+            String role = "role";
+            if (isPasswordMatch(password, byUsername.getPassword())) {
+                role = byUsername.getRole();
+                System.out.println("Password matched " + role);
+            }
 
-        authRepository.updateLastLoginByUsername(timestamp.toString(), username);
+            int i = authRepository.updateLastLoginByUsername(timestamp.toString(), username);
 
-        if (Objects.equals(role, "DOCTOR")){
-            Doctor doctor = doctorRepository.findByEmailIgnoreCase(username);
+            if (Objects.equals(role, "DOCTOR")){
+                Doctor doctor = doctorRepository.findByEmailIgnoreCase(username);
 
-            System.out.println(doctor.getEmail()+" Logged In");
+                System.out.println(doctor.getEmail()+" Logged In");
 
-            return ResponseEntity.ok(doctor);
+                return ResponseEntity.ok(doctor);
+            }
+            if (Objects.equals(role, "USER")){
+                User user = userRepository.findByEmail(username);
+                System.out.println(user.getEmail());
+//                user.getDoctor().setUserList(null);
+//                user.getDoctor().setChatList(null);
+//                user.setAnswers(null);
+//
+//                System.out.println(user.getEmail()+" Logged In");
+
+                return ResponseEntity.ok(user);
+            }
+            if (Objects.equals(username, "lynda")
+                    && Objects.equals(password, "password")){
+
+                System.out.println("Admin Logged In");
+
+                return ResponseEntity.ok("ADMIN");
+            }
+        }catch (Exception e){
+            System.out.println(e);
+            System.out.println("Not a authorized user");
         }
-        if (Objects.equals(role, "USER")){
-            User user = userRepository.findByEmail(username);
-            user.getDoctor().setUserList(null);
-            user.getDoctor().setChatList(null);
-            user.setAnswers(null);
 
-            System.out.println(user.getEmail()+" Logged In");
-
-            return ResponseEntity.ok(user);
-        }
-        if (Objects.equals(username, "lynda")
-                && Objects.equals(password, "password")){
-
-            System.out.println("Admin Logged In");
-
-            return ResponseEntity.ok("ADMIN");
-        }
-
-        System.out.println("Not a authorized user");
 
         return ResponseEntity.notFound().build();
     }

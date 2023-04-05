@@ -34,11 +34,6 @@ public class Register {
     public ResponseEntity doctorRegister(@NotNull @RequestBody DoctorRegisterRequest doctorRegisterRequest){
         return doctorRegisterService.registerDoctor(doctorRegisterRequest);
     }
-//    @PostMapping("/verify/{doctorId}")
-//    @PreAuthorize("hasRole('ROLE_ADMIN')")
-//    public ResponseEntity verifyDoctor(@NotNull @PathVariable UUID doctorId){
-//        return doctorRegisterService.authDoctor(doctorId);
-//    }
     @PostMapping("/verify")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity verifyDoctor(@NotNull @RequestBody DoctorIdBody doctorId){

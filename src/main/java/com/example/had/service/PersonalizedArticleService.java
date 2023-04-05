@@ -40,6 +40,8 @@ public class PersonalizedArticleService {
                 );
             }
 
+            System.out.println("DOCTOR added some personalized articles");
+
             return true;
         }catch (Exception e){
             System.out.println(e.getMessage());
@@ -47,12 +49,12 @@ public class PersonalizedArticleService {
         return false;
     }
 
-    public boolean delete(UUID doctorId, UUID patientId) {
+    public boolean delete(UUID articleId) {
         try {
-            personalArticleRepository.deleteByDoctorAndUser(
-                    doctorRepository.findById(doctorId).get(),
-                    userRepository.findById(patientId).get()
-            );
+            personalArticleRepository.deleteById(articleId);
+
+            System.out.println("DOCTOR deleted personalized article");
+
             return true;
         }catch (Exception e){
             System.out.println(e.getMessage());
@@ -64,6 +66,13 @@ public class PersonalizedArticleService {
         List<PersonalArticle> personalArticles = null;
         try {
             personalArticles = personalArticleRepository.findByUser_Id(patientId);
+            for (PersonalArticle personalArticle : personalArticles) {
+                personalArticle.setDoctor(null);
+                personalArticle.setUser(null);
+            }
+
+            System.out.println("USER fetched personalized articles");
+
         }catch (Exception e){
             System.out.println(e.getMessage());
         }

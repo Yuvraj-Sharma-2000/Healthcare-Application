@@ -132,14 +132,6 @@ public class User {
         return isActive;
     }
 
-    public PersonalArticle getPersonalArticle() {
-        return personalArticle;
-    }
-
-    public void setPersonalArticle(PersonalArticle personalArticle) {
-        this.personalArticle = personalArticle;
-    }
-
     @ManyToOne
 //    @JsonBackReference
     private Doctor doctor;
@@ -173,11 +165,19 @@ public class User {
         this.answers = answers;
     }
 
-    @OneToOne(
+    public List<PersonalArticle> getPersonalArticles() {
+        return personalArticles;
+    }
+
+    public void setPersonalArticles(List<PersonalArticle> personalArticles) {
+        this.personalArticles = personalArticles;
+    }
+
+    @OneToMany(
             mappedBy = "user",
             orphanRemoval = true
     )
-    private PersonalArticle personalArticle;
+    private List<PersonalArticle> personalArticles = new ArrayList<>();
 
     public void addReport(Report report){
         this.setReport(report);

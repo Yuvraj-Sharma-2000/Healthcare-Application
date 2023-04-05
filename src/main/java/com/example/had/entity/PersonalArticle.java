@@ -48,10 +48,7 @@ public class PersonalArticle
     private Doctor doctor;
 
 
-    @OneToOne(
-            cascade = CascadeType.ALL,
-            fetch = FetchType.EAGER
-    )
+    @ManyToOne
     @JoinColumn(
             name = "user_id",
             referencedColumnName = "user_id",
@@ -61,7 +58,6 @@ public class PersonalArticle
     )
     @JsonBackReference
     private User user;
-
 
     @Column(
             name = "article_url",
