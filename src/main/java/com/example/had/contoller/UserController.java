@@ -1,14 +1,11 @@
 package com.example.had.contoller;
 
-import com.example.had.entity.PersonalArticle;
+import com.example.had.entity.Podcast;
 import com.example.had.entity.User;
 import com.example.had.request.AnswersBody;
 import com.example.had.request.UserProfileUpdateRequest;
 import com.example.had.request.updateUserTimestampBody;
-import com.example.had.service.AnswerService;
-import com.example.had.service.PersonalizedArticleService;
-import com.example.had.service.UserService;
-import com.example.had.service.LoginService;
+import com.example.had.service.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -27,15 +24,18 @@ public class UserController {
     private final AnswerService answerService;
     private final LoginService loginService;
     private final PersonalizedArticleService personalizedArticleService;
-
+    private final PodcastService podcastService;
 
     public UserController(UserService userService,
                           AnswerService answerService,
-                          LoginService loginService, PersonalizedArticleService personalizedArticleService) {
+                          LoginService loginService,
+                          PersonalizedArticleService personalizedArticleService,
+                          PodcastService podcastService) {
         this.userService = userService;
         this.answerService = answerService;
         this.loginService = loginService;
         this.personalizedArticleService = personalizedArticleService;
+        this.podcastService = podcastService;
     }
 
     @GetMapping("/get/session/{sessionNumber}/week/{weekNumber}")
@@ -80,5 +80,19 @@ public class UserController {
         if (updated)
             return ResponseEntity.ok("Activity Accounted");
         return ResponseEntity.unprocessableEntity().body("You dont want to see this");
+    }
+    @GetMapping("/get-podcast-by-artist/{artist}")
+    public ResponseEntity<?> getByArtist(@PathVariable String artist){
+        List<Podcast> podcastByArtist = podcastService.getPodcastByArtist(artist.replace('+',' '));
+        if (podcastByArtist!=null)
+            return ResponseEntity.ok(podcastByArtist);
+        return ResponseEntity.unprocessableEntity().body("No artist found named: "+artist);
+    }
+    @GetMapping("/get-all-podcast")
+    public ResponseEntity<?> getAllPodcast(){
+        List<Podcast> podcast = podcastService.getAllPodcast();
+        if (podcast!=null)
+            return ResponseEntity.ok(podcast);
+        return ResponseEntity.noContent().build();
     }
 }

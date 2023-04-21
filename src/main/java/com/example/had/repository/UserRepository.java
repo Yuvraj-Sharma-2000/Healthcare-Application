@@ -12,6 +12,12 @@ import java.util.Optional;
 import java.util.UUID;
 @Repository
 public interface UserRepository extends JpaRepository<User, UUID> {
+    @Query("select u from User u where u.id = ?1 and u.report.weekNumber = ?2")
+    List<User> findByIdAndReport_WeekNumber(UUID id, int weekNumber);
+    @Query("select u from User u inner join u.answers answers where u.email = ?1 and answers.weekNumber = ?2")
+    List<User> findByEmailAndAnswers_WeekNumber(String email, int weekNumber);
+    @Query("select u from User u inner join u.answers answers where answers.weekNumber = ?1")
+    User findByAnswers_WeekNumber(int weekNumber);
     @Query("select u from User u where u.email = ?1")
     User findByEmail(String email);
     @Transactional

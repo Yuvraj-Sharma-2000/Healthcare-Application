@@ -1,5 +1,5 @@
 package com.example.had.entity;
-import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 

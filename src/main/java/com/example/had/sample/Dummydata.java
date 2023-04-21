@@ -158,14 +158,25 @@ public class Dummydata {
                     faker.date().between(startDate, endDate).toString()
             );
 
-            userRepository.save(user);
-            doctorRepository.save(doctor);
-            personalArticleRepository.save(personalArticle);
-            articleRepository.save(articles);
-            authRepository.save(auth);
-            questionRepository.save(question);
-            reportRepository.save(report);
-            questionRepository.save(question);
+//            userRepository.save(user);
+//            doctorRepository.save(doctor);
+//            personalArticleRepository.save(personalArticle);
+//            articleRepository.save(articles);
+//            authRepository.save(auth);
+//            questionRepository.save(question);
+//            reportRepository.save(report);
+//            questionRepository.save(question);
+
+//            for (int j = 0; j < 10; j++) {
+//                answerRepository.save(
+//                        new Answers(
+//                                j,
+//                                j,
+//                                new ArrayList<>()
+//
+//                        )
+//                )
+//            }
 
         }
     }

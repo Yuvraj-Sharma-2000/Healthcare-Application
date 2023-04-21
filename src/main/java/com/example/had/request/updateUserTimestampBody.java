@@ -1,7 +1,6 @@
 package com.example.had.request;
 
 import java.sql.Timestamp;
-import java.util.UUID;
 
 public class updateUserTimestampBody {
     private String username;

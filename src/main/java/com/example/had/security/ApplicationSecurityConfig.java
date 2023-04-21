@@ -63,6 +63,8 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/get/doctors").permitAll()
                 .antMatchers("/preData").permitAll()
                 .antMatchers("/login-timestamp").permitAll()
+                .antMatchers("/add-podcast").permitAll()
+                .antMatchers("/analytics/**").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()

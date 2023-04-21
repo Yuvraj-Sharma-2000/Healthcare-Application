@@ -4,6 +4,7 @@ import com.example.had.entity.*;
 import com.example.had.repository.*;
 import com.example.had.request.UserProfileUpdateRequest;
 import com.example.had.request.updateUserTimestampBody;
+import com.example.had.response.PlotWeekScore;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,7 @@ import java.util.UUID;
 
 @Service
 public class UserService {
+    private final AnswerRepository answerRepository;
     private final UserRepository userRepository;
     private final QuestionRepository questionRepository;
     private final AuthRepository authRepository;
@@ -22,12 +24,13 @@ public class UserService {
     private final DoctorRepository doctorRepository;
     private final DoctorConnectionRequestRepository doctorConnectionRequestRepository;
 
-    public UserService(UserRepository userRepository,
+    public UserService(AnswerRepository answerRepository, UserRepository userRepository,
                        QuestionRepository questionRepository,
                        AuthRepository authRepository,
                        PasswordEncoder passwordEncoder,
                        DoctorRepository doctorRepository,
                        DoctorConnectionRequestRepository doctorConnectionRequestRepository) {
+        this.answerRepository = answerRepository;
         this.userRepository = userRepository;
         this.questionRepository = questionRepository;
         this.authRepository = authRepository;
@@ -116,5 +119,26 @@ public class UserService {
             System.out.println(e.getMessage());
         }
         return false;
+    }
+
+    public PlotWeekScore getWeekScore(UUID patientId, int weekNumber) {
+        try{
+            float score = 0;
+            List<Answers> answers = answerRepository.findByUser_IdAndWeekNumber(patientId,weekNumber);
+            for (Answers answer : answers) {
+                score += answer.getAnswer_value().stream()
+                        .mapToDouble(Double::valueOf)
+                        .sum();
+            }
+            return new PlotWeekScore(
+                    userRepository.findById(patientId).get().getFirstName(),
+                    weekNumber,
+                    score
+            );
+
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+        return null;
     }
 }

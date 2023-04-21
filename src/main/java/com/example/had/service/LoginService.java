@@ -11,7 +11,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
-import java.util.List;
 import java.util.Objects;
 
 @Service
@@ -55,12 +54,8 @@ public class LoginService {
             }
             if (Objects.equals(role, "USER")){
                 User user = userRepository.findByEmail(username);
+
                 System.out.println(user.getEmail());
-//                user.getDoctor().setUserList(null);
-//                user.getDoctor().setChatList(null);
-//                user.setAnswers(null);
-//
-//                System.out.println(user.getEmail()+" Logged In");
 
                 return ResponseEntity.ok(user);
             }
@@ -75,7 +70,6 @@ public class LoginService {
             System.out.println(e);
             System.out.println("Not a authorized user");
         }
-
 
         return ResponseEntity.notFound().build();
     }

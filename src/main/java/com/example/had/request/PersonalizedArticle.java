@@ -1,7 +1,5 @@
 package com.example.had.request;
 
-import org.springframework.web.bind.annotation.RequestBody;
-
 import java.util.UUID;
 public class PersonalizedArticle {
     private String articleAuthor;
