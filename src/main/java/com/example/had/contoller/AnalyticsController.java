@@ -24,15 +24,11 @@ public class AnalyticsController {
         this.userService = userService;
         this.doctorService = doctorService;
     }
-//    @GetMapping("/plot-line-chart/{patientId}/week/{weekNumber}")
-//    public ResponseEntity<?> getWeekScore(@PathVariable UUID patientId, @PathVariable int weekNumber){
-//        PlotWeekScore score = userService.getWeekScore(patientId, weekNumber);
-//        if(score!=null)
-//            return ResponseEntity.ok(score);
-//        return ResponseEntity.badRequest().body("Not able to find");
-//    }
-        @GetMapping("/wow")
-        public ResponseEntity<?> wow(){
-        return ResponseEntity.ok("WOW");
-        }
+    @GetMapping("/plot-line-chart/{patientId}/week/{weekNumber}")
+    public ResponseEntity<?> getWeekScore(@PathVariable UUID patientId, @PathVariable int weekNumber){
+        PlotWeekScore score = userService.getWeekScore(patientId, weekNumber);
+        if(score!=null)
+            return ResponseEntity.ok(score);
+        return ResponseEntity.badRequest().body("Not able to find");
+    }
 }
