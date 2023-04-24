@@ -6,10 +6,7 @@ import com.example.had.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotNull;
 import java.util.UUID;
@@ -29,6 +26,6 @@ public class AnalyticsController {
         PlotWeekScore score = userService.getWeekScore(patientId, weekNumber);
         if(score!=null)
             return ResponseEntity.ok(score);
-        return ResponseEntity.badRequest().body("Not able to find");
+        return ResponseEntity.noContent().build();
     }
 }

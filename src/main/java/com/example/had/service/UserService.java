@@ -5,12 +5,16 @@ import com.example.had.repository.*;
 import com.example.had.request.UserProfileUpdateRequest;
 import com.example.had.request.updateUserTimestampBody;
 import com.example.had.response.PlotWeekScore;
+import com.example.had.response.SessionQuestion;
+import com.example.had.response.WeekQuestions;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
@@ -135,6 +139,50 @@ public class UserService {
                     weekNumber,
                     score
             );
+
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+        return null;
+    }
+
+    public HashMap<Integer, List<WeekQuestions>> getFullWeek(int weekNumber) {
+        try {
+            List<Question> questionList = questionRepository.findByWeekNumberOrderBySessionNumberAsc(weekNumber);
+            List<WeekQuestions> weekQuestions = new ArrayList<>();
+            HashMap<Integer,List<WeekQuestions>> map = new HashMap<>();
+
+            for (int i = 0; i < questionList.size(); i++) {
+                Question question = questionList.get(i);
+                List<WeekQuestions> weekQuestions1 = map.getOrDefault(i, new ArrayList<>());
+                List<SessionQuestion> sessions;
+                if (weekQuestions1.size() == 0)
+                    sessions = new ArrayList<>();
+                else
+                    sessions = weekQuestions1.get(i).getSessions();
+                sessions.add(new SessionQuestion(
+                        question.getId(),
+                        question.getOption1(),
+                        question.getOption2(),
+                        question.getOption3(),
+                        question.getOption4(),
+                        question.getValue1(),
+                        question.getValue2(),
+                        question.getValue3(),
+                        question.getValue4()
+                ));
+                weekQuestions1.add(new WeekQuestions(
+                        question.getId(),
+                        question.getSessionNumber(),
+                        false,
+                        "",
+                        question.getQuestionType(),
+                        sessions
+                ));
+                map.put(i,weekQuestions1);
+            }
+//            return weekQuestions;
+            return map;
 
         }catch (Exception e){
             System.out.println(e.getMessage());

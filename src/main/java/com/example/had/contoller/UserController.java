@@ -1,11 +1,14 @@
 package com.example.had.contoller;
 
 import com.example.had.entity.Podcast;
+import com.example.had.entity.Question;
 import com.example.had.entity.User;
 import com.example.had.request.AnswersBody;
 import com.example.had.request.UserProfileUpdateRequest;
 import com.example.had.request.updateUserTimestampBody;
+import com.example.had.response.WeekQuestions;
 import com.example.had.service.*;
+import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -44,6 +47,14 @@ public class UserController {
             @PathVariable int sessionNumber
     ){
         return userService.getQuestions(weekNumber,sessionNumber);
+    }
+    @GetMapping("/get/full-week/{weekNumber}")
+    public ResponseEntity<?> getFullWeek(@PathVariable int weekNumber){
+//        List<WeekQuestions> fullWeek = userService.getFullWeek(weekNumber);
+//        if (fullWeek!=null)
+//            return ResponseEntity.ok(fullWeek);
+//        return ResponseEntity.unprocessableEntity().body("Can not retrieve");
+        return ResponseEntity.ok(userService.getFullWeek(weekNumber));
     }
     @PostMapping("/post/question-answers")
     public ResponseEntity<?> saveAnswers(@NotNull @RequestBody AnswersBody answersBody){

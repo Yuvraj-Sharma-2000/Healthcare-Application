@@ -10,6 +10,11 @@ import java.util.UUID;
 
 @Repository("question")
 public interface QuestionRepository extends JpaRepository<Question, UUID> {
+    @Query("select q from QuestionBank q where q.weekNumber = ?1 order by q.sessionNumber")
+    List<Question> findByWeekNumberOrderBySessionNumberAsc(int weekNumber);
+    @Query("SELECT q FROM QuestionBank q WHERE q.weekNumber = ?1 GROUP BY q.sessionNumber ORDER BY q.sessionNumber")
+    List<Question> findByWeekNumberGroupBySessionNumberOrderBySessionNumberAsc(int weekNumber);
+
     @Query("select q from QuestionBank q where q.weekNumber = ?1 and q.sessionNumber = ?2")
     List<Question> findByWeekNumberAndSessionNumber(int weekNumber, int sessionNumber);
 }
