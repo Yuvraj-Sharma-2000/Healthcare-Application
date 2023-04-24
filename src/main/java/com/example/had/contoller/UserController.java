@@ -48,13 +48,13 @@ public class UserController {
     ){
         return userService.getQuestions(weekNumber,sessionNumber);
     }
-    @GetMapping("/get/full-week/{weekNumber}")
-    public ResponseEntity<?> getFullWeek(@PathVariable int weekNumber){
+    @GetMapping("/get/{patientId}/full-week/{weekNumber}")
+    public ResponseEntity<?> getFullWeek(@PathVariable UUID patientId,@PathVariable int weekNumber){
 //        List<WeekQuestions> fullWeek = userService.getFullWeek(weekNumber);
 //        if (fullWeek!=null)
 //            return ResponseEntity.ok(fullWeek);
 //        return ResponseEntity.unprocessableEntity().body("Can not retrieve");
-        return ResponseEntity.ok(userService.getFullWeek(weekNumber));
+        return ResponseEntity.ok(userService.getFullWeek(weekNumber,patientId));
     }
     @PostMapping("/post/question-answers")
     public ResponseEntity<?> saveAnswers(@NotNull @RequestBody AnswersBody answersBody){
