@@ -9,12 +9,14 @@ import com.example.had.repository.DoctorConnectionRequestRepository;
 import com.example.had.repository.DoctorRepository;
 import com.example.had.repository.UserRepository;
 import com.example.had.request.DoctorProfileBody;
+import com.example.had.response.Severity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 
@@ -220,5 +222,38 @@ public class DoctorService {
             System.out.println(e.getMessage());
         }
         return false;
+    }
+
+    public List<Severity> getSeverityList(UUID doctorId) {
+        try {
+            List<User> userList = userRepository.findByDoctor_Id(doctorId);
+            List<Severity> severityList = new ArrayList<>();
+
+            int critical = 0 ;
+            int high = 0;
+            int moderate = 0;
+            int low = 0;
+            for (User user : userList) {
+                if (user.getDepressionSeverity() > 75) {
+                    critical++;
+                } else if (user.getDepressionSeverity() > 50) {
+                    high++;
+                } else if (user.getDepressionSeverity() > 25) {
+                    moderate++;
+                } else {
+                    low++;
+                }
+            }
+
+            severityList.add(new Severity(doctorId, "low", low));
+            severityList.add(new Severity(doctorId,"moderate",moderate));
+            severityList.add(new Severity(doctorId,"high",high));
+            severityList.add(new Severity(doctorId,"critical",critical));
+
+            return severityList;
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+        return null;
     }
 }

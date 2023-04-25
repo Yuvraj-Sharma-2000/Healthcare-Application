@@ -11,7 +11,6 @@ public class QuestionAddBody {
     private float value2;
     private float value3;
     private float value4;
-    private String correctAnswer;
     private int weekNumber;
     private int sessionNumber;
 
@@ -55,9 +54,6 @@ public class QuestionAddBody {
         return value4;
     }
 
-    public String getCorrectAnswer() {
-        return correctAnswer;
-    }
 
     public int getWeekNumber() {
         return weekNumber;
