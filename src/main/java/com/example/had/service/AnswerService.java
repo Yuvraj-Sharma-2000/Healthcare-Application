@@ -35,6 +35,10 @@ public class AnswerService {
             );
             User user = userRepository.findById(answersBody.getPatientId()).get();
 
+            float depressionValue = 0;
+            for (Float val : answersBody.getAnswer_value()) {
+                depressionValue += val;
+            }
             answers.setUser(user);
             answerRepository.save(answers);
 
@@ -43,6 +47,7 @@ public class AnswerService {
             user.setAnswers(answersList);
             user.setWeekDone(answersBody.getWeekNumber());
             user.setSessionDone(answersBody.getSessionNumber());
+            user.setDepressionSeverity(depressionValue/5);
             userRepository.save(user);
 
             System.out.println("Answer added for week "+answersBody.getWeekNumber()+" session "+answersBody.getSessionNumber());
