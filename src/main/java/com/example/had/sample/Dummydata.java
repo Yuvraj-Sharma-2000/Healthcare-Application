@@ -57,117 +57,117 @@ public class Dummydata {
     public void generateData()
     {
         Faker faker = new Faker();
-//        for (int i = 0; i < 20; i++)
-//        {
-//            User user = new User(
-//                    faker.internet().emailAddress(),
-//                    faker.name().firstName(),
-//                    faker.name().lastName(),
-//                    faker.name().firstName(),
-//                    faker.demographic().sex(),
-//                    faker.date().birthday().toString(),
-//                    faker.phoneNumber().cellPhone().substring(0, 12),
-//                    faker.address().fullAddress(),
-//                    faker.date().birthday().toString(),
-//                    faker.number().numberBetween(1, 100)
-//            );
-//
-//            Doctor doctor = new Doctor(
-//                    faker.internet().emailAddress(),
-//                    faker.name().firstName(),
-//                    faker.name().lastName(),
-//                    faker.name().firstName(),
-//                    faker.demographic().sex(),
-//                    faker.number().numberBetween(18, 80),
-//                    "MBBS",
-//                    faker.job().keySkills(),
-//                    faker.number().numberBetween(1, 14),
-//                    faker.address().fullAddress(),
-//                    faker.phoneNumber().cellPhone().substring(0, 12),
-//                    faker.internet().url(),
-//                    faker.number().numberBetween(1, 5),
-//                    faker.number().numberBetween(15, 20),
-//                    faker.number().numberBetween(1, 15),
-//                    new Timestamp(System.currentTimeMillis()).toString(),
-//                    faker.date().birthday().toString()
-//            );
-//
-//            List<String> articleList = new ArrayList<>();
-//            articleList.add("Audio");
-//            articleList.add("Video");
-//            articleList.add("Text");
-//            articleList.add("Youtube");
-//
-//            int week = faker.random().nextInt(1, 8);
-//            int session = faker.random().nextInt(1, 7);
-//
-//            Articles articles = new Articles(
-//                    articleList.get(faker.random().nextInt(0,3)),
-//                    faker.numerify(String.valueOf(week)),
-//                    faker.numerify(String.valueOf(session)),
-//                    faker.internet().url(),
-//                    faker.lorem().sentence(10)
-//            );
-//
-//
-//            PersonalArticle personalArticle = new PersonalArticle(
-//                    articleList.get(faker.random().nextInt(0,3)),
-//                    faker.name().firstName(),
-//                    faker.internet().image(),
-//                    null,
-//                    null,
-//                    faker.internet().url(),
-//                    faker.lorem().sentence(10)
-//            );
-//
-//
-//            Question question = new Question(
-//                    faker.lorem().sentence() + "?",
-//                    "MCQ",
-//                    faker.lorem().word(),
-//                    faker.lorem().word(),
-//                    faker.lorem().word(),
-//                    faker.lorem().word(),
-//                    faker.number().numberBetween(0,10),
-//                    faker.number().numberBetween(0,10),
-//                    faker.number().numberBetween(0,10),
-//                    faker.number().numberBetween(0,10),
-//                    faker.number().numberBetween(1,6),
-//                    faker.number().numberBetween(1,5)
-//            );
-//
-//
-//            Report report = new Report(
-//                    faker.number().numberBetween(1,6),
-//                    faker.number().numberBetween(1,5),
-//                    faker.number().numberBetween(1,101),
-//                    faker.date().birthday().toString(),
-//                    String.valueOf(faker.number().numberBetween(1,5)),
-//                    faker.number().numberBetween(1,5),
-//                    faker.number().numberBetween(1,6)
-//            );
-//
-//
-//            Date startDate = Date.from(Instant.parse("2022-01-01T00:00:00Z"));
-//            Date endDate = Date.from(Instant.parse("2022-12-31T23:59:59Z"));
-//
-//            Auth auth = new Auth(
-//                    user.getEmail(),
-//                    passwordEncoder.encode("password"),
-//                    "USER",
-//                    faker.date().between(startDate, endDate).toString()
-//            );
+        for (int i = 0; i < 20; i++)
+        {
+            User user = new User(
+                    faker.internet().emailAddress(),
+                    faker.name().firstName(),
+                    faker.name().lastName(),
+                    faker.name().firstName(),
+                    faker.demographic().sex(),
+                    faker.date().birthday().toString(),
+                    faker.phoneNumber().cellPhone().substring(0, 12),
+                    faker.address().fullAddress(),
+                    faker.date().birthday().toString(),
+                    faker.number().numberBetween(1, 100)
+            );
 
-//            userRepository.save(user);
-//            doctorRepository.save(doctor);
-//            personalArticleRepository.save(personalArticle);
-//            articleRepository.save(articles);
-//            authRepository.save(auth);
-//            questionRepository.save(question);
-//            reportRepository.save(report);
-//            questionRepository.save(question);
+            Doctor doctor = new Doctor(
+                    faker.internet().emailAddress(),
+                    faker.name().firstName(),
+                    faker.name().lastName(),
+                    faker.name().firstName(),
+                    faker.demographic().sex(),
+                    faker.number().numberBetween(18, 80),
+                    "MBBS",
+                    faker.job().keySkills(),
+                    faker.number().numberBetween(1, 14),
+                    faker.address().fullAddress(),
+                    faker.phoneNumber().cellPhone().substring(0, 12),
+                    faker.internet().url(),
+                    faker.number().numberBetween(1, 5),
+                    faker.number().numberBetween(15, 20),
+                    faker.number().numberBetween(1, 15),
+                    new Timestamp(System.currentTimeMillis()).toString(),
+                    faker.date().birthday().toString()
+            );
 
-//        }
+            List<String> articleList = new ArrayList<>();
+            articleList.add("Audio");
+            articleList.add("Video");
+            articleList.add("Text");
+            articleList.add("Youtube");
+
+            int week = faker.random().nextInt(1, 8);
+            int session = faker.random().nextInt(1, 7);
+
+            Articles articles = new Articles(
+                    articleList.get(faker.random().nextInt(0,3)),
+                    faker.numerify(String.valueOf(week)),
+                    faker.numerify(String.valueOf(session)),
+                    faker.internet().url(),
+                    faker.lorem().sentence(10)
+            );
+
+
+            PersonalArticle personalArticle = new PersonalArticle(
+                    articleList.get(faker.random().nextInt(0,3)),
+                    faker.name().firstName(),
+                    faker.internet().image(),
+                    null,
+                    null,
+                    faker.internet().url(),
+                    faker.lorem().sentence(10)
+            );
+
+
+            Question question = new Question(
+                    faker.lorem().sentence() + "?",
+                    "MCQ",
+                    faker.lorem().word(),
+                    faker.lorem().word(),
+                    faker.lorem().word(),
+                    faker.lorem().word(),
+                    faker.number().numberBetween(0,10),
+                    faker.number().numberBetween(0,10),
+                    faker.number().numberBetween(0,10),
+                    faker.number().numberBetween(0,10),
+                    faker.number().numberBetween(1,6),
+                    faker.number().numberBetween(1,5)
+            );
+
+
+            Report report = new Report(
+                    faker.number().numberBetween(1,6),
+                    faker.number().numberBetween(1,5),
+                    faker.number().numberBetween(1,101),
+                    faker.date().birthday().toString(),
+                    String.valueOf(faker.number().numberBetween(1,5)),
+                    faker.number().numberBetween(1,5),
+                    faker.number().numberBetween(1,6)
+            );
+
+
+            Date startDate = Date.from(Instant.parse("2022-01-01T00:00:00Z"));
+            Date endDate = Date.from(Instant.parse("2022-12-31T23:59:59Z"));
+
+            Auth auth = new Auth(
+                    user.getEmail(),
+                    passwordEncoder.encode("password"),
+                    "USER",
+                    faker.date().between(startDate, endDate).toString()
+            );
+
+            userRepository.save(user);
+            doctorRepository.save(doctor);
+            personalArticleRepository.save(personalArticle);
+            articleRepository.save(articles);
+            authRepository.save(auth);
+//            questionRepository.save(question);
+            reportRepository.save(report);
+
+
+        }
 
 
 

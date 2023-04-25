@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.List;
+
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
@@ -17,10 +19,11 @@ public class AdminController {
         this.adminService = adminService;
     }
     @PostMapping("/add/questions")
-    public ResponseEntity<?> addQuestion(@RequestBody QuestionAddBody question){
+    public ResponseEntity<?> addQuestion(@RequestBody List<QuestionAddBody> question){
         boolean added = adminService.addQuestion(question);
         if (added)
             return ResponseEntity.ok("Added Successfully");
         return ResponseEntity.unprocessableEntity().body("Not Able to add");
     }
+
 }
