@@ -146,15 +146,13 @@ public class UserService {
         return null;
     }
 
-    public List<WeekQuestions> getFullWeek(int weekNumber, UUID patientId) {
+    public List<WeekQuestions> getFullWeek(int weekNumber) {
         try {
             List<WeekQuestions> weekQuestions = new ArrayList<>();
             for (int session=0;session<5;session++) {
-                int sessionNumber = answerRepository.findByUser_IdAndWeekNumberOrderBySessionNumberDesc(patientId, weekNumber).get(0).getSessionNumber();
                 WeekQuestions weekQuestions1 = new WeekQuestions(
                         String.valueOf(session),
                         session,
-                        sessionNumber>=session,
                         "",
                         "",
                         null

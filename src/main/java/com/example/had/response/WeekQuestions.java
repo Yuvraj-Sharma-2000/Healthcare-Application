@@ -6,20 +6,17 @@ import java.util.UUID;
 public class WeekQuestions {
     private String session_id;
     private int session_number;
-    private boolean isSessionCompleted;
     private String session_image_url;
     private String session_title;
     private List<SessionQuestion> sessionQuestions;
 
     public WeekQuestions(String session_id,
                          int session_number,
-                         boolean isSessionCompleted,
                          String session_image_url,
                          String session_title,
                          List<SessionQuestion> sessionQuestions) {
         this.session_id = session_id;
         this.session_number = session_number;
-        this.isSessionCompleted = isSessionCompleted;
         this.session_image_url = session_image_url;
         this.session_title = session_title;
         this.sessionQuestions = sessionQuestions;
@@ -39,14 +36,6 @@ public class WeekQuestions {
 
     public void setSession_number(int session_number) {
         this.session_number = session_number;
-    }
-
-    public boolean isSessionCompleted() {
-        return isSessionCompleted;
-    }
-
-    public void setSessionCompleted(boolean sessionCompleted) {
-        isSessionCompleted = sessionCompleted;
     }
 
     public String getSession_image_url() {
