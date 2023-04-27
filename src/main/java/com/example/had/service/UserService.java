@@ -104,7 +104,7 @@ public class UserService {
     @Transactional
     public boolean updateTime(updateUserTimestampBody userTimestampBody) {
         try {
-            Auth byUsername = authRepository.findByUsername(userTimestampBody.getUsername());
+            User byUsername = userRepository.findByEmail(userTimestampBody.getUsername());
             List<Timestamp> entryTime = byUsername.getEntryTime();
             List<Timestamp> exitTime = byUsername.getExitTime();
 
@@ -114,9 +114,9 @@ public class UserService {
             byUsername.setEntryTime(entryTime);
             byUsername.setExitTime(exitTime);
 
-            authRepository.save(byUsername);
+            userRepository.save(byUsername);
 
-            System.out.println("USER "+byUsername.getUsername()+" activity accounted");
+            System.out.println("USER "+byUsername.getEmail()+" activity accounted");
 
             return true;
         }catch (Exception e){

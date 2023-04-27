@@ -14,14 +14,14 @@ import java.util.Optional;
 import java.util.Set;
 
 @Repository("fake")
-public class FakeApplicationUserDaoService implements ApplicationUserDao {
+public class ApplicationUserDaoService implements ApplicationUserDao {
 
     private final PasswordEncoder passwordEncoder;
     private final AuthRepository loginRepository;
 
     @Autowired
-    public FakeApplicationUserDaoService(PasswordEncoder passwordEncoder,
-                                         AuthRepository loginRepository) {
+    public ApplicationUserDaoService(PasswordEncoder passwordEncoder,
+                                     AuthRepository loginRepository) {
         this.passwordEncoder = passwordEncoder;
         this.loginRepository = loginRepository;
     }

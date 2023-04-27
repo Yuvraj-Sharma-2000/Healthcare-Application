@@ -172,26 +172,26 @@ public class Dummydata {
 
 
 //        ADD ANSWER
-        List<User> userList = userRepository.findAll();
-        for (int j = 0; j < 10; j++) {
-            Answers answer = new Answers(
-                    faker.number().numberBetween(0, 4),
-                    faker.number().numberBetween(0, 5),
-                    new ArrayList<Float>() {{
-                        add((float) faker.number().randomDouble(2, 1, 100));
-                        add((float) faker.number().randomDouble(2, 1, 100));
-                        add((float) faker.number().randomDouble(2, 1, 100));
-                        add((float) faker.number().randomDouble(2, 1, 100));
-                    }},
-                    new ArrayList<String>() {{
-                        add(faker.shakespeare().kingRichardIIIQuote());
-                        add(faker.shakespeare().kingRichardIIIQuote());
-                        add(faker.shakespeare().kingRichardIIIQuote());
-                        add(faker.shakespeare().kingRichardIIIQuote());
-                    }}
-            );
-            answer.setUser(userList.get(faker.number().numberBetween(0,20)));
-            answerRepository.save(answer);
-        }
+//        List<User> userList = userRepository.findAll();
+//        for (int j = 0; j < 10; j++) {
+//            Answers answer = new Answers(
+//                    faker.number().numberBetween(0, 4),
+//                    faker.number().numberBetween(0, 5),
+//                    new ArrayList<Float>() {{
+//                        add((float) faker.number().randomDouble(2, 1, 100));
+//                        add((float) faker.number().randomDouble(2, 1, 100));
+//                        add((float) faker.number().randomDouble(2, 1, 100));
+//                        add((float) faker.number().randomDouble(2, 1, 100));
+//                    }},
+//                    new ArrayList<String>() {{
+//                        add(faker.shakespeare().kingRichardIIIQuote());
+//                        add(faker.shakespeare().kingRichardIIIQuote());
+//                        add(faker.shakespeare().kingRichardIIIQuote());
+//                        add(faker.shakespeare().kingRichardIIIQuote());
+//                    }}
+//            );
+//            answer.setUser(userList.get(faker.number().numberBetween(0,20)));
+//            answerRepository.save(answer);
+//        }
     }
 }

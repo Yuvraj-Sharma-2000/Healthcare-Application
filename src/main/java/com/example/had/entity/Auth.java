@@ -42,13 +42,6 @@ public class Auth {
     )
     private String lastLogin;
 
-    @ElementCollection
-    private List<Timestamp> entryTime;
-
-    @ElementCollection
-    private List<Timestamp> exitTime;
-
-
     public Auth() {
     }
 
@@ -71,21 +64,6 @@ public class Auth {
         return id;
     }
 
-    public List<Timestamp> getEntryTime() {
-        return entryTime;
-    }
-
-    public void setEntryTime(List<Timestamp> entryTime) {
-        this.entryTime = entryTime;
-    }
-
-    public List<Timestamp> getExitTime() {
-        return exitTime;
-    }
-
-    public void setExitTime(List<Timestamp> exitTime) {
-        this.exitTime = exitTime;
-    }
     public void setId(UUID id) {
         this.id = id;
     }

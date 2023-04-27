@@ -7,6 +7,7 @@ import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.Range;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -132,6 +133,12 @@ public class User {
         return isActive;
     }
 
+    @ElementCollection
+    private List<Timestamp> entryTime;
+
+    @ElementCollection
+    private List<Timestamp> exitTime;
+
     @ManyToOne
 //    @JsonBackReference
     private Doctor doctor;
@@ -142,13 +149,13 @@ public class User {
     )
     @JsonManagedReference
     private List<Chat> chatList = new ArrayList<>();
-
     @OneToOne(
             mappedBy = "user",
             orphanRemoval = true
     )
     @JsonBackReference
     private Report report;
+
     @OneToMany(
             mappedBy = "user",
             cascade = CascadeType.ALL,
@@ -156,7 +163,6 @@ public class User {
     )
     @JsonManagedReference
     private List<Answers> answers = new ArrayList<>();
-
     public List<Answers> getAnswers() {
         return answers;
     }
@@ -183,6 +189,7 @@ public class User {
         this.setReport(report);
         report.setUser(this);
     }
+
     public void removeReport(Report report){
         this.setReport(null);
         report.setUser(null);
@@ -221,13 +228,28 @@ public class User {
     }
     public User() {
     }
-
     public User(String email, String firstName) {
         this.email = email;
         this.firstName = firstName;
         this.depressionSeverity = 1;
         this.weekDone = -1;
         this.sessionDone = -1;
+    }
+
+    public List<Timestamp> getEntryTime() {
+        return entryTime;
+    }
+
+    public void setEntryTime(List<Timestamp> entryTime) {
+        this.entryTime = entryTime;
+    }
+
+    public List<Timestamp> getExitTime() {
+        return exitTime;
+    }
+
+    public void setExitTime(List<Timestamp> exitTime) {
+        this.exitTime = exitTime;
     }
 
     public User(String email,
