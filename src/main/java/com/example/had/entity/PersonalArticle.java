@@ -35,7 +35,8 @@ public class PersonalArticle
     )
     private String articleThumbnail;
 
-
+    @Column(name = "completed")
+    private boolean isCompleted;
     @ManyToOne
     @JoinColumn(
             name = "doctor_id",
@@ -125,6 +126,14 @@ public class PersonalArticle
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public boolean isCompleted() {
+        return isCompleted;
+    }
+
+    public void setCompleted(boolean completed) {
+        isCompleted = completed;
     }
 
     public void setArticleUrl(String articleUrl) {
