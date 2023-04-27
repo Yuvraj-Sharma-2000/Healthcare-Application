@@ -125,6 +125,8 @@ public class UserService {
         return false;
     }
 
+
+
     public PlotWeekScore getWeekScore(UUID patientId, int weekNumber) {
         try{
             float score = 0;
@@ -187,5 +189,18 @@ public class UserService {
             System.out.println(e.getMessage());
         }
         return null;
+    }
+
+    public String getDuration(UUID patientId, String month, String year)
+    {
+        try
+        {
+
+
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+        return null;
+
     }
 }

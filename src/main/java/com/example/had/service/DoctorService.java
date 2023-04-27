@@ -10,10 +10,13 @@ import com.example.had.repository.DoctorRepository;
 import com.example.had.repository.UserRepository;
 import com.example.had.request.DoctorProfileBody;
 import com.example.had.response.Severity;
+import com.example.had.response.Usage;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.sql.Time;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -222,6 +225,61 @@ public class DoctorService {
             System.out.println(e.getMessage());
         }
         return false;
+    }
+
+
+    public List<Usage> getUsage(UUID doctorid)
+    {
+        try {
+            List<User>  userList = userRepository.findByDoctor_Id(doctorid);
+            List<Usage> usageList = new ArrayList<>();
+
+            int less_fifteen = 0;
+            int fifteen_thirty = 0;
+            int thirty_forty_five = 0;
+            int forty_five_sixty = 0;
+            int greater_sixty = 0;
+
+            for(User user : userList)
+            {
+                List<Timestamp> entries = user.getEntryTime();
+                List<Timestamp> exits = user.getExitTime();
+
+                for(int i=0; i<entries.size(); i++)
+                {
+                    Timestamp t1 = entries.get(i);
+                    Timestamp t2 = exits.get(i);
+
+                    long milliseconds = t1.getTime() - t2.getTime();
+                    int seconds = (int) milliseconds / 1000;
+                    int minutes = (seconds % 3600) / 60;
+
+                    if(minutes < 15)
+                        less_fifteen++;
+                    else if(minutes>=15 && minutes<30)
+                        fifteen_thirty++;
+                    else if(minutes>=30 && minutes<45)
+                        thirty_forty_five++;
+                    else if(minutes>=45 && minutes<60)
+                        forty_five_sixty++;
+                    else
+                        greater_sixty++;
+                }
+                usageList.add(new Usage(user.getId(),"<15 mins", less_fifteen));
+                usageList.add(new Usage(user.getId(),"15-30 mins", fifteen_thirty));
+                usageList.add(new Usage(user.getId(),"30-45 mins", thirty_forty_five));
+                usageList.add(new Usage(user.getId(),"45-60 mins", forty_five_sixty));
+                usageList.add(new Usage(user.getId(),">60 mins", greater_sixty));
+
+                return usageList;
+
+             }
+
+        }
+        catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+        return null;
     }
 
     public List<Severity> getSeverityList(UUID doctorId) {

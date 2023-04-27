@@ -18,9 +18,9 @@ public class HadApplication {
 
     public HadApplication(Dummydata dummydata, Actualdata actualdata,PreData preData)
     {
-        this.dummydata = dummydata;
-        this.actualdata = actualdata;
-        this.preData = preData;
+//        this.dummydata = dummydata;
+//        this.actualdata = actualdata;
+//        this.preData = preData;
     }
 
     public static void main(String[] args) {

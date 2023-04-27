@@ -32,5 +32,7 @@ public interface UserRepository extends JpaRepository<User, UUID> {
     @Query("select u from User u where u.doctor.id = ?1")
     List<User> findByDoctor_Id(UUID id);
 
+
+
     Optional<User> findById(UUID uuid);
 }

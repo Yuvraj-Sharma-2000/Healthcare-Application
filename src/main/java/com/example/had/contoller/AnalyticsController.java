@@ -2,6 +2,7 @@ package com.example.had.contoller;
 
 import com.example.had.response.PlotWeekScore;
 import com.example.had.response.Severity;
+import com.example.had.response.Usage;
 import com.example.had.service.DoctorService;
 import com.example.had.service.UserService;
 import org.springframework.http.ResponseEntity;
@@ -39,4 +40,13 @@ public class AnalyticsController {
         return ResponseEntity.noContent().build();
 
     }
+    @GetMapping("/allUsage/{doctorId}")
+    public ResponseEntity<?> getAllUsage(@PathVariable UUID doctorId)
+    {
+        List<Usage> usageList= doctorService.getUsage(doctorId);
+        if(usageList.size() == 0)
+            return ResponseEntity.notFound().build();
+        return ResponseEntity.ok(usageList);
+    }
+
 }

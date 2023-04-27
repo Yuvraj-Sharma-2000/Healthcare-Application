@@ -3,6 +3,7 @@ package com.example.had.contoller;
 import com.example.had.entity.Podcast;
 import com.example.had.entity.Question;
 import com.example.had.entity.User;
+import com.example.had.repository.UserRepository;
 import com.example.had.request.AnswersBody;
 import com.example.had.request.UserProfileUpdateRequest;
 import com.example.had.request.updateUserTimestampBody;
@@ -28,17 +29,20 @@ public class UserController {
     private final LoginService loginService;
     private final PersonalizedArticleService personalizedArticleService;
     private final PodcastService podcastService;
+    private final UserRepository userRepository;
 
     public UserController(UserService userService,
                           AnswerService answerService,
                           LoginService loginService,
                           PersonalizedArticleService personalizedArticleService,
-                          PodcastService podcastService) {
+                          PodcastService podcastService,
+                          UserRepository userRepository) {
         this.userService = userService;
         this.answerService = answerService;
         this.loginService = loginService;
         this.personalizedArticleService = personalizedArticleService;
         this.podcastService = podcastService;
+        this.userRepository = userRepository;
     }
 
     @GetMapping("/get/session/{sessionNumber}/week/{weekNumber}")
@@ -104,6 +108,15 @@ public class UserController {
         List<Podcast> podcast = podcastService.getAllPodcast();
         if (podcast!=null)
             return ResponseEntity.ok(podcast);
+        return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/duration/{patientId}/{month}/{year}")
+    public ResponseEntity<?> getDuration(@PathVariable UUID patientId, @PathVariable String month, @PathVariable String year)
+    {
+        String duration = userService.getDuration(patientId, month, year);
+        if(duration!=null)
+            return ResponseEntity.ok(duration);
         return ResponseEntity.noContent().build();
     }
 }

@@ -4,6 +4,7 @@ import com.example.had.entity.Doctor;
 import com.example.had.entity.User;
 import com.example.had.request.DoctorProfileBody;
 import com.example.had.request.PersonalizedArticle;
+import com.example.had.response.Usage;
 import com.example.had.service.DoctorService;
 import com.example.had.service.PersonalizedArticleService;
 import org.springframework.http.ResponseEntity;
@@ -70,6 +71,9 @@ public class DoctorController {
             return ResponseEntity.notFound().build();
         return ResponseEntity.ok(profile);
     }
+
+
+
     @PostMapping("/update/profile/{doctorId}")
     public ResponseEntity<?> updateProfile(@PathVariable UUID doctorId,
                                            @RequestBody DoctorProfileBody doctorProfileBody){
@@ -100,4 +104,6 @@ public class DoctorController {
             return ResponseEntity.ok("Self article deleted");
         return ResponseEntity.unprocessableEntity().body("not able to delete");
     }
+
+
 }
