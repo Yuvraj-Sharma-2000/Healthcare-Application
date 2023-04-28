@@ -39,6 +39,12 @@ public class AnswerService {
             for (Float val : answersBody.getAnswer_value()) {
                 depressionValue += val;
             }
+
+            if (answers.getSessionNumber()==5)
+                answers.setWeekNumber(answersBody.getWeekNumber());
+            else
+                answers.setWeekNumber(answersBody.getWeekNumber()-1);
+
             answers.setUser(user);
             answerRepository.save(answers);
 

@@ -13,6 +13,10 @@ import java.util.Optional;
 import java.util.UUID;
 @Repository
 public interface UserRepository extends JpaRepository<User, UUID> {
+    @Query("select u from User u where u.doctor.email = ?1")
+    List<User> findByDoctor_Email(String email);
+    @Query("select u from User u inner join u.personalArticles personalArticles where personalArticles.doctor.email = ?1")
+    List<User> findByPersonalArticles_Doctor_Email(String email);
     @Query("select u from User u where u.id = ?1 and u.report.weekNumber = ?2")
     List<User> findByIdAndReport_WeekNumber(UUID id, int weekNumber);
     @Query("select u from User u inner join u.answers answers where u.email = ?1 and answers.weekNumber = ?2")
@@ -29,8 +33,11 @@ public interface UserRepository extends JpaRepository<User, UUID> {
     @Modifying
     @Query("update User u set u.address = ?1, u.contact = ?2 where u.id = ?3")
     int updateAddressAndContactById(String address, String contact, UUID id);
+
     @Query("select u from User u where u.doctor.id = ?1")
     List<User> findByDoctor_Id(UUID id);
+
+    List<User> findByDoctor_IdAndDoctor_Email(UUID id, String email);
 
     Optional<User> findById(UUID uuid);
 }

@@ -1,14 +1,12 @@
 package com.example.had.contoller;
 
 import com.example.had.entity.Podcast;
-import com.example.had.entity.Question;
 import com.example.had.entity.User;
 import com.example.had.request.AnswersBody;
 import com.example.had.request.UserProfileUpdateRequest;
 import com.example.had.request.updateUserTimestampBody;
 import com.example.had.response.WeekQuestions;
 import com.example.had.service.*;
-import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -28,17 +26,19 @@ public class UserController {
     private final LoginService loginService;
     private final PersonalizedArticleService personalizedArticleService;
     private final PodcastService podcastService;
+    private final EmailService emailService;
 
     public UserController(UserService userService,
                           AnswerService answerService,
                           LoginService loginService,
                           PersonalizedArticleService personalizedArticleService,
-                          PodcastService podcastService) {
+                          PodcastService podcastService, EmailService emailService) {
         this.userService = userService;
         this.answerService = answerService;
         this.loginService = loginService;
         this.personalizedArticleService = personalizedArticleService;
         this.podcastService = podcastService;
+        this.emailService = emailService;
     }
 
     @GetMapping("/get/session/{sessionNumber}/week/{weekNumber}")
@@ -105,5 +105,9 @@ public class UserController {
         if (podcast!=null)
             return ResponseEntity.ok(podcast);
         return ResponseEntity.noContent().build();
+    }
+    @GetMapping("/forgot-password/{email}")
+    public ResponseEntity<?> forgotPassword(@PathVariable String email) {
+        return  emailService.forgotPassword(email);
     }
 }

@@ -10,10 +10,12 @@ import com.example.had.repository.DoctorRepository;
 import com.example.had.repository.UserRepository;
 import com.example.had.request.DoctorProfileBody;
 import com.example.had.response.Severity;
+import com.example.had.response.Usage;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
