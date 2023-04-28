@@ -12,6 +12,10 @@ import java.util.List;
 import java.util.UUID;
 
 public interface DoctorRepository extends JpaRepository<Doctor, UUID> {
+    @Transactional
+    @Modifying
+    @Query("update Doctor d set d.forgotPassword = ?1 where d.email = ?2")
+    int updateForgotPasswordByEmail(boolean forgotPassword, String email);
     @Query("select d from Doctor d where d.isVerified = ?1 order by d.registrationStamp DESC")
     List<Doctor> findByIsVerifiedOrderByRegistrationStampDesc(boolean isVerified);
     @Transactional

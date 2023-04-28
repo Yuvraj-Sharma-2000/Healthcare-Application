@@ -100,4 +100,5 @@ public class DoctorController {
             return ResponseEntity.ok("Self article deleted");
         return ResponseEntity.unprocessableEntity().body("not able to delete");
     }
+
 }

@@ -159,6 +159,8 @@ public class Doctor {
     @Column
     private boolean isVerified;
 
+    @Column(name = "forgot_password")
+    private boolean forgotPassword;
 
     @ElementCollection
     private List<String> languages;
@@ -241,6 +243,7 @@ public class Doctor {
         this.registrationNumber = registrationNumber;
         this.registrationStamp = registrationStamp;
         this.isVerified = false;
+        this.forgotPassword = false;
     }
 
 
@@ -259,10 +262,10 @@ public class Doctor {
     public void setEmail(String email) {
         this.email = email;
     }
+
     public List<String> getLanguages() {
         return languages;
     }
-
     public void setLanguages(List<String> languages) {
         this.languages = languages;
     }
@@ -282,8 +285,16 @@ public class Doctor {
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
+
     public boolean isVerified() {
         return isVerified;
+    }
+    public boolean isForgotPassword() {
+        return forgotPassword;
+    }
+
+    public void setForgotPassword(boolean forgotPassword) {
+        this.forgotPassword = forgotPassword;
     }
 
     public void setVerified(boolean verified) {

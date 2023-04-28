@@ -113,6 +113,9 @@ public class User {
     @Column(name = "week_done")
     private int weekDone;
 
+    @Column(name = "forgot_password")
+    private boolean forgotPassword;
+
     public int getSessionDone() {
         return sessionDone;
     }
@@ -142,6 +145,7 @@ public class User {
     @ManyToOne
 //    @JsonBackReference
     private Doctor doctor;
+
     @OneToMany(
             mappedBy = "user",
             cascade = CascadeType.ALL,
@@ -155,7 +159,6 @@ public class User {
     )
     @JsonBackReference
     private Report report;
-
     @OneToMany(
             mappedBy = "user",
             cascade = CascadeType.ALL,
@@ -163,10 +166,10 @@ public class User {
     )
     @JsonManagedReference
     private List<Answers> answers = new ArrayList<>();
+
     public List<Answers> getAnswers() {
         return answers;
     }
-
     public void setAnswers(List<Answers> answers) {
         this.answers = answers;
     }
@@ -194,6 +197,7 @@ public class User {
         this.setReport(null);
         report.setUser(null);
     }
+
     public void addChat(Chat chat){
         if(!this.chatList.contains(chat)){
             chatList.add(chat);
@@ -235,7 +239,6 @@ public class User {
         this.weekDone = -1;
         this.sessionDone = -1;
     }
-
     public List<Timestamp> getEntryTime() {
         return entryTime;
     }
@@ -274,6 +277,7 @@ public class User {
         this.depressionSeverity = depressionSeverity;
         this.weekDone = -1;
         this.sessionDone = -1;
+        this.forgotPassword = false;
     }
 
 
@@ -299,6 +303,14 @@ public class User {
 
     public void setFirstName(String firstName) {
         this.firstName = firstName;
+    }
+
+    public boolean isForgotPassword() {
+        return forgotPassword;
+    }
+
+    public void setForgotPassword(boolean forgotPassword) {
+        this.forgotPassword = forgotPassword;
     }
 
     public String getLastName() {

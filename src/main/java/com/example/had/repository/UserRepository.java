@@ -13,6 +13,10 @@ import java.util.Optional;
 import java.util.UUID;
 @Repository
 public interface UserRepository extends JpaRepository<User, UUID> {
+    @Transactional
+    @Modifying
+    @Query("update User u set u.forgotPassword = ?1 where u.email = ?2")
+    int updateForgotPasswordByEmail(boolean forgotPassword, String email);
     @Query("select u from User u where u.doctor.email = ?1")
     List<User> findByDoctor_Email(String email);
     @Query("select u from User u inner join u.personalArticles personalArticles where personalArticles.doctor.email = ?1")

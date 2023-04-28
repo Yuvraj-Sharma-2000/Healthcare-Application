@@ -106,8 +106,4 @@ public class UserController {
             return ResponseEntity.ok(podcast);
         return ResponseEntity.noContent().build();
     }
-    @GetMapping("/forgot-password/{email}")
-    public ResponseEntity<?> forgotPassword(@PathVariable String email) {
-        return  emailService.forgotPassword(email);
-    }
 }

@@ -25,16 +25,17 @@ public class TemplateController {
     private final PrepopulatedArticleService prepopulatedArticleService;
     private final PersonalizedArticleService personalizedArticleService;
     private final PodcastService podcastService;
-
+    private final EmailService emailService;
 
     public TemplateController(LoginService loginService,
                               DoctorService doctorService,
-                              PrepopulatedArticleService prepopulatedArticleService, PersonalizedArticleService personalizedArticleService, PodcastService podcastService) {
+                              PrepopulatedArticleService prepopulatedArticleService, PersonalizedArticleService personalizedArticleService, PodcastService podcastService, EmailService emailService) {
         this.loginService = loginService;
         this.doctorService = doctorService;
         this.prepopulatedArticleService = prepopulatedArticleService;
         this.personalizedArticleService = personalizedArticleService;
         this.podcastService = podcastService;
+        this.emailService = emailService;
     }
     @GetMapping("custom-logout")
     public String connectionCheck(){
@@ -72,5 +73,9 @@ public class TemplateController {
         if (added)
             return ResponseEntity.ok(podcastBody.size()+" Podcasts added");
         return ResponseEntity.unprocessableEntity().body("Not able add");
+    }
+    @GetMapping("forgot-password/{email}")
+    public ResponseEntity<?> forgotPassword(@PathVariable String email) {
+        return emailService.forgotPassword(email);
     }
 }

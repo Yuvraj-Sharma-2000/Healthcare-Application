@@ -1,7 +1,9 @@
 package com.example.had.service;
 
+import com.example.had.entity.Doctor;
 import com.example.had.entity.User;
 import com.example.had.repository.AuthRepository;
+import com.example.had.repository.DoctorRepository;
 import com.example.had.repository.UserRepository;
 import com.github.javafaker.Faker;
 import org.springframework.http.ResponseEntity;
@@ -21,28 +23,41 @@ public class EmailService {
     private final JavaMailSender emailSender;
     private final UserRepository userRepository;
     private final AuthRepository authRepository;
+    private final DoctorRepository doctorRepository;
 
     public EmailService(JavaMailSender emailSender,
                         UserRepository userRepository,
-                        AuthRepository authRepository) {
+                        AuthRepository authRepository,
+                        DoctorRepository doctorRepository) {
         this.emailSender = emailSender;
         this.userRepository = userRepository;
         this.authRepository = authRepository;
+        this.doctorRepository = doctorRepository;
     }
 
     public ResponseEntity<?> forgotPassword(String email) {
         Faker faker = new Faker();
+        String newPassword = faker.internet().password();
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         try{
             User user = userRepository.findByEmail(email);
-            String newPassword = faker.internet().password();
-            if(!Objects.isNull(user))
-                forgetMail(user.getEmail(),"Your new credentials", newPassword);
+            if(!Objects.isNull(user)) {
+                userRepository.updateForgotPasswordByEmail(true,email);
+                forgetMail(user.getEmail(), "Your new credentials", newPassword);
+                authRepository.updatePasswordByUsername(passwordEncoder.encode(newPassword),user.getEmail());
+                return ResponseEntity.ok("check your email for credentials");
+            }
+            Doctor doctor = doctorRepository.findByEmail(email);
+            if (!Objects.isNull(doctor)){
+                doctorRepository.updateForgotPasswordByEmail(true,email);
+                forgetMail(doctor.getEmail(), "Your new credentials", newPassword);
+                authRepository.updatePasswordByUsername(passwordEncoder.encode(newPassword),doctor.getEmail());
+                return ResponseEntity.ok("check your email for credentials");
+            }
+            return ResponseEntity.badRequest().body("Not able to process request");
 
-            authRepository.updatePasswordByUsername(passwordEncoder.encode(newPassword),user.getEmail());
-            return ResponseEntity.ok("check your email for credentials");
         }catch (Exception ex) {
-            ex.printStackTrace();
+            System.out.println(ex.getMessage());
         }
         return ResponseEntity.badRequest().body("Not able to process request");
     }
