@@ -12,6 +12,8 @@ import java.util.List;
 import java.util.UUID;
 
 public interface DoctorRepository extends JpaRepository<Doctor, UUID> {
+    @Query("select d from Doctor d where d.email = ?1 and d.isVerified = ?2")
+    Doctor findByEmailAndIsVerified(String email, boolean isVerified);
     @Transactional
     @Modifying
     @Query("update Doctor d set d.forgotPassword = ?1 where d.email = ?2")

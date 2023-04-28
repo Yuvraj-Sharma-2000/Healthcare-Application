@@ -50,4 +50,12 @@ public class AnalyticsController {
             return ResponseEntity.notFound().build();
         return ResponseEntity.ok(usageList);
     }
+    @GetMapping("/duration/{patientId}/{month}/{year}")
+    public ResponseEntity<?> getDuration(@PathVariable UUID patientId, @PathVariable int month, @PathVariable int year)
+    {
+        int[] duration = userService.getDuration(patientId, month, year);
+        if(duration.length!=0)
+            return ResponseEntity.ok(duration);
+        return ResponseEntity.noContent().build();
+    }
 }

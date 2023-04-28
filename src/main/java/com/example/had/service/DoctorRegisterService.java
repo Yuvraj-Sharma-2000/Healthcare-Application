@@ -43,7 +43,8 @@ public class DoctorRegisterService {
                     doctorRegisterRequest.getPatientLimit(),
                     doctorRegisterRequest.getPatientCount(),
                     doctorRegisterRequest.getRegistrationNumber(),
-                    new Timestamp(System.currentTimeMillis()).toString()));
+                    new Timestamp(System.currentTimeMillis()).toString(),
+                    doctorRegisterRequest.getLanguages()));
 
             System.out.println(doctorRegisterRequest.getEmail() + " Requested for DOCTOR authorization");
 

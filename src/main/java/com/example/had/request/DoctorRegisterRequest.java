@@ -1,5 +1,7 @@
 package com.example.had.request;
 
+import java.util.List;
+
 public class DoctorRegisterRequest {
      String email;
      String password;
@@ -17,6 +19,11 @@ public class DoctorRegisterRequest {
      String registrationNumber;
      int PatientLimit;
      int PatientCount;
+     List<String> languages;
+
+     public List<String> getLanguages() {
+          return languages;
+     }
 
      public int getPatientLimit() {
           return PatientLimit;

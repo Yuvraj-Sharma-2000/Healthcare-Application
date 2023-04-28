@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -188,4 +189,58 @@ public class UserService {
         }
         return null;
     }
+    public int[] getDuration(UUID patientId, int month, int year)
+    {
+        try
+        {
+            User user = userRepository.findById(patientId).get();
+            List<Timestamp> entries = user.getEntryTime();
+            List<Timestamp> exits = user.getExitTime();
+
+            int duration[];
+
+            if(month == 0||month == 2||month == 4||month == 6||month == 7||month == 9||month == 11)
+            {
+                duration = new int[31];
+            }
+            else if(month == 3 ||month == 5 ||month == 8 ||month == 10)
+            {
+                duration = new int[30];
+            }
+            else
+            {
+                duration = new int[28];
+            }
+
+            for(int i=0; i<entries.size(); i++)
+            {
+                Timestamp t1 = entries.get(i);
+                Timestamp t2 = exits.get(i);
+
+                LocalDateTime localDateTime = t1.toLocalDateTime();
+                int curr_month = localDateTime.getMonthValue();
+                int curr_year = localDateTime.getYear();
+
+                if(curr_month == month && curr_year == year)
+                {
+                    System.out.println(t1.getTime()+" "+t2.getTime());
+                    long ms = t2.getTime() - t1.getTime();
+                    int sec = (int)ms/1000;
+                    int minutes = sec /60;
+                    int curr_day = localDateTime.getDayOfMonth();
+
+                    duration[curr_day-1] = minutes;
+                }
+            }
+            return duration;
+
+        }
+        catch (Exception e)
+        {
+            System.out.println(e.getMessage());
+        }
+        return null;
+
+    }
+
 }

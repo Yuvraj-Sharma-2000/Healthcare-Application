@@ -224,7 +224,8 @@ public class Doctor {
                   int patientLimit,
                   int patientCount,
                   String registrationNumber,
-                  String registrationStamp) {
+                  String registrationStamp,
+                  List<String> languages) {
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -242,6 +243,7 @@ public class Doctor {
         this.patientCount = patientCount;
         this.registrationNumber = registrationNumber;
         this.registrationStamp = registrationStamp;
+        this.languages = languages;
         this.isVerified = false;
         this.forgotPassword = false;
     }

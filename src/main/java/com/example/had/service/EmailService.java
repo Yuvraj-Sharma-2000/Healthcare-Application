@@ -47,7 +47,7 @@ public class EmailService {
                 authRepository.updatePasswordByUsername(passwordEncoder.encode(newPassword),user.getEmail());
                 return ResponseEntity.ok("check your email for credentials");
             }
-            Doctor doctor = doctorRepository.findByEmail(email);
+            Doctor doctor = doctorRepository.findByEmailAndIsVerified(email, true);
             if (!Objects.isNull(doctor)){
                 doctorRepository.updateForgotPasswordByEmail(true,email);
                 forgetMail(doctor.getEmail(), "Your new credentials", newPassword);
