@@ -47,6 +47,7 @@ public class EmailService {
                 authRepository.updatePasswordByUsername(passwordEncoder.encode(newPassword),user.getEmail());
                 return ResponseEntity.ok("check your email for credentials");
             }
+            System.out.println("USER not found");
             Doctor doctor = doctorRepository.findByEmailAndIsVerified(email, true);
             if (!Objects.isNull(doctor)){
                 doctorRepository.updateForgotPasswordByEmail(true,email);
@@ -54,7 +55,8 @@ public class EmailService {
                 authRepository.updatePasswordByUsername(passwordEncoder.encode(newPassword),doctor.getEmail());
                 return ResponseEntity.ok("check your email for credentials");
             }
-            return ResponseEntity.badRequest().body("Not able to process request");
+            System.out.println("DOCTOR NOT FOUND");
+            return ResponseEntity.badRequest().body("NO ENTITY FOUND");
 
         }catch (Exception ex) {
             System.out.println(ex.getMessage());

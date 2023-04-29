@@ -37,13 +37,10 @@ public class AnswerService {
 
             float depressionValue = 0;
             for (Float val : answersBody.getAnswer_value()) {
+                System.out.println(val);
                 depressionValue += val;
             }
-
-            if (answers.getSessionNumber()==5)
-                answers.setWeekNumber(answersBody.getWeekNumber());
-            else
-                answers.setWeekNumber(answersBody.getWeekNumber()-1);
+            System.out.println(depressionValue);
 
             answers.setUser(user);
             answerRepository.save(answers);
@@ -51,7 +48,10 @@ public class AnswerService {
             List<Answers> answersList = user.getAnswers();
             answersList.add(answers);
             user.setAnswers(answersList);
-            user.setWeekDone(answersBody.getWeekNumber());
+
+            if (answersBody.getSessionNumber() == 5)
+                user.setWeekDone(answersBody.getWeekNumber());
+
             user.setSessionDone(answersBody.getSessionNumber());
             user.setDepressionSeverity(depressionValue/5);
             userRepository.save(user);

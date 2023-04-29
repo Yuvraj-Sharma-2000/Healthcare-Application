@@ -150,7 +150,7 @@ public class UserService {
     public List<WeekQuestions> getFullWeek(int weekNumber) {
         try {
             List<WeekQuestions> weekQuestions = new ArrayList<>();
-            for (int session=0;session<5;session++) {
+            for (int session=1;session<=5;session++) {
                 WeekQuestions weekQuestions1 = new WeekQuestions(
                         String.valueOf(session),
                         session,
@@ -207,9 +207,13 @@ public class UserService {
             {
                 duration = new int[30];
             }
-            else
+            else if(month == 1)
             {
                 duration = new int[28];
+            }
+            else
+            {
+                duration = new int[0];
             }
 
             for(int i=0; i<entries.size(); i++)
@@ -221,7 +225,7 @@ public class UserService {
                 int curr_month = localDateTime.getMonthValue();
                 int curr_year = localDateTime.getYear();
 
-                if(curr_month == month && curr_year == year)
+                if((curr_month-1) == month && curr_year == year)
                 {
                     System.out.println(t1.getTime()+" "+t2.getTime());
                     long ms = t2.getTime() - t1.getTime();
@@ -243,4 +247,13 @@ public class UserService {
 
     }
 
+    public boolean resetPassword(String email, String password) {
+        try{
+            authRepository.updatePasswordByUsername(passwordEncoder.encode(password),email);
+            return true;
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+        return false;
+    }
 }

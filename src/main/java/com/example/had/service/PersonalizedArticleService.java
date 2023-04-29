@@ -78,4 +78,14 @@ public class PersonalizedArticleService {
         }
         return personalArticles;
     }
+
+    public boolean updateCompletion(UUID articleId) {
+        try {
+            personalArticleRepository.updateIsCompletedById(true,articleId);
+            return true;
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+        return false;
+    }
 }

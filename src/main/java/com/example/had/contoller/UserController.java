@@ -3,6 +3,7 @@ package com.example.had.contoller;
 import com.example.had.entity.Podcast;
 import com.example.had.entity.User;
 import com.example.had.request.AnswersBody;
+import com.example.had.request.PasswordBody;
 import com.example.had.request.UserProfileUpdateRequest;
 import com.example.had.request.updateUserTimestampBody;
 import com.example.had.response.WeekQuestions;
@@ -48,6 +49,7 @@ public class UserController {
     ){
         return userService.getQuestions(weekNumber,sessionNumber);
     }
+
     @GetMapping("/get/full-week/{weekNumber}")
     public ResponseEntity<?> getFullWeek(@PathVariable int weekNumber){
         List<WeekQuestions> fullWeek = userService.getFullWeek(weekNumber);
@@ -105,5 +107,19 @@ public class UserController {
         if (podcast!=null)
             return ResponseEntity.ok(podcast);
         return ResponseEntity.noContent().build();
+    }
+    @PostMapping("reset-password")
+    public ResponseEntity<?> resetPassword(@RequestBody PasswordBody passwordBody){
+        boolean reset = userService.resetPassword(passwordBody.getEmail(),passwordBody.getPassword());
+        if (reset)
+            return ResponseEntity.ok("Reset successfully");
+        return ResponseEntity.unprocessableEntity().build();
+    }
+    @PostMapping("update/personal-article-completion/{articleId}")
+    public ResponseEntity<?> updatePersonalArticleCompletion(@PathVariable UUID articleId){
+        boolean completion = personalizedArticleService.updateCompletion(articleId);
+        if (completion)
+            return ResponseEntity.ok("Completed");
+        return ResponseEntity.badRequest().body("Not able to complete");
     }
 }

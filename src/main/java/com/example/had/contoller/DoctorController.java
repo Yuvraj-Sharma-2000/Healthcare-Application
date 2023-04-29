@@ -3,6 +3,7 @@ package com.example.had.contoller;
 import com.example.had.entity.Doctor;
 import com.example.had.entity.User;
 import com.example.had.request.DoctorProfileBody;
+import com.example.had.request.PasswordBody;
 import com.example.had.request.PersonalizedArticle;
 import com.example.had.service.DoctorService;
 import com.example.had.service.PersonalizedArticleService;
@@ -100,5 +101,11 @@ public class DoctorController {
             return ResponseEntity.ok("Self article deleted");
         return ResponseEntity.unprocessableEntity().body("not able to delete");
     }
-
+    @PostMapping("reset-password")
+    public ResponseEntity<?> resetPassword(@RequestBody PasswordBody passwordBody){
+        boolean reset = doctorService.resetPassword(passwordBody.getEmail(),passwordBody.getPassword());
+        if (reset)
+            return ResponseEntity.ok("Reset successfully");
+        return ResponseEntity.unprocessableEntity().build();
+    }
 }

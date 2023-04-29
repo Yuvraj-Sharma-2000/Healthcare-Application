@@ -4,8 +4,10 @@ package com.example.had.contoller;
 import com.example.had.entity.Doctor;
 import com.example.had.entity.PersonalArticle;
 import com.example.had.entity.PrepopulatedArticle;
+import com.example.had.request.DeviceTokenBody;
 import com.example.had.request.LoginRequestBody;
 import com.example.had.request.PodcastBody;
+import com.example.had.request.UserIdBody;
 import com.example.had.service.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -18,7 +20,6 @@ import java.util.UUID;
 
 @Controller
 @RequestMapping("/")
-//@PreAuthorize("permitAll()")
 public class TemplateController {
     private final LoginService loginService;
     private final DoctorService doctorService;
@@ -26,16 +27,17 @@ public class TemplateController {
     private final PersonalizedArticleService personalizedArticleService;
     private final PodcastService podcastService;
     private final EmailService emailService;
-
+    private final DeviceTokenService deviceTokenService;
     public TemplateController(LoginService loginService,
                               DoctorService doctorService,
-                              PrepopulatedArticleService prepopulatedArticleService, PersonalizedArticleService personalizedArticleService, PodcastService podcastService, EmailService emailService) {
+                              PrepopulatedArticleService prepopulatedArticleService, PersonalizedArticleService personalizedArticleService, PodcastService podcastService, EmailService emailService, DeviceTokenService deviceTokenService) {
         this.loginService = loginService;
         this.doctorService = doctorService;
         this.prepopulatedArticleService = prepopulatedArticleService;
         this.personalizedArticleService = personalizedArticleService;
         this.podcastService = podcastService;
         this.emailService = emailService;
+        this.deviceTokenService = deviceTokenService;
     }
     @GetMapping("custom-logout")
     public String connectionCheck(){
@@ -77,5 +79,19 @@ public class TemplateController {
     @GetMapping("forgot-password/{email}")
     public ResponseEntity<?> forgotPassword(@PathVariable String email) {
         return emailService.forgotPassword(email);
+    }
+    @PostMapping("add-device-token")
+    public ResponseEntity<?> addDeviceToken(@RequestBody DeviceTokenBody deviceTokenBody){
+        boolean added = deviceTokenService.addDeviceToken(deviceTokenBody.getPatientId(),deviceTokenBody.getToken());
+        if (added)
+            return ResponseEntity.ok("Token added");
+        return ResponseEntity.noContent().build();
+    }
+    @PostMapping("get-device-token")
+    public ResponseEntity<?> getDeviceToken(@RequestBody UserIdBody user){
+        String deviceToken = deviceTokenService.getDeviceToken(user.getPatientId());
+        if (deviceToken == null)
+            return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(deviceToken);
     }
 }

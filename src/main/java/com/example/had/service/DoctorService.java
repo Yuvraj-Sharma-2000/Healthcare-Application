@@ -317,4 +317,14 @@ public class DoctorService {
         }
         return null;
     }
+
+    public boolean resetPassword(String email, String password) {
+        try{
+            authRepository.updatePasswordByUsername(passwordEncoder.encode(password),email);
+            return true;
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+        return false;
+    }
 }

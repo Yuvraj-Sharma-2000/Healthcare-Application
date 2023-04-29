@@ -15,6 +15,10 @@ import java.util.UUID;
 @Repository
 public interface PersonalArticleRepository extends JpaRepository<PersonalArticle, UUID>
 {
+    @Transactional
+    @Modifying
+    @Query("update Personal_Article p set p.isCompleted = ?1 where p.id = ?2")
+    int updateIsCompletedById(boolean isCompleted, UUID id);
     @Query("select p from Personal_Article p where p.user.id = ?1")
     List<PersonalArticle> findByUser_Id(UUID id);
     @Transactional

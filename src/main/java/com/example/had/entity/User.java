@@ -167,6 +167,21 @@ public class User {
     @JsonManagedReference
     private List<Answers> answers = new ArrayList<>();
 
+    @OneToOne(
+            mappedBy = "user",
+            orphanRemoval = true
+    )
+    @JsonBackReference
+    private DeviceToken deviceToken;
+
+    public DeviceToken getDeviceToken() {
+        return deviceToken;
+    }
+
+    public void setDeviceToken(DeviceToken deviceToken) {
+        this.deviceToken = deviceToken;
+    }
+
     public List<Answers> getAnswers() {
         return answers;
     }
