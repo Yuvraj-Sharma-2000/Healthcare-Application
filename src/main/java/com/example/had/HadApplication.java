@@ -3,8 +3,6 @@ package com.example.had;
 import com.example.had.sample.Actualdata;
 import com.example.had.sample.Dummydata;
 import com.example.had.sample.PreData;
-import com.example.had.service.EmailService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

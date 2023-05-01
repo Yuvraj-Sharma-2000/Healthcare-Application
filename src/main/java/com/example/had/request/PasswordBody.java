@@ -1,7 +1,5 @@
 package com.example.had.request;
 
-import java.util.UUID;
-
 public class PasswordBody {
     private String email;
     private String password;

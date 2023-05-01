@@ -30,7 +30,7 @@ class EmailServiceTest {
     private JavaMailSender javaMailSender;
 
     /**
-     * Method under test: {@link EmailService#forgetMail(String, String, String)}
+     * Method under test: {@link EmailService#createMail(String, String, String)}
      */
     @Test
     void testForgetMail() throws MessagingException, MailException {
@@ -39,7 +39,7 @@ class EmailServiceTest {
         when(javaMailSender.createMimeMessage()).thenReturn(new MimeMessage((Session) null));
 
         // Act
-        emailService.forgetMail("alice.liddell@example.org", "Hello from the Dreaming Spires", "iloveyou");
+        emailService.createMail("alice.liddell@example.org", "Hello from the Dreaming Spires", "iloveyou");
 
         // Assert
         verify(javaMailSender).createMimeMessage();
@@ -47,7 +47,7 @@ class EmailServiceTest {
     }
 
     /**
-     * Method under test: {@link EmailService#forgetMail(String, String, String)}
+     * Method under test: {@link EmailService#createMail(String, String, String)}
      */
     @Test
     @Disabled("TODO: Complete this test")
@@ -66,7 +66,7 @@ class EmailServiceTest {
 
         // Act
         try{
-            emailService.forgetMail("ys8484529@gmail.com", "Hello from the Dreaming Spires", "iloveyou");
+            emailService.createMail("ys8484529@gmail.com", "Hello from the Dreaming Spires", "iloveyou");
         }catch (Exception ex)
         {
             ex.printStackTrace();
@@ -75,7 +75,7 @@ class EmailServiceTest {
     }
 
     /**
-     * Method under test: {@link EmailService#forgetMail(String, String, String)}
+     * Method under test: {@link EmailService#createMail(String, String, String)}
      */
     @Test
     @Disabled("TODO: Complete this test")
@@ -93,7 +93,7 @@ class EmailServiceTest {
         when(javaMailSender.createMimeMessage()).thenReturn(new MimeMessage((Session) null));
 
         // Act
-        emailService.forgetMail("", "Hello from the Dreaming Spires", "iloveyou");
+        emailService.createMail("", "Hello from the Dreaming Spires", "iloveyou");
     }
 }
 

@@ -1,16 +1,9 @@
 package com.example.had.sample;
 
-import com.example.had.entity.*;
 import com.example.had.repository.*;
 import com.github.javafaker.Faker;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.sql.Timestamp;
-import java.time.Instant;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 @Service
 public class Dummydata {

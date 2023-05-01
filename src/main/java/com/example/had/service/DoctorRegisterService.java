@@ -19,10 +19,15 @@ public class DoctorRegisterService {
     private final AuthRepository authRepository;
     private final DoctorRepository doctorRepository;
     private final PasswordEncoder passwordEncoder;
-    public DoctorRegisterService(AuthRepository authRepository, DoctorRepository doctorRepository, PasswordEncoder passwordEncoder) {
+    private final EmailService emailService;
+    public DoctorRegisterService(AuthRepository authRepository,
+                                 DoctorRepository doctorRepository,
+                                 PasswordEncoder passwordEncoder,
+                                 EmailService emailService) {
         this.authRepository = authRepository;
         this.doctorRepository = doctorRepository;
         this.passwordEncoder = passwordEncoder;
+        this.emailService = emailService;
     }
 
     public ResponseEntity registerDoctor(DoctorRegisterRequest doctorRegisterRequest) {
@@ -72,6 +77,7 @@ public class DoctorRegisterService {
                     )
             );
 
+            emailService.verifyMail(username,"Profile Verified");
             System.out.println(username + " Doctor verified");
 
             return ResponseEntity.ok("Registered Successfully");

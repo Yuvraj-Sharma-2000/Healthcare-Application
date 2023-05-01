@@ -1,7 +1,6 @@
 package com.example.had.request;
 
 import java.util.List;
-import java.util.UUID;
 
 public class PodcastBody {
     private String artist;

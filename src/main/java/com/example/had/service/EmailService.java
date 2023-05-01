@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.util.Objects;
-import java.util.UUID;
 
 @Service
 public class EmailService {
@@ -43,7 +42,7 @@ public class EmailService {
             User user = userRepository.findByEmail(email);
             if(!Objects.isNull(user)) {
                 userRepository.updateForgotPasswordByEmail(true,email);
-                forgetMail(user.getEmail(), "Your new credentials", newPassword);
+                createMail(user.getEmail(), "Your new credentials", newPassword);
                 authRepository.updatePasswordByUsername(passwordEncoder.encode(newPassword),user.getEmail());
                 return ResponseEntity.ok("check your email for credentials");
             }
@@ -51,7 +50,7 @@ public class EmailService {
             Doctor doctor = doctorRepository.findByEmailAndIsVerified(email, true);
             if (!Objects.isNull(doctor)){
                 doctorRepository.updateForgotPasswordByEmail(true,email);
-                forgetMail(doctor.getEmail(), "Your new credentials", newPassword);
+                createMail(doctor.getEmail(), "Your new credentials", newPassword);
                 authRepository.updatePasswordByUsername(passwordEncoder.encode(newPassword),doctor.getEmail());
                 return ResponseEntity.ok("check your email for credentials");
             }
@@ -63,13 +62,23 @@ public class EmailService {
         }
         return ResponseEntity.badRequest().body("Not able to process request");
     }
-    public void forgetMail(String to, String subject , String password) throws MessagingException{
+    public void createMail(String to, String subject , String password) throws MessagingException{
         MimeMessage message = emailSender.createMimeMessage();
         MimeMessageHelper helper= new MimeMessageHelper(message,true);
         helper.setFrom("Smtp.Email.Sender.User@gmail.com");
         helper.setTo(to);
         helper.setSubject(subject);
         String htmlMsg = "<p><b>Your Login details for PUSH-D application</b><br><b>Email: </b> " + to + " <br><b>Password: </b> " + password;
+        message.setContent(htmlMsg,"text/html");
+        emailSender.send(message);
+    }
+    public void verifyMail(String to, String subject) throws MessagingException{
+        MimeMessage message = emailSender.createMimeMessage();
+        MimeMessageHelper helper= new MimeMessageHelper(message,true);
+        helper.setFrom("Smtp.Email.Sender.User@gmail.com");
+        helper.setTo(to);
+        helper.setSubject(subject);
+        String htmlMsg = "<p><b>Hurray! You are verified by Admin</b><br> ";
         message.setContent(htmlMsg,"text/html");
         emailSender.send(message);
     }

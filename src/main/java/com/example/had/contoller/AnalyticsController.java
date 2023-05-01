@@ -1,17 +1,16 @@
 package com.example.had.contoller;
 
-import com.example.had.response.PlotWeekScore;
 import com.example.had.response.Severity;
 import com.example.had.response.Usage;
 import com.example.had.service.DoctorService;
 import com.example.had.service.UserService;
-import org.jboss.jandex.TypeTarget;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 
-import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.UUID;
 

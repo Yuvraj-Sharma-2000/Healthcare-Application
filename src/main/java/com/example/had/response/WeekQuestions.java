@@ -1,7 +1,6 @@
 package com.example.had.response;
 
 import java.util.List;
-import java.util.UUID;
 
 public class WeekQuestions {
     private String session_id;
