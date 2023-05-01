@@ -66,7 +66,7 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/add-podcast").permitAll()
                 .antMatchers("/analytics/**").permitAll()
                 .antMatchers("/add-device-token").permitAll()
-                .antMatchers("forgot-password/***").permitAll()
+                .antMatchers("/forgot-password/***").permitAll()
                 .antMatchers("/get-device-token").permitAll()
                 .anyRequest()
                 .authenticated()

@@ -40,7 +40,7 @@ public class AnswerService {
                 System.out.println(val);
                 depressionValue += val;
             }
-            System.out.println(depressionValue);
+//            System.out.println(depressionValue);
 
             answers.setUser(user);
             answerRepository.save(answers);
@@ -53,7 +53,8 @@ public class AnswerService {
                 user.setWeekDone(answersBody.getWeekNumber());
 
             user.setSessionDone(answersBody.getSessionNumber());
-            user.setDepressionSeverity(depressionValue/5);
+            System.out.println(depressionValue/10);
+            user.setDepressionSeverity(depressionValue/10);
             userRepository.save(user);
 
             System.out.println("Answer added for week "+answersBody.getWeekNumber()+" session "+answersBody.getSessionNumber());
