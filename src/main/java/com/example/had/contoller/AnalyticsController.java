@@ -26,12 +26,13 @@ public class AnalyticsController {
         this.userService = userService;
         this.doctorService = doctorService;
     }
-    @GetMapping("/plot-line-chart/{patientId}/week/{weekNumber}")
-    public ResponseEntity<?> getWeekScore(@PathVariable UUID patientId, @PathVariable int weekNumber){
-        PlotWeekScore score = userService.getWeekScore(patientId, weekNumber);
-        if(score!=null)
-            return ResponseEntity.ok(score);
-        return ResponseEntity.noContent().build();
+    @GetMapping("/plot-line-chart/{patientId}")
+    public ResponseEntity<?> getWeekScore(@PathVariable UUID patientId){
+//        PlotWeekScore score = userService.getWeekScore(patientId, weekNumber);
+//        if(score!=null)
+//            return ResponseEntity.ok(score);
+//        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(userService.getWeekScores(patientId));
     }
     @GetMapping("/severity-list/{doctorId}")
     public ResponseEntity<?> getSeverityList(@PathVariable UUID doctorId){
@@ -39,7 +40,6 @@ public class AnalyticsController {
         if (severityList!=null)
             return ResponseEntity.ok(severityList);
         return ResponseEntity.noContent().build();
-
     }
 
     @GetMapping("/allUsage/{doctorId}")

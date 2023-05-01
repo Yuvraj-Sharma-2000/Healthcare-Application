@@ -321,6 +321,7 @@ public class DoctorService {
     public boolean resetPassword(String email, String password) {
         try{
             authRepository.updatePasswordByUsername(passwordEncoder.encode(password),email);
+            doctorRepository.updateForgotPasswordByEmail(false,email);
             return true;
         }catch (Exception e){
             System.out.println(e.getMessage());

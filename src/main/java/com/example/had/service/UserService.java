@@ -146,6 +146,23 @@ public class UserService {
         }
         return null;
     }
+    public List<PlotWeekScore> getWeekScores(UUID patientId){
+        try {
+            List<PlotWeekScore> weekScores = new ArrayList<>();
+            for (int week=1;week<=5;week++){
+                PlotWeekScore score = getWeekScore(patientId, week);
+//                if (score == null){
+//                    weekScores.add(new PlotWeekScore("",-1,-1));
+//                }
+//                else
+                    weekScores.add(score);
+            }
+            return weekScores;
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+        return null;
+    }
 
     public List<WeekQuestions> getFullWeek(int weekNumber) {
         try {
@@ -250,6 +267,7 @@ public class UserService {
     public boolean resetPassword(String email, String password) {
         try{
             authRepository.updatePasswordByUsername(passwordEncoder.encode(password),email);
+            userRepository.updateForgotPasswordByEmail(false,email);
             return true;
         }catch (Exception e){
             System.out.println(e.getMessage());
