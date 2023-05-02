@@ -1,5 +1,6 @@
 package com.example.had.contoller;
 
+import com.example.had.response.Demographics;
 import com.example.had.response.Severity;
 import com.example.had.response.Usage;
 import com.example.had.service.DoctorService;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 @Controller
@@ -56,5 +58,12 @@ public class AnalyticsController {
         if(duration.length!=0)
             return ResponseEntity.ok(duration);
         return ResponseEntity.noContent().build();
+    }
+    @GetMapping("/demographics")
+    public ResponseEntity<?> getDemographics(){
+        Demographics demographics = userService.getDemographics();
+        if (Objects.isNull(demographics))
+            return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(demographics);
     }
 }

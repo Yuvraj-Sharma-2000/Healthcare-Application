@@ -4,6 +4,7 @@ import com.example.had.entity.*;
 import com.example.had.repository.*;
 import com.example.had.request.UserProfileUpdateRequest;
 import com.example.had.request.updateUserTimestampBody;
+import com.example.had.response.Demographics;
 import com.example.had.response.PlotWeekScore;
 import com.example.had.response.SessionQuestion;
 import com.example.had.response.WeekQuestions;
@@ -272,5 +273,19 @@ public class UserService {
             System.out.println(e.getMessage());
         }
         return false;
+    }
+
+    public Demographics getDemographics() {
+        try {
+//            int notAssignedPatients = userRepository.findByDoctor_Id(null).size();
+            int notAssignedPatients = userRepository.findByDoctorLike().size();
+            int assignedPatients = userRepository.findAll().size() - notAssignedPatients;
+            int verifiedDoctors = doctorRepository.findByIsVerified(true).size();
+            int unverifiedDoctors = doctorRepository.findByIsVerified(false).size();
+            return new Demographics(assignedPatients,notAssignedPatients,verifiedDoctors,unverifiedDoctors);
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+        return null;
     }
 }

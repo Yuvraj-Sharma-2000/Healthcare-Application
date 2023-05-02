@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.UUID;
 
 @Service
 public class AnswerService {
@@ -27,40 +29,39 @@ public class AnswerService {
     @Transactional
     public boolean addAnswer(AnswersBody answersBody) {
         try {
-            Answers answers = new Answers(
-                    answersBody.getWeekNumber(),
-                    answersBody.getSessionNumber(),
-                    answersBody.getAnswer_value(),
-                    answersBody.getAnswer_options()
-            );
-            User user = userRepository.findById(answersBody.getPatientId()).get();
+            int weekNumber = answersBody.getWeekNumber();
+            int sessionNumber = answersBody.getSessionNumber();
+            List<String> answerOptions = answersBody.getAnswer_options();
+            List<Float> answerValue = answersBody.getAnswer_value();
+            UUID patientId = answersBody.getPatientId();
 
-            float depressionValue = 0;
-            for (Float val : answersBody.getAnswer_value()) {
-                System.out.println(val);
-                depressionValue += val;
+            Answers answer = answerRepository.findByUser_IdAndWeekNumberAndSessionNumber(patientId, weekNumber, sessionNumber);
+            if (Objects.isNull(answer)){
+                answerRepository.save(new Answers(
+                        weekNumber,
+                        sessionNumber,
+                        answerValue,
+                        answerOptions
+                ));
+            }
+            else {
+                answerRepository.updateAnswer_valueAndAnswer_optionsById(answerValue,answerOptions,answer.getId());
             }
 
-            answers.setUser(user);
-            answerRepository.save(answers);
 
-            List<Answers> answersList = user.getAnswers();
-            answersList.add(answers);
-            user.setAnswers(answersList);
+            float sum = 0;
+            for (Float val : answerValue) {
+                sum += val;
+            }
 
-            if (answersBody.getSessionNumber() == 5)    // move to next week if session = 5
-                user.setWeekDone(answersBody.getWeekNumber()+1);
-            else if(answersBody.getSessionNumber()==0 && answersBody.getWeekNumber()==0)    // check for initial session ans
-                user.setWeekDone(0);
+            if (sessionNumber==0 && weekNumber==0){
+               sum = (sum/10);
+            }
+            else
+                sum = (sum/5);
 
-            user.setSessionDone(answersBody.getSessionNumber());
-            System.out.println(depressionValue/10);
-            user.setDepressionSeverity(depressionValue/10);
-            userRepository.save(user);
+            userRepository.updateDepressionSeverityById(sum,patientId);
 
-            System.out.println("Answer added for week "+answersBody.getWeekNumber()+" session "+answersBody.getSessionNumber());
-
-            System.out.println(answersBody);
             return true;
         }catch (Exception e){
             System.out.println(e.getMessage());

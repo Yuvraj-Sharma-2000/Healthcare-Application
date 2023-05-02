@@ -1,5 +1,6 @@
 package com.example.had.repository;
 
+import com.example.had.entity.Doctor;
 import com.example.had.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -12,6 +13,12 @@ import java.util.Optional;
 import java.util.UUID;
 @Repository
 public interface UserRepository extends JpaRepository<User, UUID> {
+    @Query("select u from User u where u.doctor = ?1")
+    List<User> findByDoctor(Doctor doctor);
+    @Transactional
+    @Modifying
+    @Query("update User u set u.depressionSeverity = ?1 where u.id = ?2")
+    int updateDepressionSeverityById(float depressionSeverity, UUID id);
     @Transactional
     @Modifying
     @Query("update User u set u.forgotPassword = ?1 where u.email = ?2")
@@ -43,4 +50,6 @@ public interface UserRepository extends JpaRepository<User, UUID> {
     List<User> findByDoctor_IdAndDoctor_Email(UUID id, String email);
 
     Optional<User> findById(UUID uuid);
+    @Query("select u from User u where u.doctor.id is null")
+    List<User> findByDoctorLike();
 }
