@@ -2,14 +2,20 @@ package com.example.had.repository;
 
 import com.example.had.entity.Question;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
 
 @Repository("question")
 public interface QuestionRepository extends JpaRepository<Question, UUID> {
+    @Transactional
+    @Modifying
+    @Query("delete from QuestionBank q where q.weekNumber = ?1 and q.sessionNumber = ?2")
+    int deleteByWeekNumberAndSessionNumber(int weekNumber, int sessionNumber);
     @Query("select q from QuestionBank q where q.sessionNumber = ?1 and q.weekNumber = ?2 order by q.sessionNumber")
     List<Question> findBySessionNumberAndWeekNumberOrderBySessionNumberAsc(int sessionNumber, int weekNumber);
     @Query("select q from QuestionBank q where q.weekNumber = ?1 order by q.sessionNumber")

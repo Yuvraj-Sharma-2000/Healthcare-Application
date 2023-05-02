@@ -226,7 +226,7 @@ public class DoctorService {
 
     public List<Usage> getUsage(UUID doctorid)
     {
-        String email = "leo.nienow@yahoo.com";
+//        String email = "leo.nienow@yahoo.com";
         try {
 //            List<User>  userList = userRepository.findByDoctor_IdAndDoctor_Email(doctorid, email);
             List<Usage> usageList = new ArrayList<>();
@@ -239,7 +239,7 @@ public class DoctorService {
             int forty_five_sixty = 0;
             int greater_sixty = 0;
 
-            System.out.println(userList);
+//            System.out.println(userList);
 
             for(User user : userList)
             {

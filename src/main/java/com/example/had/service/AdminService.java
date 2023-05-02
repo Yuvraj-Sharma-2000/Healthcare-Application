@@ -45,4 +45,39 @@ public class AdminService {
         }
         return false;
     }
+
+    public boolean updateQuestion(List<QuestionAddBody> question)
+    {
+        try {
+
+            questionRepository.deleteByWeekNumberAndSessionNumber(question.get(0).getWeekNumber(), question.get(0).getSessionNumber());
+
+            for(int i=0; i<question.size(); i++)
+            {
+                questionRepository.save(
+                        new Question(
+                                question.get(i).getQuestion(),
+                                question.get(i).getQuestionType(),
+                                question.get(i).getOption1(),
+                                question.get(i).getOption2(),
+                                question.get(i).getOption3(),
+                                question.get(i).getOption4(),
+                                question.get(i).getValue1(),
+                                question.get(i).getValue2(),
+                                question.get(i).getValue3(),
+                                question.get(i).getValue4(),
+                                question.get(i).getWeekNumber(),
+                                question.get(i).getSessionNumber()
+                        )
+                );
+            }
+            System.out.println("Questions updated");
+            return true;
+
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+        return false;
+    }
+
 }

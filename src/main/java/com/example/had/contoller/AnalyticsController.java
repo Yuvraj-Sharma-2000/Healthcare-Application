@@ -41,14 +41,24 @@ public class AnalyticsController {
         return ResponseEntity.noContent().build();
     }
 
+//    @GetMapping("/allUsage/{doctorId}")
+//    public ResponseEntity<?> getAllUsage(@PathVariable UUID doctorId)
+//    {
+//        List<Usage> usageList= doctorService.getUsage(doctorId);
+//        if(usageList.size() == 0)
+//            return ResponseEntity.notFound().build();
+//        return ResponseEntity.ok(usageList);
+//    }
+
     @GetMapping("/allUsage/{doctorId}")
     public ResponseEntity<?> getAllUsage(@PathVariable UUID doctorId)
     {
-        List<Usage> usageList= doctorService.getUsage(doctorId);
-        if(usageList.size() == 0)
+        List<Usage> usageList = doctorService.getUsage(doctorId);
+        if(usageList.size()==0)
             return ResponseEntity.notFound().build();
         return ResponseEntity.ok(usageList);
     }
+
     @GetMapping("/duration/{patientId}/{month}/{year}")
     public ResponseEntity<?> getDuration(@PathVariable UUID patientId, @PathVariable int month, @PathVariable int year)
     {

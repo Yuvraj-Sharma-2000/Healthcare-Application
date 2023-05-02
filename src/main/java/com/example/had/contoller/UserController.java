@@ -102,7 +102,8 @@ public class UserController {
         return ResponseEntity.unprocessableEntity().body("No artist found named: "+artist);
     }
     @GetMapping("/get-all-podcast")
-    public ResponseEntity<?> getAllPodcast(){
+    public ResponseEntity<?> getAllPodcast()
+    {
         List<Podcast> podcast = podcastService.getAllPodcast();
         if (podcast!=null)
             return ResponseEntity.ok(podcast);
