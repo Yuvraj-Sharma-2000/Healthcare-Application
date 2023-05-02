@@ -18,7 +18,6 @@ import java.util.UUID;
 
 @Controller
 @RequestMapping("/analytics")
-@PreAuthorize("hasRole('ROLE_DOCTOR')")
 public class AnalyticsController {
     private final UserService userService;
     private final DoctorService doctorService;
@@ -28,6 +27,7 @@ public class AnalyticsController {
         this.doctorService = doctorService;
     }
     @GetMapping("/plot-line-chart/{patientId}")
+    @PreAuthorize("hasRole('ROLE_DOCTOR')")
     public ResponseEntity<?> getWeekScore(@PathVariable UUID patientId){
 //        PlotWeekScore score = userService.getWeekScore(patientId, weekNumber);
 //        if(score!=null)
@@ -36,6 +36,7 @@ public class AnalyticsController {
         return ResponseEntity.ok(userService.getWeekScores(patientId));
     }
     @GetMapping("/severity-list/{doctorId}")
+    @PreAuthorize("hasRole('ROLE_DOCTOR')")
     public ResponseEntity<?> getSeverityList(@PathVariable UUID doctorId){
         List<Severity> severityList = doctorService.getSeverityList(doctorId);
         if (severityList!=null)
@@ -53,6 +54,7 @@ public class AnalyticsController {
 //    }
 
     @GetMapping("/allUsage/{doctorId}")
+    @PreAuthorize("hasRole('ROLE_DOCTOR')")
     public ResponseEntity<?> getAllUsage(@PathVariable UUID doctorId)
     {
         List<Usage> usageList = doctorService.getUsage(doctorId);
@@ -62,6 +64,7 @@ public class AnalyticsController {
     }
 
     @GetMapping("/duration/{patientId}/{month}/{year}")
+    @PreAuthorize("hasRole('ROLE_DOCTOR')")
     public ResponseEntity<?> getDuration(@PathVariable UUID patientId, @PathVariable int month, @PathVariable int year)
     {
         int[] duration = userService.getDuration(patientId, month, year);
@@ -70,6 +73,7 @@ public class AnalyticsController {
         return ResponseEntity.noContent().build();
     }
     @GetMapping("/demographics")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> getDemographics(){
         Demographics demographics = userService.getDemographics();
         if (Objects.isNull(demographics))
