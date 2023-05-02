@@ -2,6 +2,7 @@ package com.example.had.contoller;
 
 import com.example.had.request.PodcastBody;
 import com.example.had.request.QuestionAddBody;
+import com.example.had.request.QuestionUpdateBody;
 import com.example.had.response.WeekQuestions;
 import com.example.had.service.AdminService;
 import com.example.had.service.PodcastService;
@@ -35,10 +36,12 @@ public class AdminController {
         return ResponseEntity.unprocessableEntity().body("Not Able to add");
     }
 
-    @PostMapping("/update/questions")
-    public ResponseEntity<?> updateQuestion(@NotNull @RequestBody List<QuestionAddBody> question)
+    @PostMapping("/update/questions/{weekNumber}/{sessionNumber}")
+    public ResponseEntity<?> updateQuestion(@NotNull @RequestBody List<QuestionUpdateBody> question,
+                                            @PathVariable int weekNumber,
+                                            @PathVariable int sessionNumber)
     {
-        boolean added = adminService.updateQuestion(question);
+        boolean added = adminService.updateQuestion(question, weekNumber, sessionNumber);
         if(added)
             return ResponseEntity.ok("Updated successfully");
         return ResponseEntity.unprocessableEntity().body("Not able to update");

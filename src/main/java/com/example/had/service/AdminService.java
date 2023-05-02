@@ -3,6 +3,7 @@ package com.example.had.service;
 import com.example.had.entity.Question;
 import com.example.had.repository.QuestionRepository;
 import com.example.had.request.QuestionAddBody;
+import com.example.had.request.QuestionUpdateBody;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -46,18 +47,17 @@ public class AdminService {
         return false;
     }
 
-    public boolean updateQuestion(List<QuestionAddBody> question)
+    public boolean updateQuestion(List<QuestionUpdateBody> question, int weekNumber, int sesssionNumber)
     {
         try {
-
-            questionRepository.deleteByWeekNumberAndSessionNumber(question.get(0).getWeekNumber(), question.get(0).getSessionNumber());
+            questionRepository.deleteByWeekNumberAndSessionNumber(weekNumber, sesssionNumber);
 
             for(int i=0; i<question.size(); i++)
             {
                 questionRepository.save(
                         new Question(
                                 question.get(i).getQuestion(),
-                                question.get(i).getQuestionType(),
+                                "MCQ",
                                 question.get(i).getOption1(),
                                 question.get(i).getOption2(),
                                 question.get(i).getOption3(),
@@ -66,8 +66,8 @@ public class AdminService {
                                 question.get(i).getValue2(),
                                 question.get(i).getValue3(),
                                 question.get(i).getValue4(),
-                                question.get(i).getWeekNumber(),
-                                question.get(i).getSessionNumber()
+                                weekNumber,
+                                sesssionNumber
                         )
                 );
             }
