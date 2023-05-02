@@ -5,6 +5,7 @@ import com.example.had.repository.QuestionRepository;
 import com.example.had.request.QuestionAddBody;
 import com.example.had.request.QuestionUpdateBody;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -47,6 +48,7 @@ public class AdminService {
         return false;
     }
 
+    @Transactional
     public boolean updateQuestion(List<QuestionUpdateBody> question, int weekNumber, int sesssionNumber)
     {
         try {
@@ -54,9 +56,12 @@ public class AdminService {
 
             for(int i=0; i<question.size(); i++)
             {
+
+                System.out.println(question.get(i));
+
                 questionRepository.save(
                         new Question(
-                                question.get(i).getQuestion(),
+                                question.get(i).getQuesion(),
                                 "MCQ",
                                 question.get(i).getOption1(),
                                 question.get(i).getOption2(),
@@ -70,6 +75,7 @@ public class AdminService {
                                 sesssionNumber
                         )
                 );
+
             }
             System.out.println("Questions updated");
             return true;

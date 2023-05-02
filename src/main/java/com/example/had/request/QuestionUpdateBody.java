@@ -7,23 +7,26 @@ public class QuestionUpdateBody
 
     private UUID question_id;
 
-    private String question;
+    private String quesion;
     private String option1;
     private String option2;
     private String option3;
     private String option4;
     private float value1;
     private float value2;
+
+    public String getQuesion() {
+        return quesion;
+    }
+
+    public void setQuesion(String quesion) {
+        this.quesion = quesion;
+    }
+
     private float value3;
     private float value4;
 
-    public String getQuestion() {
-        return question;
-    }
 
-    public void setQuestion(String question) {
-        this.question = question;
-    }
 
     public UUID getQuestion_id() {
         return question_id;
@@ -97,6 +100,19 @@ public class QuestionUpdateBody
         this.value4 = value4;
     }
 
-
-
+    @Override
+    public String toString() {
+        return "QuestionUpdateBody{" +
+                "question_id=" + question_id +
+                ", quesion='" + quesion + '\'' +
+                ", option1='" + option1 + '\'' +
+                ", option2='" + option2 + '\'' +
+                ", option3='" + option3 + '\'' +
+                ", option4='" + option4 + '\'' +
+                ", value1=" + value1 +
+                ", value2=" + value2 +
+                ", value3=" + value3 +
+                ", value4=" + value4 +
+                '}';
+    }
 }

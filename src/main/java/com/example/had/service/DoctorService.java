@@ -232,6 +232,7 @@ public class DoctorService {
             List<Usage> usageList = new ArrayList<>();
             List<User> userList = userRepository.findByDoctor_Id(doctorid);
 
+            System.out.println("FOUND "+userList.size()+" patients");
 
             int less_fifteen = 0;
             int fifteen_thirty = 0;
@@ -246,35 +247,38 @@ public class DoctorService {
                 List<Timestamp> entries = user.getEntryTime();
                 List<Timestamp> exits = user.getExitTime();
 
+                int sum = 0;
                 for(int i=0; i<entries.size(); i++)
                 {
                     Timestamp t1 = entries.get(i);
                     Timestamp t2 = exits.get(i);
 
-                    long milliseconds = t1.getTime() - t2.getTime();
+                    long milliseconds = t2.getTime() - t1.getTime();
                     int seconds = (int) milliseconds / 1000;
                     int minutes = (seconds % 3600) / 60;
+                    sum += minutes;
+                }
+                    System.out.println("Time "+sum);
 
-                    if(minutes < 15)
+                    if(sum < 15)
                         less_fifteen++;
-                    else if(minutes>=15 && minutes<30)
+                    else if(sum>=15 && sum<30)
                         fifteen_thirty++;
-                    else if(minutes>=30 && minutes<45)
+                    else if(sum>=30 && sum<45)
                         thirty_forty_five++;
-                    else if(minutes>=45 && minutes<60)
+                    else if(sum>=45 && sum<60)
                         forty_five_sixty++;
                     else
                         greater_sixty++;
-                }
-                usageList.add(new Usage(user.getId(),"<15 mins", less_fifteen));
-                usageList.add(new Usage(user.getId(),"15-30 mins", fifteen_thirty));
-                usageList.add(new Usage(user.getId(),"30-45 mins", thirty_forty_five));
-                usageList.add(new Usage(user.getId(),"45-60 mins", forty_five_sixty));
-                usageList.add(new Usage(user.getId(),">60 mins", greater_sixty));
-
-                return usageList;
 
             }
+            usageList.add(new Usage("<15 mins", less_fifteen));
+            usageList.add(new Usage("15-30 mins", fifteen_thirty));
+            usageList.add(new Usage("30-45 mins", thirty_forty_five));
+            usageList.add(new Usage("45-60 mins", forty_five_sixty));
+            usageList.add(new Usage(">60 mins", greater_sixty));
+
+            return usageList;
 
         }
         catch (Exception e){
@@ -316,9 +320,13 @@ public class DoctorService {
         return null;
     }
 
-    public boolean resetPassword(String email, String password) {
+    public boolean resetPassword(String email, String oldPasword, String newPassword) {
         try{
-            authRepository.updatePasswordByUsername(passwordEncoder.encode(password),email);
+            boolean matches = passwordEncoder.matches(oldPasword, authRepository.findByUsername(email).getPassword());
+            if (matches)
+                authRepository.updatePasswordByUsername(passwordEncoder.encode(newPassword),email);
+            else
+                return false;
             doctorRepository.updateForgotPasswordByEmail(false,email);
             return true;
         }catch (Exception e){

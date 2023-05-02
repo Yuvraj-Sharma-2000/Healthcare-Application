@@ -4,23 +4,15 @@ import java.util.UUID;
 
 public class Usage
 {
-    private UUID id;
+
     String usageTime;
     int count;
 
-    public Usage(UUID id, String usageTime, int count) {
-        this.id = id;
+    public Usage(String usageTime, int count) {
         this.usageTime = usageTime;
         this.count = count;
     }
 
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
-    }
 
     public String getUsageTime() {
         return usageTime;
@@ -41,8 +33,7 @@ public class Usage
     @Override
     public String toString() {
         return "Usage{" +
-                "id=" + id +
-                ", usageTime='" + usageTime + '\'' +
+                "usageTime='" + usageTime + '\'' +
                 ", count=" + count +
                 '}';
     }

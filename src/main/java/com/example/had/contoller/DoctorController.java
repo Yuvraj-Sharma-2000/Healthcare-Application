@@ -102,7 +102,7 @@ public class DoctorController {
     }
     @PostMapping("reset-password")
     public ResponseEntity<?> resetPassword(@RequestBody PasswordBody passwordBody){
-        boolean reset = doctorService.resetPassword(passwordBody.getEmail(),passwordBody.getPassword());
+        boolean reset = doctorService.resetPassword(passwordBody.getEmail(),passwordBody.getOldPassword(),passwordBody.getNewPassword());
         if (reset)
             return ResponseEntity.ok("Reset successfully");
         return ResponseEntity.unprocessableEntity().build();

@@ -264,9 +264,13 @@ public class UserService {
 
     }
 
-    public boolean resetPassword(String email, String password) {
+    public boolean resetPassword(String email, String oldPasword, String newPassword) {
         try{
-            authRepository.updatePasswordByUsername(passwordEncoder.encode(password),email);
+            boolean matches = passwordEncoder.matches(oldPasword, authRepository.findByUsername(email).getPassword());
+            if (matches)
+                authRepository.updatePasswordByUsername(passwordEncoder.encode(newPassword),email);
+            else
+                return false;
             userRepository.updateForgotPasswordByEmail(false,email);
             return true;
         }catch (Exception e){
