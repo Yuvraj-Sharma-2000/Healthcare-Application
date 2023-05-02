@@ -28,17 +28,19 @@ public class DoctorService {
     private final DoctorRepository doctorRepository;
     private final DoctorConnectionRequestRepository requestRepository;
     private final PasswordEncoder passwordEncoder;
+    private final EmailService emailService;
 
     public DoctorService(UserRepository userRepository,
                          AuthRepository authRepository,
                          DoctorRepository doctorRepository,
                          DoctorConnectionRequestRepository requestRepository,
-                         PasswordEncoder passwordEncoder) {
+                         PasswordEncoder passwordEncoder, EmailService emailService) {
         this.userRepository = userRepository;
         this.authRepository = authRepository;
         this.doctorRepository = doctorRepository;
         this.requestRepository = requestRepository;
         this.passwordEncoder = passwordEncoder;
+        this.emailService = emailService;
     }
 
     public List<User> getRegisteredPatients(UUID doctorId) {
@@ -112,6 +114,8 @@ public class DoctorService {
             user.setDoctor(doctor);                             // add this doctor to user
             doctorRepository.save(doctor);                      // persist in database
             userRepository.save(user);
+
+            emailService.acceptMail(user.getEmail(),"Doctor Connected",doctor.getEmail());
 
             System.out.println(doctor.getEmail() + " accepted "+user.getEmail());
 

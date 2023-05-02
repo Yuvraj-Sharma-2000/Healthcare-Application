@@ -138,7 +138,7 @@ public class UserService {
             return new PlotWeekScore(
                     userRepository.findById(patientId).get().getFirstName(),
                     weekNumber,
-                    score
+                    score/25
             );
 
         }catch (Exception e){
@@ -151,11 +151,7 @@ public class UserService {
             List<PlotWeekScore> weekScores = new ArrayList<>();
             for (int week=1;week<=5;week++){
                 PlotWeekScore score = getWeekScore(patientId, week);
-//                if (score == null){
-//                    weekScores.add(new PlotWeekScore("",-1,-1));
-//                }
-//                else
-                    weekScores.add(score);
+                weekScores.add(score);
             }
             return weekScores;
         }catch (Exception e){

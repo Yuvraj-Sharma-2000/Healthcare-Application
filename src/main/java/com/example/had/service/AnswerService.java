@@ -29,8 +29,7 @@ public class AnswerService {
     @Transactional
     public boolean addAnswer(AnswersBody answersBody) {
 
-        System.out.println("----------"+answersBody.getWeekNumber()+" "+ answersBody.getSessionNumber()+"----------");
-
+        System.out.println(answersBody);
         try {
             int weekNumber = answersBody.getWeekNumber();
             int sessionNumber = answersBody.getSessionNumber();

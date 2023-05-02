@@ -31,6 +31,7 @@ public class DoctorRegisterService {
     }
 
     public ResponseEntity registerDoctor(DoctorRegisterRequest doctorRegisterRequest) {
+        System.out.println(doctorRegisterRequest);
         try{
             doctorRepository.save(new Doctor(doctorRegisterRequest.getEmail(),
                     doctorRegisterRequest.getFirstName(),
@@ -45,7 +46,7 @@ public class DoctorRegisterService {
                     doctorRegisterRequest.getContact(),
                     doctorRegisterRequest.getImageUrl(),
                     4,
-                    doctorRegisterRequest.getPatientLimit(),
+                    10,
                     doctorRegisterRequest.getPatientCount(),
                     doctorRegisterRequest.getRegistrationNumber(),
                     new Timestamp(System.currentTimeMillis()).toString(),

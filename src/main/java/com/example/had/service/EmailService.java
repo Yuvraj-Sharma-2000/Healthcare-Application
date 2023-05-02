@@ -82,4 +82,14 @@ public class EmailService {
         message.setContent(htmlMsg,"text/html");
         emailSender.send(message);
     }
+    public void acceptMail(String to, String subject, String doctorEmail) throws MessagingException{
+        MimeMessage message = emailSender.createMimeMessage();
+        MimeMessageHelper helper= new MimeMessageHelper(message,true);
+        helper.setFrom("Smtp.Email.Sender.User@gmail.com");
+        helper.setTo(to);
+        helper.setSubject(subject);
+        String htmlMsg = "<p><b>Hurray! doctor </b><br> "+doctorEmail+" Accepted your request+ <br>Please Login to Connect with your Doctor</br>";
+        message.setContent(htmlMsg,"text/html");
+        emailSender.send(message);
+    }
 }
