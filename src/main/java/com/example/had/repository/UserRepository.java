@@ -13,6 +13,10 @@ import java.util.Optional;
 import java.util.UUID;
 @Repository
 public interface UserRepository extends JpaRepository<User, UUID> {
+    @Transactional
+    @Modifying
+    @Query("update User u set u.weekDone = ?1, u.sessionDone = ?2 where u.id = ?3")
+    int updateWeekDoneAndSessionDoneById(int weekDone, int sessionDone, UUID id);
     @Query("select u from User u where u.doctor = ?1")
     List<User> findByDoctor(Doctor doctor);
     @Transactional
