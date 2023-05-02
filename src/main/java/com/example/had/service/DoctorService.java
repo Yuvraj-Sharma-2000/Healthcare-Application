@@ -159,18 +159,17 @@ public class DoctorService {
         return null;
     }
 
-    public boolean updateProfile(UUID doctorId, DoctorProfileBody doctorProfileBody) {
+    public boolean updateProfile( DoctorProfileBody doctorProfileBody) {
         try{
-            doctorRepository.updateSpecialisationAndContactAndAddressAndImageUrlAndPatientLimitById(
-                    doctorProfileBody.getSpecialization(),
-                    doctorProfileBody.getContact(),
+            doctorRepository.updateAddressAndContactAndDegreeAndPatientLimitAndSpecialisationById(
                     doctorProfileBody.getAddress(),
-                    doctorProfileBody.getImageUrl(),
+                    doctorProfileBody.getContact(),
+                    doctorProfileBody.getDegree(),
                     doctorProfileBody.getPatientLimit(),
-                    doctorId
+                    doctorProfileBody.getSpecialization(),
+                    doctorProfileBody.getDoctorID()
             );
-
-            System.out.println("updated profile of DOCTOR "+doctorRepository.getOne(doctorId).getEmail());
+            System.out.println("updated profile of DOCTOR "+doctorRepository.getOne(doctorProfileBody.getDoctorID()).getEmail());
 
             return true;
         }catch (Exception e){

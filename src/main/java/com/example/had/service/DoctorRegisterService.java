@@ -63,8 +63,8 @@ public class DoctorRegisterService {
     public ResponseEntity authDoctor(UUID doctorId) {
         try{
             Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+//            doctorRepository.updateIsVerifiedById(true,doctorId);
             doctorRepository.updateIsVerifiedById(true,doctorId);
-
             String username = doctorRepository.findById(doctorId).get().getEmail();
             String password = "password";
 
@@ -89,8 +89,8 @@ public class DoctorRegisterService {
 
     public ResponseEntity getAllRequests() {
         try{
+//            List<Doctor> byIsVerified = doctorRepository.findByIsVerifiedOrderByRegistrationStampDesc(false);
             List<Doctor> byIsVerified = doctorRepository.findByIsVerifiedOrderByRegistrationStampDesc(false);
-
             System.out.println("Send verified DOCTORS List");
 
             return ResponseEntity.ok(byIsVerified);

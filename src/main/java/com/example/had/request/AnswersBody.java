@@ -29,4 +29,15 @@ public class AnswersBody {
     public List<String> getAnswer_options() {
         return answer_options;
     }
+
+    @Override
+    public String toString() {
+        return "AnswersBody{" +
+                "patientId=" + patientId +
+                ", weekNumber=" + weekNumber +
+                ", sessionNumber=" + sessionNumber +
+                ", answer_value=" + answer_value +
+                ", answer_options=" + answer_options +
+                '}';
+    }
 }

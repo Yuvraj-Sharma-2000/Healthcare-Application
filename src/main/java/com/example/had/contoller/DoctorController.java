@@ -71,10 +71,9 @@ public class DoctorController {
             return ResponseEntity.notFound().build();
         return ResponseEntity.ok(profile);
     }
-    @PostMapping("/update/profile/{doctorId}")
-    public ResponseEntity<?> updateProfile(@PathVariable UUID doctorId,
-                                           @RequestBody DoctorProfileBody doctorProfileBody){
-        boolean profile = doctorService.updateProfile(doctorId, doctorProfileBody);
+    @PostMapping("/update/profile")
+    public ResponseEntity<?> updateProfile(@NotNull @RequestBody DoctorProfileBody doctorProfileBody){
+        boolean profile = doctorService.updateProfile(doctorProfileBody);
         if (profile)
             return ResponseEntity.ok("Updated Successfully");
         return ResponseEntity.unprocessableEntity().body("Not able to update");

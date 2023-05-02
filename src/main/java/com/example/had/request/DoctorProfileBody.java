@@ -1,19 +1,25 @@
 package com.example.had.request;
 
+import java.util.UUID;
+
 public class DoctorProfileBody {
+    private UUID doctorID;
+
     private String address;
-    private String imageUrl;
+
     private String contact;
+    private String degree;
     private int patientLimit;
+
     private String specialization;
 
     public String getAddress() {
         return address;
     }
-
-    public String getImageUrl() {
-        return imageUrl;
+    public UUID getDoctorID() {
+        return doctorID;
     }
+
 
     public String getContact() {
         return contact;
@@ -21,6 +27,10 @@ public class DoctorProfileBody {
 
     public int getPatientLimit() {
         return patientLimit;
+    }
+
+    public String getDegree() {
+        return degree;
     }
 
     public String getSpecialization() {
