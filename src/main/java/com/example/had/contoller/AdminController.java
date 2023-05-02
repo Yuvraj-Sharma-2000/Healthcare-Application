@@ -34,6 +34,15 @@ public class AdminController {
             return ResponseEntity.ok("Added Successfully");
         return ResponseEntity.unprocessableEntity().body("Not Able to add");
     }
+
+    @PostMapping("/update/questions")
+    public ResponseEntity<?> updateQuestion(@NotNull @RequestBody List<QuestionAddBody> question)
+    {
+        boolean added = adminService.updateQuestion(question);
+        if(added)
+            return ResponseEntity.ok("Updated successfully");
+        return ResponseEntity.unprocessableEntity().body("Not able to update");
+    }
     @PostMapping("/add-podcast")
     public ResponseEntity<?> addPodcast(@NotNull @RequestBody List<PodcastBody> podcastBody){
         boolean added = podcastService.addPodcast(podcastBody);
